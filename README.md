@@ -1,6 +1,6 @@
 # # JumpGuard AI
 
-An AI-powered system for biomechanical analysis of jump-landing mechanics to estimate ACL injury risk for an athlete from smartphone video.
+An AI-powered system for biomechanical analysis of jump-landing mechanics to estimate ACL injury risk for an athlete from a smartphone video.
 
 ## Dataset
 
