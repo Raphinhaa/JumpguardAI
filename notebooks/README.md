@@ -13,5 +13,6 @@ Planned notebooks include:
 - 07_athlete_reporting.ipynb
 - 08_dashboard.ipynb
 - 09_video_processing.ipynb
-- 10_model_training.ipynb
-- 11_model_evaluation.ipynb
+- 10_pose_estimation.ipynb
+- 11_model_training.ipynb
+- 12_model_evaluation.ipynb

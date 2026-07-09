@@ -3,6 +3,7 @@ pandas
 scipy
 matplotlib
 opencv-python
+mediapipe
 jupyter
 h5py
 openpyxl

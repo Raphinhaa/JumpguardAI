@@ -23,3 +23,4 @@ Current reports:
 - `ATHLETE_REPORTING_REPORT.md`: Prompt 7 athlete report generation layer
 - `DASHBOARD_REPORT.md`: Prompt 8 dashboard and visualization layer
 - `VIDEO_PROCESSING_REPORT.md`: Prompt 9 video ingestion and frame utilities
+- `POSE_ESTIMATION_REPORT.md`: Prompt 10 MediaPipe pose landmark engine

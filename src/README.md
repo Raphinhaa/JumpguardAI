@@ -25,6 +25,8 @@ Current core data modules:
   existing Prompt 3-7 outputs
 - `video_processing.py`: validated video ingestion, frame access,
   non-destructive preprocessing, clip selection, and previews for future pose work
+- `pose_estimation.py`: MediaPipe pose-landmark interface, deterministic
+  landmark exports, missing-landmark preservation, and debug visualizations
 
 Machine learning and risk assessment build on these objects and feature tables
 in later milestones.
