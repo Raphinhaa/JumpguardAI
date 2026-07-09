@@ -12,5 +12,6 @@ Planned notebooks include:
 - 06_biomechanical_intelligence.ipynb
 - 07_athlete_reporting.ipynb
 - 08_dashboard.ipynb
-- 09_model_training.ipynb
-- 10_model_evaluation.ipynb
+- 09_video_processing.ipynb
+- 10_model_training.ipynb
+- 11_model_evaluation.ipynb

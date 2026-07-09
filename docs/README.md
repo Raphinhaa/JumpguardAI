@@ -22,3 +22,4 @@ Current reports:
 - `BIOMECHANICAL_INTELLIGENCE_REPORT.md`: Prompt 6 interpretable biomechanical intelligence
 - `ATHLETE_REPORTING_REPORT.md`: Prompt 7 athlete report generation layer
 - `DASHBOARD_REPORT.md`: Prompt 8 dashboard and visualization layer
+- `VIDEO_PROCESSING_REPORT.md`: Prompt 9 video ingestion and frame utilities

@@ -23,6 +23,8 @@ Current core data modules:
 - `reporting.py`: deterministic Markdown, HTML, and JSON athlete reports
 - `dashboard.py`: static interactive dashboard and visualization browser over
   existing Prompt 3-7 outputs
+- `video_processing.py`: validated video ingestion, frame access,
+  non-destructive preprocessing, clip selection, and previews for future pose work
 
 Machine learning and risk assessment build on these objects and feature tables
 in later milestones.
