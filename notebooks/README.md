@@ -14,5 +14,6 @@ Planned notebooks include:
 - 08_dashboard.ipynb
 - 09_video_processing.ipynb
 - 10_pose_estimation.ipynb
-- 11_model_training.ipynb
-- 12_model_evaluation.ipynb
+- 11_feature_extraction.ipynb
+- 12_model_training.ipynb
+- 13_model_evaluation.ipynb
