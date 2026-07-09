@@ -4,4 +4,6 @@ scipy
 matplotlib
 opencv-python
 jupyter
-mediapipe
+h5py
+openpyxl
+pytest
