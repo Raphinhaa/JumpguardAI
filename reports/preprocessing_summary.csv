@@ -1,0 +1,4 @@
+split,input_rows,output_rows,rows_removed_by_missing_policy,feature_count,missing_policy,scaler,fit_source
+train,180,171,9,57,drop_rows,standard,train_only
+validation,36,36,0,57,drop_rows,standard,train_only
+test,42,42,0,57,drop_rows,standard,train_only

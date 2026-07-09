@@ -12,6 +12,17 @@ Current core data modules:
 - `preprocessing.py`: reusable numeric preprocessing
 - `visualization.py`: Dataset/Participant/Trial plots
 - `load_dataset.py`: source format detection and loading
+- `feature_engineering.py`: feature extraction, validation, export, and plots
+- `features/`: statistical, temporal, symmetry, and biomechanical primitives
+- `eda.py`: deterministic feature-table validation, EDA summaries, plots, PCA,
+  and unsupervised feature ranking
+- `ml_pipeline.py`: participant-safe splits, train-only preprocessing,
+  feature-selection infrastructure, CV summaries, config, and metric interfaces
+- `biomechanical_intelligence.py`: dataset-relative athlete assessment and
+  explainable biomechanical observations
+- `reporting.py`: deterministic Markdown, HTML, and JSON athlete reports
+- `dashboard.py`: static interactive dashboard and visualization browser over
+  existing Prompt 3-7 outputs
 
-Feature extraction, machine learning, and risk assessment build on these
-objects in later milestones.
+Machine learning and risk assessment build on these objects and feature tables
+in later milestones.

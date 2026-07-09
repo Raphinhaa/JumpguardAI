@@ -4,9 +4,14 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from types import MappingProxyType
-from typing import Any, Mapping
+from typing import TYPE_CHECKING, Any, Mapping
 
 from .trial import Trial
+
+if TYPE_CHECKING:
+    import pandas as pd
+
+    from .feature_engineering import FeatureExtractor
 
 
 @dataclass(frozen=True)
@@ -98,3 +103,25 @@ class Participant:
             "frame_count": sum(trial.frame_count for trial in valid_trials),
             "metadata": dict(self.metadata),
         }
+
+    def extract_features(
+        self,
+        extractor: "FeatureExtractor | None" = None,
+    ) -> "pd.DataFrame":
+        """Extract one feature-table row per metadata-defined trial slot.
+
+        Args:
+            extractor: Optional FeatureExtractor; the default uses ``nan`` handling.
+
+        Returns:
+            Six-row pandas DataFrame.
+
+        Examples:
+            >>> participant.extract_features().shape[0]
+            6
+        """
+        if extractor is None:
+            from .feature_engineering import FeatureExtractor
+
+            extractor = FeatureExtractor()
+        return extractor.extract_participant(self)

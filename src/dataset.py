@@ -6,12 +6,17 @@ from dataclasses import dataclass
 from pathlib import Path
 from types import MappingProxyType
 from collections.abc import Iterator
-from typing import Any, Mapping
+from typing import TYPE_CHECKING, Any, Mapping
 
 import numpy as np
 
 from .participant import Participant
 from .trial import Trial
+
+if TYPE_CHECKING:
+    import pandas as pd
+
+    from .feature_engineering import FeatureExtractor
 
 
 @dataclass(frozen=True)
@@ -180,6 +185,28 @@ class Dataset:
             "frame_mean": float(frames.mean()) if frames.size else 0.0,
             "frame_median": float(np.median(frames)) if frames.size else 0.0,
         }
+
+    def extract_features(
+        self,
+        extractor: "FeatureExtractor | None" = None,
+    ) -> "pd.DataFrame":
+        """Extract one feature-table row per metadata-defined trial slot.
+
+        Args:
+            extractor: Optional FeatureExtractor; the default uses ``nan`` handling.
+
+        Returns:
+            pandas DataFrame ordered by participant and trial slot.
+
+        Examples:
+            >>> dataset.extract_features().shape[0]
+            258
+        """
+        if extractor is None:
+            from .feature_engineering import FeatureExtractor
+
+            extractor = FeatureExtractor()
+        return extractor.extract_dataset(self)
 
 
 def _normalize_participant_id(participant_id: int | str) -> int:

@@ -4,10 +4,13 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from types import MappingProxyType
-from typing import Any, Mapping
+from typing import TYPE_CHECKING, Any, Mapping
 
 import numpy as np
 from numpy.typing import NDArray
+
+if TYPE_CHECKING:
+    from .feature_engineering import FeatureExtractor
 
 
 class EmptyTrialError(ValueError):
@@ -158,3 +161,26 @@ class Trial:
         from .visualization import plot_trial
 
         return plot_trial(self, joint_angles=joint_angles, **kwargs)
+
+    def extract_features(
+        self,
+        extractor: "FeatureExtractor | None" = None,
+    ) -> dict[str, float]:
+        """Extract the configured biomechanical feature vector.
+
+        Args:
+            extractor: Optional FeatureExtractor; the default uses ``nan`` handling.
+
+        Returns:
+            Ordered mapping of measurable full-recording features.
+
+        Examples:
+            >>> features = trial.extract_features()
+            >>> "knee_flexion_right_rom" in features
+            True
+        """
+        if extractor is None:
+            from .feature_engineering import FeatureExtractor
+
+            extractor = FeatureExtractor()
+        return extractor.extract(self)

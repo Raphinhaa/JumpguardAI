@@ -1,0 +1,145 @@
+# Athlete Report: Participant 17
+
+This report is descriptive and dataset-relative. It does not provide medical diagnosis, treatment advice, injury prediction, or probabilistic injury estimates.
+
+## Athlete Overview
+
+| field | value |
+| --- | --- |
+| participant_id | 17 |
+| available_trials | 6 |
+| valid_trials | 6 |
+| empty_trials | 0 |
+| recording_completeness | 1 |
+| observed_feature_count | 57 |
+| total_feature_count | 57 |
+| feature_completeness | 1 |
+| dataset_participant_count | 43 |
+| dataset_valid_trials | 249 |
+| dataset_total_trial_slots | 258 |
+| dataset_completeness | 0.9651 |
+
+## Biomechanical Summary
+
+### Hip Flexion
+
+| participant_id | feature | value | percentile | z_score | population_mean | population_std | population_p05 | population_p95 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 17 | hip_flexion_left_mean | 43.17 | 38.1 | -0.3729 | 46.84 | 9.839 | 31.27 | 61.14 |
+| 17 | hip_flexion_left_median | 39.76 | 38.1 | -0.2968 | 44.75 | 16.8 | 20.41 | 72.82 |
+| 17 | hip_flexion_left_rom | 59.51 | 4.762 | -1.546 | 87.52 | 18.12 | 59.96 | 114 |
+| 17 | hip_flexion_left_std | 21.66 | 7.143 | -1.381 | 31.38 | 7.04 | 21.68 | 40.19 |
+| 17 | hip_flexion_right_mean | 44.21 | 42.86 | -0.2692 | 46.96 | 10.22 | 29.61 | 65.42 |
+| 17 | hip_flexion_right_median | 40.73 | 40.48 | -0.2385 | 44.82 | 17.16 | 19.69 | 72.79 |
+| 17 | hip_flexion_right_rom | 57.68 | 4.762 | -1.679 | 88.17 | 18.17 | 60.53 | 115.8 |
+| 17 | hip_flexion_right_std | 21.33 | 4.762 | -1.484 | 31.76 | 7.028 | 21.46 | 40.48 |
+| 17 | hip_flexion_rom_absolute_difference | 2.264 | 54.76 | -0.2751 | 2.629 | 1.325 | 0.9922 | 5.018 |
+| 17 | hip_flexion_rom_percent_difference | 3.774 | 73.81 | 0.3124 | 3.173 | 1.925 | 1.316 | 6.586 |
+| 17 | hip_flexion_rom_symmetry_index | 3.023 | 88.1 | 1.163 | -0.8539 | 3.332 | -6.556 | 4.524 |
+
+### Knee Flexion
+
+| participant_id | feature | value | percentile | z_score | population_mean | population_std | population_p05 | population_p95 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 17 | knee_flexion_left_mean | 49.18 | 50 | 0.09133 | 48.44 | 8.115 | 33.63 | 61 |
+| 17 | knee_flexion_left_median | 52.37 | 64.29 | 0.2495 | 47.9 | 17.93 | 16.41 | 72.96 |
+| 17 | knee_flexion_left_rom | 78.85 | 4.762 | -1.915 | 98.4 | 10.21 | 80.97 | 112.9 |
+| 17 | knee_flexion_left_std | 28.67 | 19.05 | -1.007 | 33.59 | 4.881 | 24.56 | 39.23 |
+| 17 | knee_flexion_right_mean | 47.43 | 47.62 | -0.1146 | 48.36 | 8.151 | 34.26 | 61.92 |
+| 17 | knee_flexion_right_median | 50.86 | 61.9 | 0.1779 | 47.64 | 18.1 | 15.3 | 74.19 |
+| 17 | knee_flexion_right_rom | 77.4 | 2.381 | -2.128 | 98.54 | 9.935 | 84.17 | 112.6 |
+| 17 | knee_flexion_right_std | 27.16 | 19.05 | -1.304 | 33.85 | 5.128 | 24.68 | 40.79 |
+| 17 | knee_flexion_rom_absolute_difference | 2.541 | 73.81 | 0.3607 | 2.209 | 0.9215 | 1.075 | 3.918 |
+| 17 | knee_flexion_rom_percent_difference | 3.212 | 83.33 | 0.8178 | 2.31 | 1.103 | 1.02 | 4.521 |
+| 17 | knee_flexion_rom_symmetry_index | 1.898 | 85.71 | 0.9602 | -0.184 | 2.168 | -3.601 | 2.858 |
+
+### Ankle Angle
+
+| participant_id | feature | value | percentile | z_score | population_mean | population_std | population_p05 | population_p95 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 17 | ankle_angle_left_mean | 9.931 | 47.62 | -0.199 | 10.86 | 4.681 | 4.921 | 19.36 |
+| 17 | ankle_angle_left_median | 14.04 | 52.38 | -0.01803 | 14.2 | 8.811 | 0.1654 | 28.52 |
+| 17 | ankle_angle_left_rom | 71.64 | 50 | -0.08702 | 72 | 4.123 | 65.13 | 77.72 |
+| 17 | ankle_angle_left_std | 20.84 | 61.9 | 0.2624 | 20.17 | 2.572 | 16.56 | 23.38 |
+| 17 | ankle_angle_right_mean | 7.351 | 21.43 | -0.9064 | 11.31 | 4.365 | 6.032 | 19.67 |
+| 17 | ankle_angle_right_median | 13.06 | 50 | -0.1836 | 14.68 | 8.875 | 1.7 | 30.18 |
+| 17 | ankle_angle_right_rom | 67.06 | 19.05 | -1.02 | 72.06 | 4.904 | 61.79 | 77.43 |
+| 17 | ankle_angle_right_std | 18.61 | 35.71 | -0.5593 | 20.24 | 2.923 | 15.95 | 23.84 |
+| 17 | ankle_angle_rom_absolute_difference | 4.577 | 90.48 | 1.182 | 2.587 | 1.683 | 0.5933 | 5.12 |
+| 17 | ankle_angle_rom_percent_difference | 6.633 | 90.48 | 1.152 | 3.684 | 2.56 | 0.766 | 7.565 |
+| 17 | ankle_angle_rom_symmetry_index | 6.633 | 92.86 | 1.558 | -0.01691 | 4.267 | -5.409 | 7.526 |
+
+## Population Comparison
+
+| participant_id | feature | value | percentile | z_score | population_mean | population_std | population_p05 | population_p95 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 17 | ankle_angle_left_maximum | 33.59 | 38.1 | -0.447 | 35.04 | 3.238 | 29.99 | 39.53 |
+| 17 | ankle_angle_left_mean | 9.931 | 47.62 | -0.199 | 10.86 | 4.681 | 4.921 | 19.36 |
+| 17 | ankle_angle_left_median | 14.04 | 52.38 | -0.01803 | 14.2 | 8.811 | 0.1654 | 28.52 |
+| 17 | ankle_angle_left_minimum | -38.05 | 64.29 | -0.2704 | -36.96 | 4.025 | -39.57 | -28.48 |
+| 17 | ankle_angle_left_rom | 71.64 | 50 | -0.08702 | 72 | 4.123 | 65.13 | 77.72 |
+| 17 | ankle_angle_left_std | 20.84 | 61.9 | 0.2624 | 20.17 | 2.572 | 16.56 | 23.38 |
+| 17 | ankle_angle_left_time_to_peak | 2.771 | 61.9 | 0.1106 | 2.702 | 0.6215 | 1.777 | 3.778 |
+| 17 | ankle_angle_left_variance | 435.6 | 61.9 | 0.1848 | 415.1 | 111 | 280.4 | 549.5 |
+| 17 | ankle_angle_right_maximum | 30.39 | 7.143 | -1.763 | 35.57 | 2.937 | 30.43 | 39.46 |
+| 17 | ankle_angle_right_mean | 7.351 | 21.43 | -0.9064 | 11.31 | 4.365 | 6.032 | 19.67 |
+| 17 | ankle_angle_right_median | 13.06 | 50 | -0.1836 | 14.68 | 8.875 | 1.7 | 30.18 |
+| 17 | ankle_angle_right_minimum | -36.67 | 73.81 | -0.03771 | -36.49 | 4.668 | -39.61 | -26.18 |
+| 17 | ankle_angle_right_rom | 67.06 | 19.05 | -1.02 | 72.06 | 4.904 | 61.79 | 77.43 |
+| 17 | ankle_angle_right_std | 18.61 | 35.71 | -0.5593 | 20.24 | 2.923 | 15.95 | 23.84 |
+| 17 | ankle_angle_right_time_to_peak | 2.889 | 64.29 | 0.3596 | 2.684 | 0.5701 | 1.777 | 3.572 |
+| 17 | ankle_angle_right_variance | 349.1 | 35.71 | -0.5618 | 420.3 | 126.7 | 255.8 | 574.6 |
+| 17 | ankle_angle_rom_absolute_difference | 4.577 | 90.48 | 1.182 | 2.587 | 1.683 | 0.5933 | 5.12 |
+| 17 | ankle_angle_rom_percent_difference | 6.633 | 90.48 | 1.152 | 3.684 | 2.56 | 0.766 | 7.565 |
+| 17 | ankle_angle_rom_symmetry_index | 6.633 | 92.86 | 1.558 | -0.01691 | 4.267 | -5.409 | 7.526 |
+| 17 | hip_flexion_left_maximum | 71.28 | 4.762 | -1.845 | 91.77 | 11.1 | 72.85 | 110.7 |
+| 17 | hip_flexion_left_mean | 43.17 | 38.1 | -0.3729 | 46.84 | 9.839 | 31.27 | 61.14 |
+| 17 | hip_flexion_left_median | 39.76 | 38.1 | -0.2968 | 44.75 | 16.8 | 20.41 | 72.82 |
+| 17 | hip_flexion_left_minimum | 11.77 | 69.05 | 0.593 | 4.245 | 12.68 | -12.19 | 26.1 |
+| 17 | hip_flexion_left_rom | 59.51 | 4.762 | -1.546 | 87.52 | 18.12 | 59.96 | 114 |
+
+## Symmetry Summary
+
+| participant_id | feature | value | percentile | z_score | population_mean | population_std | population_p05 | population_p95 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 17 | ankle_angle_rom_absolute_difference | 4.577 | 90.48 | 1.182 | 2.587 | 1.683 | 0.5933 | 5.12 |
+| 17 | ankle_angle_rom_percent_difference | 6.633 | 90.48 | 1.152 | 3.684 | 2.56 | 0.766 | 7.565 |
+| 17 | ankle_angle_rom_symmetry_index | 6.633 | 92.86 | 1.558 | -0.01691 | 4.267 | -5.409 | 7.526 |
+| 17 | hip_flexion_rom_absolute_difference | 2.264 | 54.76 | -0.2751 | 2.629 | 1.325 | 0.9922 | 5.018 |
+| 17 | hip_flexion_rom_percent_difference | 3.774 | 73.81 | 0.3124 | 3.173 | 1.925 | 1.316 | 6.586 |
+| 17 | hip_flexion_rom_symmetry_index | 3.023 | 88.1 | 1.163 | -0.8539 | 3.332 | -6.556 | 4.524 |
+| 17 | knee_flexion_rom_absolute_difference | 2.541 | 73.81 | 0.3607 | 2.209 | 0.9215 | 1.075 | 3.918 |
+| 17 | knee_flexion_rom_percent_difference | 3.212 | 83.33 | 0.8178 | 2.31 | 1.103 | 1.02 | 4.521 |
+| 17 | knee_flexion_rom_symmetry_index | 1.898 | 85.71 | 0.9602 | -0.184 | 2.168 | -3.601 | 2.858 |
+
+## Biomechanical Observations
+
+| participant_id | category | feature | value | percentile | z_score | population_comparison | plain_language_explanation | literature_concept | literature_language | source |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 17 | hip | hip_flexion_left_maximum | 71.28 | 4.762 | -1.845 | below the reference mean by 1.85 SD | The athlete's hip_flexion_left_maximum value is 71.3, which is below the dataset mean and at percentile 4.8. This is a descriptive hip observation, not a diagnosis or injury prediction. | Hip sagittal-plane mechanics | Hip flexion and trunk-lower-extremity strategy are discussed in landing biomechanics literature as part of movement-pattern assessment. | Padua et al. 2009, Am J Sports Med; https://doi.org/10.1177/0363546509343200 |
+| 17 | hip | hip_flexion_left_rom | 59.51 | 4.762 | -1.546 | below the reference mean by 1.55 SD | The athlete's hip_flexion_left_rom value is 59.5, which is below the dataset mean and at percentile 4.8. This is a descriptive hip observation, not a diagnosis or injury prediction. | Hip sagittal-plane mechanics | Hip flexion and trunk-lower-extremity strategy are discussed in landing biomechanics literature as part of movement-pattern assessment. | Padua et al. 2009, Am J Sports Med; https://doi.org/10.1177/0363546509343200 |
+| 17 | hip | hip_flexion_right_maximum | 71.28 | 4.762 | -1.914 | below the reference mean by 1.91 SD | The athlete's hip_flexion_right_maximum value is 71.3, which is below the dataset mean and at percentile 4.8. This is a descriptive hip observation, not a diagnosis or injury prediction. | Hip sagittal-plane mechanics | Hip flexion and trunk-lower-extremity strategy are discussed in landing biomechanics literature as part of movement-pattern assessment. | Padua et al. 2009, Am J Sports Med; https://doi.org/10.1177/0363546509343200 |
+| 17 | hip | hip_flexion_right_rom | 57.68 | 4.762 | -1.679 | below the reference mean by 1.68 SD | The athlete's hip_flexion_right_rom value is 57.7, which is below the dataset mean and at percentile 4.8. This is a descriptive hip observation, not a diagnosis or injury prediction. | Hip sagittal-plane mechanics | Hip flexion and trunk-lower-extremity strategy are discussed in landing biomechanics literature as part of movement-pattern assessment. | Padua et al. 2009, Am J Sports Med; https://doi.org/10.1177/0363546509343200 |
+| 17 | hip | hip_flexion_right_std | 21.33 | 4.762 | -1.484 | below the reference mean by 1.48 SD | The athlete's hip_flexion_right_std value is 21.3, which is below the dataset mean and at percentile 4.8. This is a descriptive hip observation, not a diagnosis or injury prediction. | Hip sagittal-plane mechanics | Hip flexion and trunk-lower-extremity strategy are discussed in landing biomechanics literature as part of movement-pattern assessment. | Padua et al. 2009, Am J Sports Med; https://doi.org/10.1177/0363546509343200 |
+| 17 | hip | hip_flexion_right_variance | 456.1 | 4.762 | -1.402 | below the reference mean by 1.40 SD | The athlete's hip_flexion_right_variance value is 456, which is below the dataset mean and at percentile 4.8. This is a descriptive hip observation, not a diagnosis or injury prediction. | Hip sagittal-plane mechanics | Hip flexion and trunk-lower-extremity strategy are discussed in landing biomechanics literature as part of movement-pattern assessment. | Padua et al. 2009, Am J Sports Med; https://doi.org/10.1177/0363546509343200 |
+| 17 | knee | knee_flexion_left_minimum | 7.955 | 97.62 | 1.831 | above the reference mean by 1.83 SD | The athlete's knee_flexion_left_minimum value is 7.96, which is above the dataset mean and at percentile 97.6. This is a descriptive knee observation, not a diagnosis or injury prediction. | Knee sagittal-plane mechanics | Knee flexion during landing is commonly evaluated in ACL biomechanics and jump-landing movement-quality literature. | Hewett et al. 2005, Am J Sports Med; https://doi.org/10.1177/0363546504269591 |
+| 17 | knee | knee_flexion_left_rom | 78.85 | 4.762 | -1.915 | below the reference mean by 1.91 SD | The athlete's knee_flexion_left_rom value is 78.9, which is below the dataset mean and at percentile 4.8. This is a descriptive knee observation, not a diagnosis or injury prediction. | Knee sagittal-plane mechanics | Knee flexion during landing is commonly evaluated in ACL biomechanics and jump-landing movement-quality literature. | Hewett et al. 2005, Am J Sports Med; https://doi.org/10.1177/0363546504269591 |
+| 17 | knee | knee_flexion_right_maximum | 86.97 | 4.762 | -1.657 | below the reference mean by 1.66 SD | The athlete's knee_flexion_right_maximum value is 87, which is below the dataset mean and at percentile 4.8. This is a descriptive knee observation, not a diagnosis or injury prediction. | Knee sagittal-plane mechanics | Knee flexion during landing is commonly evaluated in ACL biomechanics and jump-landing movement-quality literature. | Hewett et al. 2005, Am J Sports Med; https://doi.org/10.1177/0363546504269591 |
+| 17 | knee | knee_flexion_right_minimum | 9.575 | 97.62 | 2.19 | above the reference mean by 2.19 SD | The athlete's knee_flexion_right_minimum value is 9.57, which is above the dataset mean and at percentile 97.6. This is a descriptive knee observation, not a diagnosis or injury prediction. | Knee sagittal-plane mechanics | Knee flexion during landing is commonly evaluated in ACL biomechanics and jump-landing movement-quality literature. | Hewett et al. 2005, Am J Sports Med; https://doi.org/10.1177/0363546504269591 |
+| 17 | knee | knee_flexion_right_rom | 77.4 | 2.381 | -2.128 | below the reference mean by 2.13 SD | The athlete's knee_flexion_right_rom value is 77.4, which is below the dataset mean and at percentile 2.4. This is a descriptive knee observation, not a diagnosis or injury prediction. | Knee sagittal-plane mechanics | Knee flexion during landing is commonly evaluated in ACL biomechanics and jump-landing movement-quality literature. | Hewett et al. 2005, Am J Sports Med; https://doi.org/10.1177/0363546504269591 |
+
+## Literature Context
+
+| feature | category | concept | literature_language | source |
+| --- | --- | --- | --- | --- |
+| ankle_angle_right_mean | ankle | Ankle sagittal-plane mechanics | Ankle motion is commonly evaluated with hip and knee motion when describing lower-extremity landing mechanics. | Padua et al. 2009, Am J Sports Med; https://doi.org/10.1177/0363546509343200 |
+| hip_flexion_right_mean | hip | Hip sagittal-plane mechanics | Hip flexion and trunk-lower-extremity strategy are discussed in landing biomechanics literature as part of movement-pattern assessment. | Padua et al. 2009, Am J Sports Med; https://doi.org/10.1177/0363546509343200 |
+| knee_flexion_right_mean | knee | Knee sagittal-plane mechanics | Knee flexion during landing is commonly evaluated in ACL biomechanics and jump-landing movement-quality literature. | Hewett et al. 2005, Am J Sports Med; https://doi.org/10.1177/0363546504269591 |
+
+## Visualizations
+
+- distribution_plots: `reports/athlete_reports/participant_17_assets/distribution_plots.png`
+- percentile_comparison: `reports/athlete_reports/participant_17_assets/percentile_comparison.png`
+- population_comparison: `reports/athlete_reports/participant_17_assets/population_comparison.png`
+- radar_chart: `reports/athlete_reports/participant_17_assets/radar_chart.png`
+- symmetry_comparison: `reports/athlete_reports/participant_17_assets/symmetry_comparison.png`

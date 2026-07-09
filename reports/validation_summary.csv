@@ -1,0 +1,11 @@
+metric,value
+row_count,258
+column_count,62
+identifier_column_count,5
+numeric_feature_count,57
+duplicate_full_rows,0
+duplicate_participant_trial_rows,0
+missing_values_total,513
+infinite_feature_values,0
+empty_trial_rows,9
+complete_feature_rows,249
