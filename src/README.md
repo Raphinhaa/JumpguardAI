@@ -29,6 +29,8 @@ Current core data modules:
   landmark exports, missing-landmark preservation, and debug visualizations
 - `feature_extraction.py`: Prompt-3-compatible features from Prompt 10
   MediaPipe landmarks using documented vector geometry
+- `pipeline.py`: end-to-end uploaded-video orchestration across existing
+  video, pose, landmark-feature, report, and dashboard layers
 
 Machine learning and risk assessment build on these objects and feature tables
 in later milestones.

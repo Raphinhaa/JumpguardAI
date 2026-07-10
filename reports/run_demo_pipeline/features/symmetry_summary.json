@@ -1,0 +1,17 @@
+{
+  "ankle_angle": {
+    "rom_absolute_difference": 2.934752627610081,
+    "rom_percent_difference": 6.766477543627615,
+    "rom_symmetry_index": -6.766477543627615
+  },
+  "hip_flexion": {
+    "rom_absolute_difference": 12.782886224642738,
+    "rom_percent_difference": 13.928710558901301,
+    "rom_symmetry_index": 13.928710558901301
+  },
+  "knee_flexion": {
+    "rom_absolute_difference": 1.679717361837902,
+    "rom_percent_difference": 2.2874782639923374,
+    "rom_symmetry_index": -2.2874782639923374
+  }
+}

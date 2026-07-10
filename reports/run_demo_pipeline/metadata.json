@@ -1,0 +1,68 @@
+{
+  "error": null,
+  "execution_timestamp": "2026-07-10T04:32:31.803094+00:00",
+  "feature_count": 57,
+  "frame_count": 92,
+  "log": [
+    {
+      "elapsed_seconds": 0.041732416953891516,
+      "message": "Loaded jump.mp4",
+      "stage": "video_loaded"
+    },
+    {
+      "elapsed_seconds": 1.0366383749060333,
+      "message": "Exported MediaPipe landmarks",
+      "stage": "pose_estimated"
+    },
+    {
+      "elapsed_seconds": 1.5269864578731358,
+      "message": "Exported Prompt-3-compatible features",
+      "stage": "features_extracted"
+    },
+    {
+      "elapsed_seconds": 1.5292813749983907,
+      "message": "Generated run-local athlete report",
+      "stage": "report_generated"
+    },
+    {
+      "elapsed_seconds": 1.5308633749373257,
+      "message": "Generated run-local dashboard",
+      "stage": "dashboard_generated"
+    }
+  ],
+  "mediapipe_version": "0.10.35",
+  "output_locations": {
+    "athlete_report_html": "/Users/arnavanney/Documents/JumpguardAI/reports/run_demo_pipeline/athlete_report/athlete_report.html",
+    "athlete_report_json": "/Users/arnavanney/Documents/JumpguardAI/reports/run_demo_pipeline/athlete_report/athlete_report.json",
+    "athlete_report_markdown": "/Users/arnavanney/Documents/JumpguardAI/reports/run_demo_pipeline/athlete_report/athlete_report.md",
+    "dashboard_html": "/Users/arnavanney/Documents/JumpguardAI/reports/run_demo_pipeline/dashboard/index.html",
+    "dashboard_json": "/Users/arnavanney/Documents/JumpguardAI/reports/run_demo_pipeline/dashboard/dashboard_payload.json",
+    "features_feature_statistics": "/Users/arnavanney/Documents/JumpguardAI/reports/run_demo_pipeline/features/feature_statistics.json",
+    "features_feature_table_csv": "/Users/arnavanney/Documents/JumpguardAI/reports/run_demo_pipeline/features/feature_table.csv",
+    "features_feature_table_json": "/Users/arnavanney/Documents/JumpguardAI/reports/run_demo_pipeline/features/feature_table.json",
+    "features_landing_events": "/Users/arnavanney/Documents/JumpguardAI/reports/run_demo_pipeline/features/landing_events.json",
+    "features_plot_0": "/Users/arnavanney/Documents/JumpguardAI/reports/run_demo_pipeline/features/plots/joint_angles.png",
+    "features_plot_1": "/Users/arnavanney/Documents/JumpguardAI/reports/run_demo_pipeline/features/plots/rom.png",
+    "features_plot_2": "/Users/arnavanney/Documents/JumpguardAI/reports/run_demo_pipeline/features/plots/symmetry.png",
+    "features_plot_3": "/Users/arnavanney/Documents/JumpguardAI/reports/run_demo_pipeline/features/plots/feature_preview.png",
+    "features_symmetry_summary": "/Users/arnavanney/Documents/JumpguardAI/reports/run_demo_pipeline/features/symmetry_summary.json",
+    "features_trajectory_features": "/Users/arnavanney/Documents/JumpguardAI/reports/run_demo_pipeline/features/trajectory_features.json",
+    "landmarks_csv": "/Users/arnavanney/Documents/JumpguardAI/reports/run_demo_pipeline/landmarks/landmarks.csv",
+    "landmarks_json": "/Users/arnavanney/Documents/JumpguardAI/reports/run_demo_pipeline/landmarks/landmarks.json",
+    "metadata": "/Users/arnavanney/Documents/JumpguardAI/reports/run_demo_pipeline/metadata.json",
+    "video": "/Users/arnavanney/Documents/JumpguardAI/reports/run_demo_pipeline/video/jump.mp4"
+  },
+  "predictions_generated": false,
+  "processing_duration_seconds": 1.5308639998547733,
+  "status": "success",
+  "video": {
+    "codec": "h264",
+    "duration_seconds": 3.066666666666667,
+    "filename": "jump.mp4",
+    "fps": 30.0,
+    "frame_count": 92,
+    "height": 1080,
+    "path": "/Users/arnavanney/Documents/JumpguardAI/data/sample/jump.mp4",
+    "width": 608
+  }
+}

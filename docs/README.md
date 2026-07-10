@@ -25,3 +25,4 @@ Current reports:
 - `VIDEO_PROCESSING_REPORT.md`: Prompt 9 video ingestion and frame utilities
 - `POSE_ESTIMATION_REPORT.md`: Prompt 10 MediaPipe pose landmark engine
 - `FEATURE_EXTRACTION_REPORT.md`: Prompt 11 landmark-derived feature extraction
+- `PIPELINE_REPORT.md`: Prompt 12 end-to-end uploaded-video orchestration

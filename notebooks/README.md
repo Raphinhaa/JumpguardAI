@@ -15,5 +15,6 @@ Planned notebooks include:
 - 09_video_processing.ipynb
 - 10_pose_estimation.ipynb
 - 11_feature_extraction.ipynb
-- 12_model_training.ipynb
-- 13_model_evaluation.ipynb
+- 12_pipeline.ipynb
+- 13_model_training.ipynb
+- 14_model_evaluation.ipynb
