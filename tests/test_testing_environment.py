@@ -12,6 +12,12 @@ import pytest
 
 from app.pipeline import TestingEnvironment, TestingEnvironmentConfig
 from app.pipeline.frame_analysis import build_frame_measurement_database, render_interactive_viewer_html
+from app.pipeline.hip_validation_audit import (
+    build_hip_discrepancy_investigation,
+    build_hip_validation_audit,
+    export_hip_discrepancy_investigation,
+    export_hip_validation_audit,
+)
 from app.pipeline.measurement_debug import export_measurement_debug_raw, render_measurement_debugger_html
 from app.pipeline.testing_environment import TestingEnvironmentError
 from app.ui.server import render_home, render_result
@@ -68,8 +74,29 @@ class FakeAnalyzer:
         debug_viewer = run_dir / "measurement_debug" / "measurement_debugger.html"
         debug_raw_csv = run_dir / "measurement_debug" / "measurement_debug_raw.csv"
         debug_raw_json = run_dir / "measurement_debug" / "measurement_debug_raw.json"
+        hip_report = run_dir / "measurement_debug" / "hip_measurement_validation_report.md"
+        hip_json = run_dir / "measurement_debug" / "hip_measurement_validation_report.json"
+        hip_investigation_report = run_dir / "measurement_debug" / "hip_discrepancy_investigation_report.md"
+        hip_investigation_json = run_dir / "measurement_debug" / "hip_discrepancy_investigation_report.json"
+        hip_investigation_html = run_dir / "measurement_debug" / "hip_discrepancy_investigation_report.html"
         landmarks = run_dir / "landmarks" / "landmarks.csv"
-        for path in (video, debug_video, measurements, measurements_json, time_series, viewer, debug_viewer, debug_raw_csv, debug_raw_json, landmarks):
+        for path in (
+            video,
+            debug_video,
+            measurements,
+            measurements_json,
+            time_series,
+            viewer,
+            debug_viewer,
+            debug_raw_csv,
+            debug_raw_json,
+            hip_report,
+            hip_json,
+            hip_investigation_report,
+            hip_investigation_json,
+            hip_investigation_html,
+            landmarks,
+        ):
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text(path.name, encoding="utf-8")
         generated.update(
@@ -84,6 +111,11 @@ class FakeAnalyzer:
                 "measurement_debugger_html": str(debug_viewer),
                 "measurement_debug_raw_csv": str(debug_raw_csv),
                 "measurement_debug_raw_json": str(debug_raw_json),
+                "hip_measurement_validation_report": str(hip_report),
+                "hip_measurement_validation_json": str(hip_json),
+                "hip_discrepancy_investigation_report": str(hip_investigation_report),
+                "hip_discrepancy_investigation_json": str(hip_investigation_json),
+                "hip_discrepancy_investigation_html": str(hip_investigation_html),
                 "landmarks_csv": str(landmarks),
             }
         )
@@ -115,6 +147,8 @@ def test_testing_environment_analyzes_upload_and_collects_interactive_outputs(tm
     assert result.interactive_viewer_html and result.interactive_viewer_html.endswith("interactive_viewer.html")
     assert result.generated_files["measurement_debugger_html"].endswith("measurement_debugger.html")
     assert result.generated_files["measurement_debug_raw_csv"].endswith("measurement_debug_raw.csv")
+    assert result.generated_files["hip_measurement_validation_report"].endswith("hip_measurement_validation_report.md")
+    assert result.generated_files["hip_discrepancy_investigation_html"].endswith("hip_discrepancy_investigation_report.html")
     assert not any("athlete_report" in key for key in result.generated_files)
     assert not any("evidence" in key for key in result.generated_files)
     assert not any("dashboard" in key for key in result.generated_files)
@@ -284,9 +318,30 @@ def test_interactive_viewer_contains_professional_workstation_controls_and_no_re
         }
     ]
 
-    html = render_interactive_viewer_html(frame_database, video_path="video/jump.mp4", source_video={})
+    html = render_interactive_viewer_html(
+        frame_database,
+        video_path="video/jump.mp4",
+        source_video={"filename": "jump.mp4", "duration_seconds": 1.2, "frame_count": 30, "fps": 25.0},
+        generated_files={
+            "annotated_video_mp4": "video/jump.mp4",
+            "per_frame_measurements_csv": "measurements/per_frame_measurements.csv",
+            "per_frame_measurements_json": "measurements/per_frame_measurements.json",
+            "time_series_json": "measurements/time_series.json",
+            "measurement_debugger_html": "measurement_debug/measurement_debugger.html",
+        },
+    )
 
     assert "Jump to time" in html
+    assert "JumpGuard AI" in html
+    assert "Clinical Biomechanical Analysis Workspace" in html
+    assert "Measurement-only workspace" in html
+    assert "Session Summary" in html
+    assert "Processed frames" in html
+    assert "Pose confidence" in html
+    assert "Exports" in html
+    assert "Annotated MP4" in html
+    assert "Per-frame CSV" in html
+    assert "Measurement Debugger" in html
     assert '<source src="/artifact?path=video/jump.mp4" type="video/mp4">' in html
     assert '<video id="video" controls preload="metadata" playsinline muted>' in html
     assert "Annotated Video" in html
@@ -369,3 +424,157 @@ def test_measurement_debugger_exports_diagnostic_artifacts_without_recomputing_v
     assert hip_left["angle_value"] == 101.25
     assert hip_left["landmarks_used"] == "left_shoulder -> left_hip -> left_knee"
     assert json.loads(json_path.read_text(encoding="utf-8"))[0]["frame_index"] == 4
+
+
+def test_hip_validation_audit_ranks_existing_hip_differences_and_preserves_values(tmp_path: Path) -> None:
+    frame_database = [
+        {
+            "frame_index": 1,
+            "timestamp": 0.04,
+            "measurements": {
+                "hip_flexion_left": 80.0,
+                "hip_flexion_right": 120.0,
+                "knee_flexion_left": 100.0,
+                "knee_flexion_right": 101.0,
+                "ankle_angle_left": 90.0,
+                "ankle_angle_right": 91.0,
+            },
+            "derived_measurements": {
+                "delta_from_previous_frame": {"hip_flexion_left": None, "hip_flexion_right": None},
+                "symmetry": {
+                    "hip_flexion": {"absolute_difference": 40.0, "percent_difference": 40.0, "symmetry_index": -40.0},
+                    "knee_flexion": {"absolute_difference": 1.0, "percent_difference": 1.0, "symmetry_index": -1.0},
+                    "ankle_angle": {"absolute_difference": 1.0, "percent_difference": 1.0, "symmetry_index": -1.0},
+                },
+                "trunk": {"available": False, "reason": "No trunk angle signal is produced."},
+            },
+            "landmark_confidence": {"mean": 0.8, "minimum": 0.4, "visible_landmark_count": 6, "mean_visibility": 0.8},
+            "landmarks": _hip_audit_landmarks(1, visibility=0.4),
+        },
+        {
+            "frame_index": 2,
+            "timestamp": 0.08,
+            "measurements": {
+                "hip_flexion_left": 100.0,
+                "hip_flexion_right": 105.0,
+                "knee_flexion_left": 100.0,
+                "knee_flexion_right": 101.0,
+                "ankle_angle_left": 90.0,
+                "ankle_angle_right": 91.0,
+            },
+            "derived_measurements": {
+                "delta_from_previous_frame": {"hip_flexion_left": 20.0, "hip_flexion_right": -15.0},
+                "symmetry": {
+                    "hip_flexion": {"absolute_difference": 5.0, "percent_difference": 4.878, "symmetry_index": -4.878},
+                    "knee_flexion": {"absolute_difference": 1.0, "percent_difference": 1.0, "symmetry_index": -1.0},
+                    "ankle_angle": {"absolute_difference": 1.0, "percent_difference": 1.0, "symmetry_index": -1.0},
+                },
+                "trunk": {"available": False, "reason": "No trunk angle signal is produced."},
+            },
+            "landmark_confidence": {"mean": 0.9, "minimum": 0.9, "visible_landmark_count": 6, "mean_visibility": 0.9},
+            "landmarks": _hip_audit_landmarks(2, visibility=0.9),
+        },
+    ]
+
+    audit = build_hip_validation_audit(frame_database, top_n=2)
+    report_path, json_path = export_hip_validation_audit(
+        frame_database,
+        tmp_path / "hip_measurement_validation_report.md",
+        tmp_path / "hip_measurement_validation_report.json",
+        top_n=2,
+    )
+
+    largest = audit["hip_discrepancy_summary"]["largest_differences"][0]
+    assert largest["frame_index"] == 1
+    assert largest["absolute_difference"] == 40.0
+    assert "visibility below 0.5" in "; ".join(largest["evidence_notes"])
+    assert audit["measurement_definitions"][0]["convention"].startswith("Unsigned internal")
+    assert audit["scope"]["scientific_pipeline_modified"] is False
+    assert "Hip Measurement Validation Audit" in report_path.read_text(encoding="utf-8")
+    assert json.loads(json_path.read_text(encoding="utf-8"))["scope"]["measurement_values_recomputed"] is False
+
+
+def test_hip_discrepancy_investigation_exports_evidence_only_reports(tmp_path: Path) -> None:
+    frame_database = [
+        {
+            "frame_index": 7,
+            "timestamp": 0.28,
+            "measurements": {
+                "hip_flexion_left": 72.0,
+                "hip_flexion_right": 118.0,
+                "knee_flexion_left": 100.0,
+                "knee_flexion_right": 101.0,
+                "ankle_angle_left": 90.0,
+                "ankle_angle_right": 91.0,
+            },
+            "derived_measurements": {"delta_from_previous_frame": {}, "symmetry": {}, "trunk": {"available": False}},
+            "landmark_confidence": {"mean": 0.8, "minimum": 0.3, "visible_landmark_count": 6, "mean_visibility": 0.8},
+            "landmarks": _hip_audit_landmarks(7, visibility=0.35),
+        }
+    ]
+
+    original_frame_database = json.loads(json.dumps(frame_database))
+    investigation = build_hip_discrepancy_investigation(frame_database, top_n=1)
+    report_path, json_path, html_path = export_hip_discrepancy_investigation(
+        frame_database,
+        tmp_path / "hip_discrepancy_investigation_report.md",
+        tmp_path / "hip_discrepancy_investigation_report.json",
+        tmp_path / "hip_discrepancy_investigation_report.html",
+        top_n=1,
+    )
+
+    assert investigation["prompt_25_scope"]["evidence_only"] is True
+    assert investigation["prompt_25_scope"]["scientific_pipeline_modified"] is False
+    assert investigation["origin_assessment"]["overall_origin"] == "landmark estimation"
+    assert investigation["frame_investigations"][0]["absolute_difference"] == 46.0
+    assert "visibility below 0.5" in "; ".join(investigation["frame_investigations"][0]["origin_evidence"])
+    assert "camera perspective" in {row["origin"] for row in investigation["origin_assessment"]["candidate_origins"]}
+    assert "Hip Discrepancy Investigation" in report_path.read_text(encoding="utf-8")
+    assert "Hip Discrepancy Investigation" in html_path.read_text(encoding="utf-8")
+    exported = json.loads(json_path.read_text(encoding="utf-8"))
+    assert exported["prompt_25_scope"]["automatic_correction_applied"] is False
+    assert json.loads(json.dumps(frame_database)) == original_frame_database
+
+
+def test_hip_discrepancy_investigation_reports_insufficient_evidence_without_finite_pairs() -> None:
+    investigation = build_hip_discrepancy_investigation(
+        [
+            {
+                "frame_index": 3,
+                "timestamp": 0.12,
+                "measurements": {"hip_flexion_left": None, "hip_flexion_right": None},
+                "landmarks": _hip_audit_landmarks(3, visibility=0.9),
+            }
+        ],
+        top_n=1,
+    )
+
+    assert investigation["origin_assessment"]["overall_origin"] == "insufficient evidence"
+    assert investigation["frame_investigations"] == []
+
+
+def _hip_audit_landmarks(frame_number: int, *, visibility: float) -> list[dict[str, float | int | str]]:
+    names = [
+        (11, "left_shoulder"),
+        (12, "right_shoulder"),
+        (23, "left_hip"),
+        (24, "right_hip"),
+        (25, "left_knee"),
+        (26, "right_knee"),
+        (27, "left_ankle"),
+        (28, "right_ankle"),
+    ]
+    return [
+        {
+            "frame_number": frame_number,
+            "timestamp": frame_number * 0.04,
+            "landmark_index": index,
+            "landmark_name": name,
+            "x": 0.1 + index / 100,
+            "y": 0.2 + index / 100,
+            "z": 0.0,
+            "visibility": visibility,
+            "confidence": visibility,
+        }
+        for index, name in names
+    ]

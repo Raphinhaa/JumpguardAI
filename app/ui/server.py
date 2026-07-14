@@ -292,6 +292,11 @@ def _primary_artifacts() -> tuple[tuple[str, str], ...]:
         ("Developer measurement debugger", "measurement_debugger_html"),
         ("Developer measurement debug raw CSV", "measurement_debug_raw_csv"),
         ("Developer measurement debug raw JSON", "measurement_debug_raw_json"),
+        ("Developer hip measurement validation report", "hip_measurement_validation_report"),
+        ("Developer hip measurement validation JSON", "hip_measurement_validation_json"),
+        ("Developer hip discrepancy investigation report", "hip_discrepancy_investigation_report"),
+        ("Developer hip discrepancy investigation JSON", "hip_discrepancy_investigation_json"),
+        ("Developer hip discrepancy investigation HTML", "hip_discrepancy_investigation_html"),
         ("Run metadata", "metadata"),
     )
 

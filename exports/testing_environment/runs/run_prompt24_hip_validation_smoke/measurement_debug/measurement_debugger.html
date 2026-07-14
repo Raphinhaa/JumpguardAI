@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JumpGuard Developer Measurement Debugger</title>
+  <style>
+    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;margin:0;background:#eef3f8;color:#17202a;}
+    header{background:#20324a;color:white;padding:20px 28px;}
+    header h1{margin:0 0 6px;font-size:26px;letter-spacing:0;}
+    header p{margin:0;color:#d9e6f2;max-width:980px;}
+    main{max-width:1480px;margin:18px auto;padding:0 18px;}
+    .grid{display:grid;grid-template-columns:minmax(520px,1.4fr) minmax(420px,1fr);gap:16px;align-items:start;}
+    .panel{background:white;border:1px solid #d9e2ec;border-radius:8px;padding:16px;margin-bottom:16px;box-shadow:0 1px 2px rgba(16,42,67,.04);}
+    .controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px;}
+    button{background:#1665d8;color:white;border:0;border-radius:6px;padding:9px 12px;font-weight:700;cursor:pointer;}
+    select,input{height:36px;border:1px solid #bcccdc;border-radius:6px;padding:6px 8px;background:white;}
+    input[type=range]{width:100%;accent-color:#1665d8;}
+    canvas{display:block;width:100%;height:620px;background:#07111f;border:1px solid #1f334d;border-radius:8px;}
+    table{border-collapse:collapse;width:100%;font-size:13px;}
+    th,td{border-bottom:1px solid #e6edf5;padding:7px;text-align:left;vertical-align:top;}
+    th{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:#486581;background:#f8fbfe;}
+    .muted{color:#627d98;}
+    .warning{background:#fff7e6;border:1px solid #f0c36d;border-radius:8px;padding:10px;margin:10px 0;}
+    .status-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;}
+    .triple{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;}
+    @media (max-width: 980px){.grid{grid-template-columns:1fr;}canvas{height:520px;}}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Developer Measurement Debugger</h1>
+    <p>Diagnostic-only visualization of the existing landmark geometry, vectors, angles, deltas, and symmetry values. This page does not define or modify biomechanics.</p>
+  </header>
+  <main>
+    <div class="warning"><strong>Developer mode:</strong> all values are read from existing computed outputs. Missing landmarks, visibility, confidence, NaN angles, deltas, and symmetry values are displayed without smoothing, substitution, or filtering.</div>
+    <section class="grid">
+      <div class="panel">
+        <div class="controls">
+          <button id="prev">Previous Frame</button>
+          <button id="next">Next Frame</button>
+          <label>Angle <select id="angleSelect"></select></label>
+          <label>Zoom <input id="zoom" type="range" min="0.6" max="3" value="1" step="0.05"></label>
+          <label><input id="trails" type="checkbox"> Landmark trails</label>
+        </div>
+        <input id="timeline" type="range" min="0" max="0" value="0" step="1">
+        <p><strong>Frame:</strong> <span id="frameLabel">--</span> <strong>Timestamp:</strong> <span id="timeLabel">--</span></p>
+        <canvas id="skeleton" width="1000" height="720"></canvas>
+      </div>
+      <aside>
+        <div class="panel"><h2>Angle Debug Panel</h2><div id="anglePanel"></div></div>
+        <div class="panel"><h2>Landmark Panel</h2><div id="landmarkPanel"></div></div>
+        <div class="panel"><h2>Confidence Inspector</h2><div id="confidencePanel"></div></div>
+      </aside>
+    </section>
+    <section class="panel"><h2>Left vs Right Comparison</h2><div id="comparisonPanel" class="triple"></div></section>
+  </main>
+  <script id="debug-data" type="application/json">{"angle_map": {"ankle_angle_left": ["left_knee", "left_ankle", "left_foot_index"], "ankle_angle_right": ["right_knee", "right_ankle", "right_foot_index"], "hip_flexion_left": ["left_shoulder", "left_hip", "left_knee"], "hip_flexion_right": ["right_shoulder", "right_hip", "right_knee"], "knee_flexion_left": ["left_hip", "left_knee", "left_ankle"], "knee_flexion_right": ["right_hip", "right_knee", "right_ankle"]}, "connections": [[0, 1], [1, 2], [2, 3], [3, 7], [0, 4], [4, 5], [5, 6], [6, 8], [9, 10], [11, 12], [11, 13], [13, 15], [15, 17], [15, 19], [15, 21], [17, 19], [12, 14], [14, 16], [16, 18], [16, 20], [16, 22], [18, 20], [11, 23], [12, 24], [23, 24], [23, 25], [24, 26], [25, 27], [26, 28], [27, 29], [28, 30], [29, 31], [30, 32], [27, 31], [28, 32]], "debug_landmarks": ["left_shoulder", "right_shoulder", "left_hip", "right_hip", "left_knee", "right_knee", "left_ankle", "right_ankle", "left_foot_index", "right_foot_index"], "frames": [{"derived_measurements": {"delta_from_previous_frame": {"ankle_angle_left": null, "ankle_angle_right": null, "hip_flexion_left": null, "hip_flexion_right": null, "knee_flexion_left": null, "knee_flexion_right": null}, "symmetry": {"ankle_angle": {"absolute_difference": null, "percent_difference": null, "symmetry_index": null}, "hip_flexion": {"absolute_difference": null, "percent_difference": null, "symmetry_index": null}, "knee_flexion": {"absolute_difference": null, "percent_difference": null, "symmetry_index": null}}, "trunk": {"available": false, "reason": "No trunk angle signal is produced by the validated Prompt 11 frame-level measurement set."}}, "frame_index": 0, "landmark_confidence": {"mean": null, "mean_visibility": null, "minimum": null, "visible_landmark_count": 0}, "landmarks": [{"confidence": null, "frame_number": 0, "landmark_index": 0, "landmark_name": "nose", "timestamp": 0.0, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 0, "landmark_index": 1, "landmark_name": "left_eye_inner", "timestamp": 0.0, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 0, "landmark_index": 2, "landmark_name": "left_eye", "timestamp": 0.0, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 0, "landmark_index": 3, "landmark_name": "left_eye_outer", "timestamp": 0.0, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 0, "landmark_index": 4, "landmark_name": "right_eye_inner", "timestamp": 0.0, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 0, "landmark_index": 5, "landmark_name": "right_eye", "timestamp": 0.0, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 0, "landmark_index": 6, "landmark_name": "right_eye_outer", "timestamp": 0.0, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 0, "landmark_index": 7, "landmark_name": "left_ear", "timestamp": 0.0, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 0, "landmark_index": 8, "landmark_name": "right_ear", "timestamp": 0.0, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 0, "landmark_index": 9, "landmark_name": "mouth_left", "timestamp": 0.0, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 0, "landmark_index": 10, "landmark_name": "mouth_right", "timestamp": 0.0, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 0, "landmark_index": 11, "landmark_name": "left_shoulder", "timestamp": 0.0, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 0, "landmark_index": 12, "landmark_name": "right_shoulder", "timestamp": 0.0, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 0, "landmark_index": 13, "landmark_name": "left_elbow", "timestamp": 0.0, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 0, "landmark_index": 14, "landmark_name": "right_elbow", "timestamp": 0.0, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 0, "landmark_index": 15, "landmark_name": "left_wrist", "timestamp": 0.0, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 0, "landmark_index": 16, "landmark_name": "right_wrist", "timestamp": 0.0, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 0, "landmark_index": 17, "landmark_name": "left_pinky", "timestamp": 0.0, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 0, "landmark_index": 18, "landmark_name": "right_pinky", "timestamp": 0.0, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 0, "landmark_index": 19, "landmark_name": "left_index", "timestamp": 0.0, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 0, "landmark_index": 20, "landmark_name": "right_index", "timestamp": 0.0, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 0, "landmark_index": 21, "landmark_name": "left_thumb", "timestamp": 0.0, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 0, "landmark_index": 22, "landmark_name": "right_thumb", "timestamp": 0.0, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 0, "landmark_index": 23, "landmark_name": "left_hip", "timestamp": 0.0, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 0, "landmark_index": 24, "landmark_name": "right_hip", "timestamp": 0.0, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 0, "landmark_index": 25, "landmark_name": "left_knee", "timestamp": 0.0, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 0, "landmark_index": 26, "landmark_name": "right_knee", "timestamp": 0.0, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 0, "landmark_index": 27, "landmark_name": "left_ankle", "timestamp": 0.0, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 0, "landmark_index": 28, "landmark_name": "right_ankle", "timestamp": 0.0, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 0, "landmark_index": 29, "landmark_name": "left_heel", "timestamp": 0.0, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 0, "landmark_index": 30, "landmark_name": "right_heel", "timestamp": 0.0, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 0, "landmark_index": 31, "landmark_name": "left_foot_index", "timestamp": 0.0, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 0, "landmark_index": 32, "landmark_name": "right_foot_index", "timestamp": 0.0, "visibility": null, "x": null, "y": null, "z": null}], "measurements": {"ankle_angle_left": null, "ankle_angle_right": null, "hip_flexion_left": null, "hip_flexion_right": null, "knee_flexion_left": null, "knee_flexion_right": null}, "timestamp": 0.0}, {"derived_measurements": {"delta_from_previous_frame": {"ankle_angle_left": null, "ankle_angle_right": null, "hip_flexion_left": null, "hip_flexion_right": null, "knee_flexion_left": null, "knee_flexion_right": null}, "symmetry": {"ankle_angle": {"absolute_difference": null, "percent_difference": null, "symmetry_index": null}, "hip_flexion": {"absolute_difference": null, "percent_difference": null, "symmetry_index": null}, "knee_flexion": {"absolute_difference": null, "percent_difference": null, "symmetry_index": null}}, "trunk": {"available": false, "reason": "No trunk angle signal is produced by the validated Prompt 11 frame-level measurement set."}}, "frame_index": 8, "landmark_confidence": {"mean": null, "mean_visibility": null, "minimum": null, "visible_landmark_count": 0}, "landmarks": [{"confidence": null, "frame_number": 8, "landmark_index": 0, "landmark_name": "nose", "timestamp": 0.6666666666666666, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 8, "landmark_index": 1, "landmark_name": "left_eye_inner", "timestamp": 0.6666666666666666, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 8, "landmark_index": 2, "landmark_name": "left_eye", "timestamp": 0.6666666666666666, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 8, "landmark_index": 3, "landmark_name": "left_eye_outer", "timestamp": 0.6666666666666666, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 8, "landmark_index": 4, "landmark_name": "right_eye_inner", "timestamp": 0.6666666666666666, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 8, "landmark_index": 5, "landmark_name": "right_eye", "timestamp": 0.6666666666666666, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 8, "landmark_index": 6, "landmark_name": "right_eye_outer", "timestamp": 0.6666666666666666, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 8, "landmark_index": 7, "landmark_name": "left_ear", "timestamp": 0.6666666666666666, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 8, "landmark_index": 8, "landmark_name": "right_ear", "timestamp": 0.6666666666666666, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 8, "landmark_index": 9, "landmark_name": "mouth_left", "timestamp": 0.6666666666666666, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 8, "landmark_index": 10, "landmark_name": "mouth_right", "timestamp": 0.6666666666666666, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 8, "landmark_index": 11, "landmark_name": "left_shoulder", "timestamp": 0.6666666666666666, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 8, "landmark_index": 12, "landmark_name": "right_shoulder", "timestamp": 0.6666666666666666, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 8, "landmark_index": 13, "landmark_name": "left_elbow", "timestamp": 0.6666666666666666, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 8, "landmark_index": 14, "landmark_name": "right_elbow", "timestamp": 0.6666666666666666, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 8, "landmark_index": 15, "landmark_name": "left_wrist", "timestamp": 0.6666666666666666, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 8, "landmark_index": 16, "landmark_name": "right_wrist", "timestamp": 0.6666666666666666, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 8, "landmark_index": 17, "landmark_name": "left_pinky", "timestamp": 0.6666666666666666, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 8, "landmark_index": 18, "landmark_name": "right_pinky", "timestamp": 0.6666666666666666, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 8, "landmark_index": 19, "landmark_name": "left_index", "timestamp": 0.6666666666666666, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 8, "landmark_index": 20, "landmark_name": "right_index", "timestamp": 0.6666666666666666, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 8, "landmark_index": 21, "landmark_name": "left_thumb", "timestamp": 0.6666666666666666, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 8, "landmark_index": 22, "landmark_name": "right_thumb", "timestamp": 0.6666666666666666, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 8, "landmark_index": 23, "landmark_name": "left_hip", "timestamp": 0.6666666666666666, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 8, "landmark_index": 24, "landmark_name": "right_hip", "timestamp": 0.6666666666666666, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 8, "landmark_index": 25, "landmark_name": "left_knee", "timestamp": 0.6666666666666666, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 8, "landmark_index": 26, "landmark_name": "right_knee", "timestamp": 0.6666666666666666, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 8, "landmark_index": 27, "landmark_name": "left_ankle", "timestamp": 0.6666666666666666, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 8, "landmark_index": 28, "landmark_name": "right_ankle", "timestamp": 0.6666666666666666, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 8, "landmark_index": 29, "landmark_name": "left_heel", "timestamp": 0.6666666666666666, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 8, "landmark_index": 30, "landmark_name": "right_heel", "timestamp": 0.6666666666666666, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 8, "landmark_index": 31, "landmark_name": "left_foot_index", "timestamp": 0.6666666666666666, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 8, "landmark_index": 32, "landmark_name": "right_foot_index", "timestamp": 0.6666666666666666, "visibility": null, "x": null, "y": null, "z": null}], "measurements": {"ankle_angle_left": null, "ankle_angle_right": null, "hip_flexion_left": null, "hip_flexion_right": null, "knee_flexion_left": null, "knee_flexion_right": null}, "timestamp": 0.6666666666666666}, {"derived_measurements": {"delta_from_previous_frame": {"ankle_angle_left": null, "ankle_angle_right": null, "hip_flexion_left": null, "hip_flexion_right": null, "knee_flexion_left": null, "knee_flexion_right": null}, "symmetry": {"ankle_angle": {"absolute_difference": null, "percent_difference": null, "symmetry_index": null}, "hip_flexion": {"absolute_difference": null, "percent_difference": null, "symmetry_index": null}, "knee_flexion": {"absolute_difference": null, "percent_difference": null, "symmetry_index": null}}, "trunk": {"available": false, "reason": "No trunk angle signal is produced by the validated Prompt 11 frame-level measurement set."}}, "frame_index": 16, "landmark_confidence": {"mean": null, "mean_visibility": null, "minimum": null, "visible_landmark_count": 0}, "landmarks": [{"confidence": null, "frame_number": 16, "landmark_index": 0, "landmark_name": "nose", "timestamp": 1.3333333333333333, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 16, "landmark_index": 1, "landmark_name": "left_eye_inner", "timestamp": 1.3333333333333333, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 16, "landmark_index": 2, "landmark_name": "left_eye", "timestamp": 1.3333333333333333, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 16, "landmark_index": 3, "landmark_name": "left_eye_outer", "timestamp": 1.3333333333333333, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 16, "landmark_index": 4, "landmark_name": "right_eye_inner", "timestamp": 1.3333333333333333, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 16, "landmark_index": 5, "landmark_name": "right_eye", "timestamp": 1.3333333333333333, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 16, "landmark_index": 6, "landmark_name": "right_eye_outer", "timestamp": 1.3333333333333333, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 16, "landmark_index": 7, "landmark_name": "left_ear", "timestamp": 1.3333333333333333, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 16, "landmark_index": 8, "landmark_name": "right_ear", "timestamp": 1.3333333333333333, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 16, "landmark_index": 9, "landmark_name": "mouth_left", "timestamp": 1.3333333333333333, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 16, "landmark_index": 10, "landmark_name": "mouth_right", "timestamp": 1.3333333333333333, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 16, "landmark_index": 11, "landmark_name": "left_shoulder", "timestamp": 1.3333333333333333, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 16, "landmark_index": 12, "landmark_name": "right_shoulder", "timestamp": 1.3333333333333333, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 16, "landmark_index": 13, "landmark_name": "left_elbow", "timestamp": 1.3333333333333333, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 16, "landmark_index": 14, "landmark_name": "right_elbow", "timestamp": 1.3333333333333333, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 16, "landmark_index": 15, "landmark_name": "left_wrist", "timestamp": 1.3333333333333333, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 16, "landmark_index": 16, "landmark_name": "right_wrist", "timestamp": 1.3333333333333333, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 16, "landmark_index": 17, "landmark_name": "left_pinky", "timestamp": 1.3333333333333333, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 16, "landmark_index": 18, "landmark_name": "right_pinky", "timestamp": 1.3333333333333333, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 16, "landmark_index": 19, "landmark_name": "left_index", "timestamp": 1.3333333333333333, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 16, "landmark_index": 20, "landmark_name": "right_index", "timestamp": 1.3333333333333333, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 16, "landmark_index": 21, "landmark_name": "left_thumb", "timestamp": 1.3333333333333333, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 16, "landmark_index": 22, "landmark_name": "right_thumb", "timestamp": 1.3333333333333333, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 16, "landmark_index": 23, "landmark_name": "left_hip", "timestamp": 1.3333333333333333, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 16, "landmark_index": 24, "landmark_name": "right_hip", "timestamp": 1.3333333333333333, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 16, "landmark_index": 25, "landmark_name": "left_knee", "timestamp": 1.3333333333333333, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 16, "landmark_index": 26, "landmark_name": "right_knee", "timestamp": 1.3333333333333333, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 16, "landmark_index": 27, "landmark_name": "left_ankle", "timestamp": 1.3333333333333333, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 16, "landmark_index": 28, "landmark_name": "right_ankle", "timestamp": 1.3333333333333333, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 16, "landmark_index": 29, "landmark_name": "left_heel", "timestamp": 1.3333333333333333, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 16, "landmark_index": 30, "landmark_name": "right_heel", "timestamp": 1.3333333333333333, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 16, "landmark_index": 31, "landmark_name": "left_foot_index", "timestamp": 1.3333333333333333, "visibility": null, "x": null, "y": null, "z": null}, {"confidence": null, "frame_number": 16, "landmark_index": 32, "landmark_name": "right_foot_index", "timestamp": 1.3333333333333333, "visibility": null, "x": null, "y": null, "z": null}], "measurements": {"ankle_angle_left": null, "ankle_angle_right": null, "hip_flexion_left": null, "hip_flexion_right": null, "knee_flexion_left": null, "knee_flexion_right": null}, "timestamp": 1.3333333333333333}], "policy": "Developer diagnostic only; values are read from existing computed outputs without modifying measurements.", "source_video": {"codec": "MJPG", "duration_seconds": 2.0, "filename": "sample_video.avi", "fps": 12.0, "frame_count": 24, "height": 64, "path": "reports/video_processing/sample_video.avi", "width": 96}}</script>
+  <script>
+    const data = JSON.parse(document.getElementById('debug-data').textContent);
+    const frames = data.frames || [];
+    const angleMap = data.angle_map || {};
+    const connections = data.connections || [];
+    const debugLandmarks = data.debug_landmarks || [];
+    const timeline = document.getElementById('timeline');
+    const angleSelect = document.getElementById('angleSelect');
+    const zoomInput = document.getElementById('zoom');
+    const trailsInput = document.getElementById('trails');
+    const canvas = document.getElementById('skeleton');
+    const ctx = canvas.getContext('2d');
+    let selected = 0;
+    timeline.max = Math.max(frames.length - 1, 0);
+    Object.keys(angleMap).forEach(key => {
+      const option = document.createElement('option');
+      option.value = key;
+      option.textContent = key;
+      angleSelect.appendChild(option);
+    });
+
+    function fmt(value, digits=4) {
+      return value === null || value === undefined || Number.isNaN(Number(value)) ? 'NaN' : Number(value).toFixed(digits);
+    }
+    function currentFrame() { return frames[selected] || {landmarks: [], measurements: {}, derived_measurements: {}}; }
+    function landmarkMap(frame) {
+      const map = {};
+      (frame.landmarks || []).forEach(row => { map[row.landmark_name] = row; map[row.landmark_index] = row; });
+      return map;
+    }
+    function point(row) {
+      if (!row || !Number.isFinite(Number(row.x)) || !Number.isFinite(Number(row.y))) return null;
+      const z = Number(zoomInput.value || 1);
+      return {x: Number(row.x) * canvas.width * z + canvas.width * (1 - z) / 2, y: Number(row.y) * canvas.height * z + canvas.height * (1 - z) / 2};
+    }
+    function visibilityColor(value) {
+      const v = Number(value);
+      if (!Number.isFinite(v)) return '#8a94a6';
+      if (v >= 0.75) return '#22c55e';
+      if (v >= 0.5) return '#f59e0b';
+      return '#ef4444';
+    }
+    function draw() {
+      const frame = currentFrame();
+      const landmarks = landmarkMap(frame);
+      const selectedAngle = angleSelect.value || Object.keys(angleMap)[0];
+      const triplet = angleMap[selectedAngle] || [];
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#07111f'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+      if (trailsInput.checked) drawTrails(selectedAngle);
+      ctx.lineWidth = 2; ctx.strokeStyle = '#49657f';
+      connections.forEach(pair => {
+        const a = point(landmarks[pair[0]]), b = point(landmarks[pair[1]]);
+        if (!a || !b) return;
+        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+      });
+      (frame.landmarks || []).forEach(row => {
+        const p = point(row); if (!p) return;
+        const highlight = debugLandmarks.includes(row.landmark_name);
+        ctx.fillStyle = highlight ? visibilityColor(row.visibility) : '#dbeafe';
+        ctx.beginPath(); ctx.arc(p.x, p.y, highlight ? 5 : 3, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = highlight ? '#ffffff' : '#8fb3d9'; ctx.font = highlight ? '13px Arial' : '10px Arial';
+        ctx.fillText(String(row.landmark_index), p.x + 6, p.y - 6);
+      });
+      drawAngleConstruction(triplet, landmarks, frame.measurements?.[selectedAngle]);
+    }
+    function drawAngleConstruction(triplet, landmarks, angleValue) {
+      if (triplet.length !== 3) return;
+      const a = point(landmarks[triplet[0]]), vertex = point(landmarks[triplet[1]]), b = point(landmarks[triplet[2]]);
+      if (!a || !vertex || !b) return;
+      ctx.lineWidth = 5; ctx.strokeStyle = '#38bdf8';
+      ctx.beginPath(); ctx.moveTo(vertex.x, vertex.y); ctx.lineTo(a.x, a.y); ctx.stroke();
+      ctx.strokeStyle = '#f97316'; ctx.beginPath(); ctx.moveTo(vertex.x, vertex.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+      ctx.strokeStyle = '#facc15'; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(vertex.x, vertex.y, 34, -1.2, 0.6); ctx.stroke();
+      ctx.fillStyle = '#ffffff'; ctx.font = '18px Arial'; ctx.fillText(fmt(angleValue, 2) + ' deg', vertex.x + 18, vertex.y + 24);
+    }
+    function drawTrails(selectedAngle) {
+      const triplet = angleMap[selectedAngle] || [];
+      const start = Math.max(0, selected - 20);
+      for (let i = start; i < selected; i += 1) {
+        const landmarks = landmarkMap(frames[i]);
+        triplet.forEach(name => {
+          const p = point(landmarks[name]); if (!p) return;
+          ctx.fillStyle = 'rgba(250,204,21,.22)'; ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, Math.PI * 2); ctx.fill();
+        });
+      }
+    }
+    function vectorText(frame, triplet) {
+      const landmarks = landmarkMap(frame);
+      const a = landmarks[triplet[0]], v = landmarks[triplet[1]], b = landmarks[triplet[2]];
+      const va = a && v ? [Number(a.x)-Number(v.x), Number(a.y)-Number(v.y), Number(a.z)-Number(v.z)] : [NaN, NaN, NaN];
+      const vb = b && v ? [Number(b.x)-Number(v.x), Number(b.y)-Number(v.y), Number(b.z)-Number(v.z)] : [NaN, NaN, NaN];
+      return {a: va.map(x => fmt(x, 6)).join(', '), b: vb.map(x => fmt(x, 6)).join(', ')};
+    }
+    function renderPanels() {
+      const frame = currentFrame();
+      const selectedAngle = angleSelect.value || Object.keys(angleMap)[0];
+      const triplet = angleMap[selectedAngle] || [];
+      const vectors = vectorText(frame, triplet);
+      document.getElementById('frameLabel').textContent = frame.frame_index ?? '--';
+      document.getElementById('timeLabel').textContent = fmt(frame.timestamp, 3) + ' s';
+      document.getElementById('anglePanel').innerHTML = '<table><tbody>' +
+        `<tr><th>Signal</th><td>${selectedAngle}</td></tr>` +
+        `<tr><th>Landmarks</th><td>${triplet.join(' -> ')}</td></tr>` +
+        `<tr><th>Current angle</th><td>${fmt(frame.measurements?.[selectedAngle], 6)} deg</td></tr>` +
+        `<tr><th>Vector A</th><td>${vectors.a}</td></tr>` +
+        `<tr><th>Vector B</th><td>${vectors.b}</td></tr>` +
+        '</tbody></table>';
+      renderLandmarks(frame);
+      renderConfidence(frame);
+      renderComparison(frame);
+    }
+    function renderLandmarks(frame) {
+      const landmarks = landmarkMap(frame);
+      document.getElementById('landmarkPanel').innerHTML = '<table><thead><tr><th>Name</th><th>x</th><th>y</th><th>z</th><th>visibility</th></tr></thead><tbody>' +
+        debugLandmarks.map(name => { const row = landmarks[name] || {}; return `<tr><td>${name}</td><td>${fmt(row.x, 6)}</td><td>${fmt(row.y, 6)}</td><td>${fmt(row.z, 6)}</td><td>${fmt(row.visibility, 4)}</td></tr>`; }).join('') +
+        '</tbody></table>';
+    }
+    function renderConfidence(frame) {
+      const landmarks = landmarkMap(frame);
+      document.getElementById('confidencePanel').innerHTML = debugLandmarks.map(name => {
+        const row = landmarks[name] || {};
+        return `<p><span class="status-dot" style="background:${visibilityColor(row.visibility)}"></span>${name} visibility ${fmt(row.visibility, 4)} confidence ${fmt(row.confidence, 4)}</p>`;
+      }).join('');
+    }
+    function renderComparison(frame) {
+      const pairs = [['hip_flexion', 'hip_flexion_left', 'hip_flexion_right'], ['knee_flexion', 'knee_flexion_left', 'knee_flexion_right'], ['ankle_angle', 'ankle_angle_left', 'ankle_angle_right']];
+      document.getElementById('comparisonPanel').innerHTML = pairs.map(([label, left, right]) => {
+        const symmetry = frame.derived_measurements?.symmetry?.[label] || {};
+        return `<div><h3>${label}</h3><table><tbody><tr><th>Left angle</th><td>${fmt(frame.measurements?.[left], 6)}</td></tr><tr><th>Right angle</th><td>${fmt(frame.measurements?.[right], 6)}</td></tr><tr><th>Abs diff</th><td>${fmt(symmetry.absolute_difference, 6)}</td></tr><tr><th>% diff</th><td>${fmt(symmetry.percent_difference, 6)}</td></tr><tr><th>Sym index</th><td>${fmt(symmetry.symmetry_index, 6)}</td></tr></tbody></table></div>`;
+      }).join('');
+    }
+    function selectFrame(index) {
+      if (!frames.length) return;
+      selected = Math.max(0, Math.min(frames.length - 1, index));
+      timeline.value = selected;
+      renderPanels();
+      draw();
+    }
+    document.getElementById('prev').onclick = () => selectFrame(selected - 1);
+    document.getElementById('next').onclick = () => selectFrame(selected + 1);
+    timeline.oninput = () => selectFrame(Number(timeline.value));
+    angleSelect.onchange = () => selectFrame(selected);
+    zoomInput.oninput = () => draw();
+    trailsInput.onchange = () => draw();
+    selectFrame(0);
+  </script>
+</body>
+</html>

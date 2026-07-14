@@ -1,0 +1,174 @@
+{
+  "confidence_summary": [
+    {
+      "confidence_mean": null,
+      "confidence_min": null,
+      "confidence_missing_frames": 3,
+      "frame_count": 3,
+      "landmark_name": "left_shoulder",
+      "visibility_mean": null,
+      "visibility_min": null,
+      "visibility_missing_frames": 3
+    },
+    {
+      "confidence_mean": null,
+      "confidence_min": null,
+      "confidence_missing_frames": 3,
+      "frame_count": 3,
+      "landmark_name": "right_shoulder",
+      "visibility_mean": null,
+      "visibility_min": null,
+      "visibility_missing_frames": 3
+    },
+    {
+      "confidence_mean": null,
+      "confidence_min": null,
+      "confidence_missing_frames": 3,
+      "frame_count": 3,
+      "landmark_name": "left_hip",
+      "visibility_mean": null,
+      "visibility_min": null,
+      "visibility_missing_frames": 3
+    },
+    {
+      "confidence_mean": null,
+      "confidence_min": null,
+      "confidence_missing_frames": 3,
+      "frame_count": 3,
+      "landmark_name": "right_hip",
+      "visibility_mean": null,
+      "visibility_min": null,
+      "visibility_missing_frames": 3
+    },
+    {
+      "confidence_mean": null,
+      "confidence_min": null,
+      "confidence_missing_frames": 3,
+      "frame_count": 3,
+      "landmark_name": "left_knee",
+      "visibility_mean": null,
+      "visibility_min": null,
+      "visibility_missing_frames": 3
+    },
+    {
+      "confidence_mean": null,
+      "confidence_min": null,
+      "confidence_missing_frames": 3,
+      "frame_count": 3,
+      "landmark_name": "right_knee",
+      "visibility_mean": null,
+      "visibility_min": null,
+      "visibility_missing_frames": 3
+    },
+    {
+      "confidence_mean": null,
+      "confidence_min": null,
+      "confidence_missing_frames": 3,
+      "frame_count": 3,
+      "landmark_name": "left_ankle",
+      "visibility_mean": null,
+      "visibility_min": null,
+      "visibility_missing_frames": 3
+    },
+    {
+      "confidence_mean": null,
+      "confidence_min": null,
+      "confidence_missing_frames": 3,
+      "frame_count": 3,
+      "landmark_name": "right_ankle",
+      "visibility_mean": null,
+      "visibility_min": null,
+      "visibility_missing_frames": 3
+    }
+  ],
+  "findings": [
+    {
+      "status": "Unknown",
+      "text": "No frames contained finite left and right hip angles in this run, so hip discrepancy causes cannot be evaluated from available evidence."
+    }
+  ],
+  "hip_discrepancy_summary": {
+    "finite_hip_pair_count": 0,
+    "largest_differences": [],
+    "rank_policy": "Ranked by existing computed abs(hip_flexion_left - hip_flexion_right); no clinical threshold is applied."
+  },
+  "measurement_definitions": [
+    {
+      "convention": "Unsigned internal 3D vector angle from MediaPipe landmark coordinates.",
+      "expected_range_degrees": "0 to 180 when vectors are finite and nonzero; NaN otherwise.",
+      "formula": "degrees(arccos(clip(dot(vector_a, vector_b) / (||vector_a|| * ||vector_b||), -1, 1)))",
+      "interpretation_boundary": "MediaPipe-derived geometric approximation; not laboratory inverse kinematics or a clinical score.",
+      "landmarks": "right_shoulder -> right_hip -> right_knee",
+      "signal": "hip_flexion_right",
+      "vector_a": "right_shoulder - right_hip",
+      "vector_b": "right_knee - right_hip",
+      "vertex": "right_hip"
+    },
+    {
+      "convention": "Unsigned internal 3D vector angle from MediaPipe landmark coordinates.",
+      "expected_range_degrees": "0 to 180 when vectors are finite and nonzero; NaN otherwise.",
+      "formula": "degrees(arccos(clip(dot(vector_a, vector_b) / (||vector_a|| * ||vector_b||), -1, 1)))",
+      "interpretation_boundary": "MediaPipe-derived geometric approximation; not laboratory inverse kinematics or a clinical score.",
+      "landmarks": "left_shoulder -> left_hip -> left_knee",
+      "signal": "hip_flexion_left",
+      "vector_a": "left_shoulder - left_hip",
+      "vector_b": "left_knee - left_hip",
+      "vertex": "left_hip"
+    },
+    {
+      "convention": "Unsigned internal 3D vector angle from MediaPipe landmark coordinates.",
+      "expected_range_degrees": "0 to 180 when vectors are finite and nonzero; NaN otherwise.",
+      "formula": "degrees(arccos(clip(dot(vector_a, vector_b) / (||vector_a|| * ||vector_b||), -1, 1)))",
+      "interpretation_boundary": "MediaPipe-derived geometric approximation; not laboratory inverse kinematics or a clinical score.",
+      "landmarks": "right_hip -> right_knee -> right_ankle",
+      "signal": "knee_flexion_right",
+      "vector_a": "right_hip - right_knee",
+      "vector_b": "right_ankle - right_knee",
+      "vertex": "right_knee"
+    },
+    {
+      "convention": "Unsigned internal 3D vector angle from MediaPipe landmark coordinates.",
+      "expected_range_degrees": "0 to 180 when vectors are finite and nonzero; NaN otherwise.",
+      "formula": "degrees(arccos(clip(dot(vector_a, vector_b) / (||vector_a|| * ||vector_b||), -1, 1)))",
+      "interpretation_boundary": "MediaPipe-derived geometric approximation; not laboratory inverse kinematics or a clinical score.",
+      "landmarks": "left_hip -> left_knee -> left_ankle",
+      "signal": "knee_flexion_left",
+      "vector_a": "left_hip - left_knee",
+      "vector_b": "left_ankle - left_knee",
+      "vertex": "left_knee"
+    },
+    {
+      "convention": "Unsigned internal 3D vector angle from MediaPipe landmark coordinates.",
+      "expected_range_degrees": "0 to 180 when vectors are finite and nonzero; NaN otherwise.",
+      "formula": "degrees(arccos(clip(dot(vector_a, vector_b) / (||vector_a|| * ||vector_b||), -1, 1)))",
+      "interpretation_boundary": "MediaPipe-derived geometric approximation; not laboratory inverse kinematics or a clinical score.",
+      "landmarks": "right_knee -> right_ankle -> right_foot_index",
+      "signal": "ankle_angle_right",
+      "vector_a": "right_knee - right_ankle",
+      "vector_b": "right_foot_index - right_ankle",
+      "vertex": "right_ankle"
+    },
+    {
+      "convention": "Unsigned internal 3D vector angle from MediaPipe landmark coordinates.",
+      "expected_range_degrees": "0 to 180 when vectors are finite and nonzero; NaN otherwise.",
+      "formula": "degrees(arccos(clip(dot(vector_a, vector_b) / (||vector_a|| * ||vector_b||), -1, 1)))",
+      "interpretation_boundary": "MediaPipe-derived geometric approximation; not laboratory inverse kinematics or a clinical score.",
+      "landmarks": "left_knee -> left_ankle -> left_foot_index",
+      "signal": "ankle_angle_left",
+      "vector_a": "left_knee - left_ankle",
+      "vector_b": "left_foot_index - left_ankle",
+      "vertex": "left_ankle"
+    }
+  ],
+  "recommendations": [
+    "Use Measurement Debug Mode to visually inspect ranked frames before considering any formula change.",
+    "If recurrent discrepancies coincide with low shoulder, hip, or knee visibility, document the affected frames as measurement-quality concerns rather than changing biomechanics automatically.",
+    "Do not alter the hip angle definition without paired validation data or an explicitly approved future scientific prompt."
+  ],
+  "scope": {
+    "measurement_values_recomputed": false,
+    "notes": "Angles, deltas, symmetry values, landmarks, confidence, and visibility are read from existing frame records.",
+    "purpose": "Investigate observed left/right hip measurement differences using existing diagnostic outputs.",
+    "scientific_pipeline_modified": false
+  }
+}
