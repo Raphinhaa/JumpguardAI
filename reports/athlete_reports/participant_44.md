@@ -116,6 +116,10 @@ This report is descriptive and dataset-relative. It does not provide medical dia
 
 _No rows available._
 
+## Evidence-Based ACL Biomechanical Observations
+
+_No rows available._
+
 ## Literature Context
 
 | feature | category | concept | literature_language | source |

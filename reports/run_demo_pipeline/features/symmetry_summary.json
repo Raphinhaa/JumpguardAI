@@ -1,17 +1,17 @@
 {
   "ankle_angle": {
-    "rom_absolute_difference": 2.934752627610081,
-    "rom_percent_difference": 6.766477543627615,
-    "rom_symmetry_index": -6.766477543627615
+    "rom_absolute_difference": 5.537123878611254,
+    "rom_percent_difference": 15.105129553851986,
+    "rom_symmetry_index": -15.105129553851986
   },
   "hip_flexion": {
-    "rom_absolute_difference": 12.782886224642738,
-    "rom_percent_difference": 13.928710558901301,
-    "rom_symmetry_index": 13.928710558901301
+    "rom_absolute_difference": 39.65230615435047,
+    "rom_percent_difference": 41.29179582382805,
+    "rom_symmetry_index": 41.29179582382805
   },
   "knee_flexion": {
-    "rom_absolute_difference": 1.679717361837902,
-    "rom_percent_difference": 2.2874782639923374,
-    "rom_symmetry_index": -2.2874782639923374
+    "rom_absolute_difference": 48.01472827881244,
+    "rom_percent_difference": 57.54744438180654,
+    "rom_symmetry_index": 57.54744438180654
   }
 }

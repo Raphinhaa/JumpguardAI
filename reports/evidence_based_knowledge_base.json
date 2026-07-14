@@ -1,0 +1,90 @@
+[
+  {
+    "dataset_comparison_method": "Report only measured knee-flexion features at or below the 5th percentile or at or above the 95th percentile of the reference dataset.",
+    "description": "Knee sagittal-plane flexion features from Prompt 11.",
+    "evidence_based_interpretation": "Sagittal-plane knee flexion is commonly evaluated in jump-landing ACL biomechanics. Prospective and clinical jump-landing studies discuss knee mechanics as part of neuromuscular-control assessment.",
+    "evidence_strength": "Moderate for movement-context interpretation; not sufficient for diagnosis or prediction from this feature alone.",
+    "feature_patterns": [
+      "knee_flexion"
+    ],
+    "limitation": "This observation is descriptive and dataset-relative. It is not diagnostic, does not predict ACL injury, and does not establish tissue status or ligament integrity.",
+    "rule_id": "sagittal_knee_flexion",
+    "suggested_clinical_consideration": "Consider reviewing the landing video and full lower-extremity movement pattern with a qualified clinician or biomechanist.",
+    "supporting_literature": [
+      {
+        "citation": "Hewett TE, Myer GD, Ford KR, Heidt RS Jr, Colosimo AJ, McLean SG, van den Bogert AJ, Paterno MV, Succop P. Biomechanical measures of neuromuscular control and valgus loading of the knee predict anterior cruciate ligament injury risk in female athletes: a prospective study. Am J Sports Med. 2005;33(4):492-501.",
+        "doi": "10.1177/0363546504269591",
+        "pmid": "15722287",
+        "url": "https://doi.org/10.1177/0363546504269591"
+      },
+      {
+        "citation": "Padua DA, Marshall SW, Boling MC, Thigpen CA, Garrett WE Jr, Beutler AI. The Landing Error Scoring System (LESS) is a valid and reliable clinical assessment tool of jump-landing biomechanics: The JUMP-ACL study. Am J Sports Med. 2009;37(10):1996-2002.",
+        "doi": "10.1177/0363546509343200",
+        "pmid": "19726623",
+        "url": "https://doi.org/10.1177/0363546509343200"
+      }
+    ]
+  },
+  {
+    "dataset_comparison_method": "Report only measured hip-flexion features at or below the 5th percentile or at or above the 95th percentile of the reference dataset.",
+    "description": "Hip sagittal-plane flexion features from Prompt 11.",
+    "evidence_based_interpretation": "Hip flexion is part of sagittal-plane landing strategy and is considered alongside trunk, knee, and ankle mechanics in jump-landing assessment research.",
+    "evidence_strength": "Limited-to-moderate for movement-context interpretation; this project does not measure trunk motion or joint moments.",
+    "feature_patterns": [
+      "hip_flexion"
+    ],
+    "limitation": "This observation is descriptive and dataset-relative. It is not diagnostic, does not predict ACL injury, and does not establish tissue status or ligament integrity.",
+    "rule_id": "sagittal_hip_strategy",
+    "suggested_clinical_consideration": "Consider reviewing whether the observed hip strategy is consistent across trials and with the athlete's task context.",
+    "supporting_literature": [
+      {
+        "citation": "Padua DA, Marshall SW, Boling MC, Thigpen CA, Garrett WE Jr, Beutler AI. The Landing Error Scoring System (LESS) is a valid and reliable clinical assessment tool of jump-landing biomechanics: The JUMP-ACL study. Am J Sports Med. 2009;37(10):1996-2002.",
+        "doi": "10.1177/0363546509343200",
+        "pmid": "19726623",
+        "url": "https://doi.org/10.1177/0363546509343200"
+      }
+    ]
+  },
+  {
+    "dataset_comparison_method": "Report only measured ankle-angle features at or below the 5th percentile or at or above the 95th percentile of the reference dataset.",
+    "description": "Ankle sagittal-plane angle features from Prompt 11.",
+    "evidence_based_interpretation": "Ankle position is one component of lower-extremity jump-landing assessment. This interpretation is limited to descriptive sagittal-plane movement context.",
+    "evidence_strength": "Limited for ACL-specific interpretation from ankle angle alone.",
+    "feature_patterns": [
+      "ankle_angle"
+    ],
+    "limitation": "This observation is descriptive and dataset-relative. It is not diagnostic, does not predict ACL injury, and does not establish tissue status or ligament integrity.",
+    "rule_id": "sagittal_ankle_strategy",
+    "suggested_clinical_consideration": "Consider ankle observations only in combination with the full landing pattern and source video review.",
+    "supporting_literature": [
+      {
+        "citation": "Padua DA, Marshall SW, Boling MC, Thigpen CA, Garrett WE Jr, Beutler AI. The Landing Error Scoring System (LESS) is a valid and reliable clinical assessment tool of jump-landing biomechanics: The JUMP-ACL study. Am J Sports Med. 2009;37(10):1996-2002.",
+        "doi": "10.1177/0363546509343200",
+        "pmid": "19726623",
+        "url": "https://doi.org/10.1177/0363546509343200"
+      }
+    ]
+  },
+  {
+    "dataset_comparison_method": "Report only measured bilateral symmetry features at or below the 5th percentile or at or above the 95th percentile of the reference dataset.",
+    "description": "Bilateral ROM symmetry features from Prompt 11.",
+    "evidence_based_interpretation": "Bilateral movement asymmetry is commonly examined in ACL rehabilitation and return-to-sport biomechanics. Prompt 11 symmetry features describe joint-angle ROM symmetry only and are not equivalent to hop-test or kinetic limb-symmetry criteria.",
+    "evidence_strength": "Moderate for general asymmetry context; limited for ROM-only MediaPipe-derived symmetry interpretation.",
+    "feature_patterns": [
+      "absolute_difference",
+      "percent_difference",
+      "symmetry_index"
+    ],
+    "limitation": "This observation is descriptive and dataset-relative. It is not diagnostic, does not predict ACL injury, and does not establish tissue status or ligament integrity.",
+    "rule_id": "bilateral_rom_symmetry",
+    "suggested_clinical_consideration": "Consider comparing the symmetry observation with video review, task consistency, and any clinician-collected strength or functional tests when available.",
+    "supporting_literature": [
+      {
+        "citation": "Paterno MV, Schmitt LC, Ford KR, Rauh MJ, Myer GD, Huang B, Hewett TE. Biomechanical measures during landing and postural stability predict second anterior cruciate ligament injury after anterior cruciate ligament reconstruction and return to sport. Am J Sports Med. 2010;38(10):1968-1978.",
+        "doi": "10.1177/0363546510376053",
+        "pmid": "20702858",
+        "url": "https://doi.org/10.1177/0363546510376053"
+      }
+    ]
+  }
+]

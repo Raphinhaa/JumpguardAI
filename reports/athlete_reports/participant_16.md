@@ -119,6 +119,12 @@ This report is descriptive and dataset-relative. It does not provide medical dia
 | 16 | ankle | ankle_angle_right_maximum | 39.46 | 95.24 | 1.325 | above the reference mean by 1.33 SD | The athlete's ankle_angle_right_maximum value is 39.5, which is above the dataset mean and at percentile 95.2. This is a descriptive ankle observation, not a diagnosis or injury prediction. | Ankle sagittal-plane mechanics | Ankle motion is commonly evaluated with hip and knee motion when describing lower-extremity landing mechanics. | Padua et al. 2009, Am J Sports Med; https://doi.org/10.1177/0363546509343200 |
 | 16 | ankle | ankle_angle_right_minimum | -26.01 | 95.24 | 2.246 | above the reference mean by 2.25 SD | The athlete's ankle_angle_right_minimum value is -26, which is above the dataset mean and at percentile 95.2. This is a descriptive ankle observation, not a diagnosis or injury prediction. | Ankle sagittal-plane mechanics | Ankle motion is commonly evaluated with hip and knee motion when describing lower-extremity landing mechanics. | Padua et al. 2009, Am J Sports Med; https://doi.org/10.1177/0363546509343200 |
 
+## Evidence-Based ACL Biomechanical Observations
+
+| comparison_performed | evidence_based_explanation | evidence_strength | features_used | limitation | literature_sources | observation_id | participant_id | safety_label | suggested_clinical_consideration | supporting_features | title |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2 supporting feature(s) fell outside the reference dataset's central 90% interval (0 low-tail, 2 high-tail). This is a dataset-relative comparison, not a clinical threshold. | Ankle position is one component of lower-extremity jump-landing assessment. This interpretation is limited to descriptive sagittal-plane movement context. | Limited for ACL-specific interpretation from ankle angle alone. | ['ankle_angle_right_maximum', 'ankle_angle_right_minimum'] | This observation is descriptive and dataset-relative. It is not diagnostic, does not predict ACL injury, and does not establish tissue status or ligament integrity. | [{'citation': 'Padua DA, Marshall SW, Boling MC, Thigpen CA, Garrett WE Jr, Beutler AI. The Landing Error Scoring System (LESS) is a valid and reliable clinical assessment tool of jump-landing biomechanics: The JUMP-ACL study. Am J Sports Med. 2009;37(10):1996-2002.', 'doi': '10.1177/0363546509343200', 'pmid': '19726623', 'url': 'https://doi.org/10.1177/0363546509343200'}] | participant_16_sagittal_ankle_strategy | 16 | context_only_not_diagnosis_not_prediction | Consider ankle observations only in combination with the full landing pattern and source video review. | [{'feature': 'ankle_angle_right_maximum', 'measured_value': 39.46223015, 'reference_mean': 35.57036248, 'reference_p05': 30.43103622, 'reference_p95': 39.45644899, 'reference_percentile': 95.23809524, 'reference_std': 2.936840335, 'reference_tail': 'high_reference_tail', 'z_score': 1.325188717}, {'feature': 'ankle_angle_right_minimum', 'measured_value': -26.00852694, 'reference_mean': -36.49346289, 'reference_p05': -39.60625251, 'reference_p95': -26.17739181, 'reference_percentile': 95.23809524, 'reference_std': 4.668166396, 'reference_tail': 'high_reference_tail', 'z_score': 2.246050175}] | Ankle sagittal-plane angle features from Prompt 11. |
+
 ## Literature Context
 
 | feature | category | concept | literature_language | source |
@@ -129,8 +135,4 @@ This report is descriptive and dataset-relative. It does not provide medical dia
 
 ## Visualizations
 
-- distribution_plots: `reports/athlete_reports/participant_16_assets/distribution_plots.png`
-- percentile_comparison: `reports/athlete_reports/participant_16_assets/percentile_comparison.png`
-- population_comparison: `reports/athlete_reports/participant_16_assets/population_comparison.png`
-- radar_chart: `reports/athlete_reports/participant_16_assets/radar_chart.png`
-- symmetry_comparison: `reports/athlete_reports/participant_16_assets/symmetry_comparison.png`
+- No visualizations generated because no observed athlete feature values were available.

@@ -48,9 +48,17 @@ def test_markdown_html_and_json_exports(tmp_path: Path) -> None:
     assert payload["participant_id"] == 1
     assert "overview" in payload
     assert "population_comparison" in payload
+    assert "evidence_based_observations" in payload
     assert "# Athlete Report: Participant 1" in markdown
+    assert "Evidence-Based ACL Biomechanical Observations" in markdown
     assert "<html" in html
+    assert "evidence-card" in html
+    assert "measurement-table" in html
+    assert "<pre>[" not in html
     assert "medical diagnosis" in payload["safety_statement"]
+    assert len(list((tmp_path / "participant_01_assets" / "evidence").glob("*.png"))) == (
+        2 * len(report.evidence_based_observations)
+    )
 
 
 def test_visualization_export(tmp_path: Path) -> None:

@@ -9,6 +9,7 @@ import json
 import numpy as np
 import pandas as pd
 import pytest
+import cv2
 
 from src.feature_extraction import FeatureExtractor
 from src.pipeline import JumpGuardPipeline, PipelineExecutionError
@@ -124,16 +125,41 @@ def test_process_video_creates_complete_run_package(tmp_path: Path) -> None:
         "athlete_report_html",
         "dashboard_json",
         "dashboard_html",
+        "evidence_observations_json",
+        "evidence_knowledge_base_json",
         "metadata",
     ):
         assert Path(result.generated_files[key]).exists(), key
+
+    video_path = Path(result.generated_files["video"])
+    assert video_path.suffix in {".mp4", ".avi"}
+    assert (run_dir / "video" / "sample_video_annotated.avi").exists()
+    if video_path.suffix == ".mp4":
+        assert video_path.name == "sample_video_annotated.mp4"
+    assert _video_frame_count(video_path) == result.metadata["frame_count"]
+    assert not np.array_equal(_first_frame(video_path), _first_frame(Path("reports/video_processing/sample_video.avi")))
 
     feature_table = pd.read_csv(run_dir / "features" / "feature_table.csv")
     assert feature_table.shape == (1, 62)
     assert feature_table.loc[0, "trial_name"] == "sample_video.avi"
     dashboard_text = (run_dir / "dashboard" / "index.html").read_text(encoding="utf-8").lower()
+    report_payload = json.loads((run_dir / "athlete_report" / "athlete_report.json").read_text(encoding="utf-8"))
+    dashboard_payload = json.loads((run_dir / "dashboard" / "dashboard_payload.json").read_text(encoding="utf-8"))
+    evidence_payload = json.loads((run_dir / "evidence_based_observations.json").read_text(encoding="utf-8"))
     assert "risk score" not in dashboard_text
     assert "no clinical interpretations" in dashboard_text
+    assert report_payload["video"] == str(video_path)
+    assert dashboard_payload["video"] == str(video_path)
+    assert report_payload["evidence_based_observations"] == evidence_payload
+    assert dashboard_payload["evidence_based_observations"] == evidence_payload
+    report_html = (run_dir / "athlete_report" / "athlete_report.html").read_text(encoding="utf-8")
+    assert "evidence-card" in report_html
+    assert "measurement-table" in report_html
+    evidence_section = report_html.split("<section class=\"simple-card\"><h2>Feature Table</h2>", 1)[0]
+    assert "<pre>[" not in evidence_section
+    assert len(list((run_dir / "athlete_report" / "evidence_assets").glob("*.png"))) == (
+        2 * len(evidence_payload)
+    )
 
 
 def test_pipeline_artifacts_are_deterministic_for_same_inputs(tmp_path: Path) -> None:
@@ -175,3 +201,21 @@ def test_process_video_failure_writes_metadata(tmp_path: Path) -> None:
     assert metadata["frame_count"] is None
     assert "unsupported video format" in metadata["error"].lower()
     assert exc_info.value.result.generated_files["metadata"] == str(metadata_path)
+
+
+def _first_frame(video_path: Path) -> np.ndarray:
+    capture = cv2.VideoCapture(str(video_path))
+    try:
+        ok, frame = capture.read()
+        assert ok, video_path
+        return frame
+    finally:
+        capture.release()
+
+
+def _video_frame_count(video_path: Path) -> int:
+    capture = cv2.VideoCapture(str(video_path))
+    try:
+        return int(capture.get(cv2.CAP_PROP_FRAME_COUNT))
+    finally:
+        capture.release()

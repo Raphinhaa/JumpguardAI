@@ -25,6 +25,7 @@ def test_show_athlete_and_missing_data() -> None:
     assert athlete["participant_id"] == 1
     assert athlete["missing_feature_count"] == 0
     assert athlete["observations"]
+    assert "evidence_based_observations" in athlete
     assert empty["participant_id"] == 44
     assert empty["missing_feature_count"] == 57
     assert empty["observations"] == []
@@ -73,8 +74,16 @@ def test_dashboard_payload_and_html_renderer() -> None:
     payload = dashboard.dashboard_payload()
     html = render_dashboard_html(payload)
 
-    assert set(payload) >= {"athletes", "features", "population", "plot_gallery", "reports"}
+    assert set(payload) >= {
+        "athletes",
+        "features",
+        "population",
+        "plot_gallery",
+        "reports",
+        "evidence_based_observations",
+    }
     assert "JumpGuard AI Dashboard" in html
+    assert "Evidence-Based Observations" in html
     assert "athleteSelector" in html
     assert "featureSelector" in html
 

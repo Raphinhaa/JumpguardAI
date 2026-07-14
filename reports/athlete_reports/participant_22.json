@@ -370,6 +370,7 @@
       }
     ]
   },
+  "evidence_based_observations": [],
   "literature_context": [
     {
       "category": "ankle",
@@ -1140,11 +1141,5 @@
       "z_score": 0.06041009228
     }
   ],
-  "visualizations": {
-    "distribution_plots": "reports/athlete_reports/participant_22_assets/distribution_plots.png",
-    "percentile_comparison": "reports/athlete_reports/participant_22_assets/percentile_comparison.png",
-    "population_comparison": "reports/athlete_reports/participant_22_assets/population_comparison.png",
-    "radar_chart": "reports/athlete_reports/participant_22_assets/radar_chart.png",
-    "symmetry_comparison": "reports/athlete_reports/participant_22_assets/symmetry_comparison.png"
-  }
+  "visualizations": {}
 }

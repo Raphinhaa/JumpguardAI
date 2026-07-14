@@ -1,0 +1,45 @@
+{
+  "frame_index": [
+    0,
+    8,
+    16
+  ],
+  "measurements": {
+    "ankle_angle_left": [
+      null,
+      null,
+      null
+    ],
+    "ankle_angle_right": [
+      null,
+      null,
+      null
+    ],
+    "hip_flexion_left": [
+      null,
+      null,
+      null
+    ],
+    "hip_flexion_right": [
+      null,
+      null,
+      null
+    ],
+    "knee_flexion_left": [
+      null,
+      null,
+      null
+    ],
+    "knee_flexion_right": [
+      null,
+      null,
+      null
+    ]
+  },
+  "policy": "Frame-level series only; no event inference or interpolation.",
+  "timestamp": [
+    0.0,
+    0.6666666666666666,
+    1.3333333333333333
+  ]
+}

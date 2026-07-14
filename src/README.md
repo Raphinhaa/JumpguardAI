@@ -31,6 +31,8 @@ Current core data modules:
   MediaPipe landmarks using documented vector geometry
 - `pipeline.py`: end-to-end uploaded-video orchestration across existing
   video, pose, landmark-feature, report, and dashboard layers
+- `evidence_interpretation.py`: literature-traceable, dataset-relative
+  biomechanical interpretation layer without ACL prediction or risk scoring
 
 Machine learning and risk assessment build on these objects and feature tables
 in later milestones.

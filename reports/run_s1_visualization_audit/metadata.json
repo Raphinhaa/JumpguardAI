@@ -1,0 +1,73 @@
+{
+  "error": null,
+  "execution_timestamp": "2026-07-10T14:59:55.603894+00:00",
+  "feature_count": 57,
+  "frame_count": 92,
+  "log": [
+    {
+      "elapsed_seconds": 0.012555333320051432,
+      "message": "Loaded jump.mp4",
+      "stage": "video_loaded"
+    },
+    {
+      "elapsed_seconds": 2.41073404205963,
+      "message": "Exported MediaPipe landmarks",
+      "stage": "pose_estimated"
+    },
+    {
+      "elapsed_seconds": 2.9508660002611578,
+      "message": "Exported annotated MediaPipe video",
+      "stage": "video_annotated"
+    },
+    {
+      "elapsed_seconds": 3.86244387505576,
+      "message": "Exported Prompt-3-compatible features",
+      "stage": "features_extracted"
+    },
+    {
+      "elapsed_seconds": 3.864429083187133,
+      "message": "Generated run-local athlete report",
+      "stage": "report_generated"
+    },
+    {
+      "elapsed_seconds": 3.8658934170380235,
+      "message": "Generated run-local dashboard",
+      "stage": "dashboard_generated"
+    }
+  ],
+  "mediapipe_version": "0.10.35",
+  "output_locations": {
+    "athlete_report_html": "reports/run_s1_visualization_audit/athlete_report/athlete_report.html",
+    "athlete_report_json": "reports/run_s1_visualization_audit/athlete_report/athlete_report.json",
+    "athlete_report_markdown": "reports/run_s1_visualization_audit/athlete_report/athlete_report.md",
+    "dashboard_html": "reports/run_s1_visualization_audit/dashboard/index.html",
+    "dashboard_json": "reports/run_s1_visualization_audit/dashboard/dashboard_payload.json",
+    "features_feature_statistics": "reports/run_s1_visualization_audit/features/feature_statistics.json",
+    "features_feature_table_csv": "reports/run_s1_visualization_audit/features/feature_table.csv",
+    "features_feature_table_json": "reports/run_s1_visualization_audit/features/feature_table.json",
+    "features_landing_events": "reports/run_s1_visualization_audit/features/landing_events.json",
+    "features_plot_0": "reports/run_s1_visualization_audit/features/plots/joint_angles.png",
+    "features_plot_1": "reports/run_s1_visualization_audit/features/plots/rom.png",
+    "features_plot_2": "reports/run_s1_visualization_audit/features/plots/symmetry.png",
+    "features_plot_3": "reports/run_s1_visualization_audit/features/plots/feature_preview.png",
+    "features_symmetry_summary": "reports/run_s1_visualization_audit/features/symmetry_summary.json",
+    "features_trajectory_features": "reports/run_s1_visualization_audit/features/trajectory_features.json",
+    "landmarks_csv": "reports/run_s1_visualization_audit/landmarks/landmarks.csv",
+    "landmarks_json": "reports/run_s1_visualization_audit/landmarks/landmarks.json",
+    "metadata": "reports/run_s1_visualization_audit/metadata.json",
+    "video": "reports/run_s1_visualization_audit/video/jump_annotated.avi"
+  },
+  "predictions_generated": false,
+  "processing_duration_seconds": 3.865893917158246,
+  "status": "success",
+  "video": {
+    "codec": "h264",
+    "duration_seconds": 3.066666666666667,
+    "filename": "jump.mp4",
+    "fps": 30.0,
+    "frame_count": 92,
+    "height": 1080,
+    "path": "data/sample/jump.mp4",
+    "width": 608
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "ankle_angle_left": {
+    "frame_to_frame_movement": [
+      null,
+      null
+    ],
+    "joint_displacement": null,
+    "max_velocity": null,
+    "mean_velocity": null,
+    "total_path_length": null
+  },
+  "ankle_angle_right": {
+    "frame_to_frame_movement": [
+      null,
+      null
+    ],
+    "joint_displacement": null,
+    "max_velocity": null,
+    "mean_velocity": null,
+    "total_path_length": null
+  },
+  "hip_flexion_left": {
+    "frame_to_frame_movement": [
+      null,
+      null
+    ],
+    "joint_displacement": null,
+    "max_velocity": null,
+    "mean_velocity": null,
+    "total_path_length": null
+  },
+  "hip_flexion_right": {
+    "frame_to_frame_movement": [
+      null,
+      null
+    ],
+    "joint_displacement": null,
+    "max_velocity": null,
+    "mean_velocity": null,
+    "total_path_length": null
+  },
+  "knee_flexion_left": {
+    "frame_to_frame_movement": [
+      null,
+      null
+    ],
+    "joint_displacement": null,
+    "max_velocity": null,
+    "mean_velocity": null,
+    "total_path_length": null
+  },
+  "knee_flexion_right": {
+    "frame_to_frame_movement": [
+      null,
+      null
+    ],
+    "joint_displacement": null,
+    "max_velocity": null,
+    "mean_velocity": null,
+    "total_path_length": null
+  }
+}

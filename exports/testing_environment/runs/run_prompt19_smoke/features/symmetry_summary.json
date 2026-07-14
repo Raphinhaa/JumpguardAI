@@ -1,0 +1,17 @@
+{
+  "ankle_angle": {
+    "rom_absolute_difference": null,
+    "rom_percent_difference": null,
+    "rom_symmetry_index": null
+  },
+  "hip_flexion": {
+    "rom_absolute_difference": null,
+    "rom_percent_difference": null,
+    "rom_symmetry_index": null
+  },
+  "knee_flexion": {
+    "rom_absolute_difference": null,
+    "rom_percent_difference": null,
+    "rom_symmetry_index": null
+  }
+}

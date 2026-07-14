@@ -1,0 +1,81 @@
+{
+  "error": null,
+  "execution_timestamp": "2026-07-11T19:35:27.595568+00:00",
+  "feature_count": 57,
+  "frame_count": 92,
+  "log": [
+    {
+      "elapsed_seconds": 0.011079792398959398,
+      "message": "Loaded jump.mp4",
+      "stage": "video_loaded"
+    },
+    {
+      "elapsed_seconds": 2.538967709057033,
+      "message": "Exported MediaPipe landmarks",
+      "stage": "pose_estimated"
+    },
+    {
+      "elapsed_seconds": 3.0687749590724707,
+      "message": "Exported annotated MediaPipe video",
+      "stage": "video_annotated"
+    },
+    {
+      "elapsed_seconds": 3.983758124988526,
+      "message": "Exported Prompt-3-compatible features",
+      "stage": "features_extracted"
+    },
+    {
+      "elapsed_seconds": 4.007669625338167,
+      "message": "Exported evidence-based observations",
+      "stage": "evidence_interpreted"
+    },
+    {
+      "elapsed_seconds": 4.952341750264168,
+      "message": "Generated run-local athlete report",
+      "stage": "report_generated"
+    },
+    {
+      "elapsed_seconds": 4.955273834057152,
+      "message": "Generated run-local dashboard",
+      "stage": "dashboard_generated"
+    }
+  ],
+  "mediapipe_version": "0.10.35",
+  "output_locations": {
+    "athlete_report_html": "reports/run_prompt13_evidence/athlete_report/athlete_report.html",
+    "athlete_report_json": "reports/run_prompt13_evidence/athlete_report/athlete_report.json",
+    "athlete_report_markdown": "reports/run_prompt13_evidence/athlete_report/athlete_report.md",
+    "dashboard_html": "reports/run_prompt13_evidence/dashboard/index.html",
+    "dashboard_json": "reports/run_prompt13_evidence/dashboard/dashboard_payload.json",
+    "evidence_knowledge_base_json": "reports/run_prompt13_evidence/evidence_based_knowledge_base.json",
+    "evidence_observations_csv": "reports/run_prompt13_evidence/evidence_based_observations.csv",
+    "evidence_observations_json": "reports/run_prompt13_evidence/evidence_based_observations.json",
+    "features_feature_statistics": "reports/run_prompt13_evidence/features/feature_statistics.json",
+    "features_feature_table_csv": "reports/run_prompt13_evidence/features/feature_table.csv",
+    "features_feature_table_json": "reports/run_prompt13_evidence/features/feature_table.json",
+    "features_landing_events": "reports/run_prompt13_evidence/features/landing_events.json",
+    "features_plot_0": "reports/run_prompt13_evidence/features/plots/joint_angles.png",
+    "features_plot_1": "reports/run_prompt13_evidence/features/plots/rom.png",
+    "features_plot_2": "reports/run_prompt13_evidence/features/plots/symmetry.png",
+    "features_plot_3": "reports/run_prompt13_evidence/features/plots/feature_preview.png",
+    "features_symmetry_summary": "reports/run_prompt13_evidence/features/symmetry_summary.json",
+    "features_trajectory_features": "reports/run_prompt13_evidence/features/trajectory_features.json",
+    "landmarks_csv": "reports/run_prompt13_evidence/landmarks/landmarks.csv",
+    "landmarks_json": "reports/run_prompt13_evidence/landmarks/landmarks.json",
+    "metadata": "reports/run_prompt13_evidence/metadata.json",
+    "video": "reports/run_prompt13_evidence/video/jump_annotated.avi"
+  },
+  "predictions_generated": false,
+  "processing_duration_seconds": 4.955274375155568,
+  "status": "success",
+  "video": {
+    "codec": "h264",
+    "duration_seconds": 3.066666666666667,
+    "filename": "jump.mp4",
+    "fps": 30.0,
+    "frame_count": 92,
+    "height": 1080,
+    "path": "data/sample/jump.mp4",
+    "width": 608
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "error": null,
+  "experimental_notice": "JumpGuard AI frame-by-frame outputs are clinician-selected measurements only. No landing event, peak flexion moment, initial contact, ACL risk, diagnosis, recommendation, or athlete-versus-reference comparison is inferred.",
+  "generated_files": {
+    "annotated_video": "exports/testing_environment/runs/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_20260713T183044Z/video/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p__annotated.mp4",
+    "annotated_video_debug_avi": "exports/testing_environment/runs/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_20260713T183044Z/video/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p__annotated.avi",
+    "annotated_video_mp4": "exports/testing_environment/runs/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_20260713T183044Z/video/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p__annotated.mp4",
+    "interactive_viewer_html": "exports/testing_environment/runs/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_20260713T183044Z/interactive_viewer.html",
+    "landmarks_csv": "exports/testing_environment/runs/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_20260713T183044Z/landmarks/landmarks.csv",
+    "landmarks_json": "exports/testing_environment/runs/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_20260713T183044Z/landmarks/landmarks.json",
+    "metadata": "exports/testing_environment/runs/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_20260713T183044Z/metadata.json",
+    "per_frame_measurements_csv": "exports/testing_environment/runs/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_20260713T183044Z/measurements/per_frame_measurements.csv",
+    "per_frame_measurements_json": "exports/testing_environment/runs/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_20260713T183044Z/measurements/per_frame_measurements.json",
+    "time_series_json": "exports/testing_environment/runs/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_20260713T183044Z/measurements/time_series.json"
+  },
+  "log_path": "logs/testing_environment/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_20260713T183044Z.log",
+  "manifest_path": "exports/testing_environment/runs/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_20260713T183044Z/testing_environment_manifest.json",
+  "metadata": {
+    "automatic_clinical_interpretation_generated": false,
+    "automatic_reference_comparison_generated": false,
+    "automatic_reports_generated": false,
+    "browser_video_warning": null,
+    "derived_measurement_columns": [
+      "delta_from_previous_frame",
+      "absolute_difference",
+      "percent_difference",
+      "symmetry_index"
+    ],
+    "error": null,
+    "event_detection_generated": false,
+    "execution_timestamp": "2026-07-13T18:30:44.710467+00:00",
+    "frame_count": 152,
+    "log": [
+      {
+        "elapsed_seconds": 0.008763500023633242,
+        "message": "Loaded Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_.mp4",
+        "stage": "video_loaded"
+      },
+      {
+        "elapsed_seconds": 3.3653704579919577,
+        "message": "Exported MediaPipe landmarks",
+        "stage": "pose_estimated"
+      },
+      {
+        "elapsed_seconds": 6.326091666240245,
+        "message": "Exported existing annotated video",
+        "stage": "video_annotated"
+      },
+      {
+        "elapsed_seconds": 6.326094583142549,
+        "message": "Exported browser-compatible annotated MP4",
+        "stage": "video_mp4_exported"
+      },
+      {
+        "elapsed_seconds": 7.170273375231773,
+        "message": "Exported per-frame measurements",
+        "stage": "measurements_exported"
+      },
+      {
+        "elapsed_seconds": 7.2123072082176805,
+        "message": "Exported synchronized viewer",
+        "stage": "interactive_viewer_exported"
+      }
+    ],
+    "measurement_columns": [
+      "hip_flexion_right",
+      "hip_flexion_left",
+      "knee_flexion_right",
+      "knee_flexion_left",
+      "ankle_angle_right",
+      "ankle_angle_left"
+    ],
+    "output_locations": {
+      "annotated_video": "exports/testing_environment/runs/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_20260713T183044Z/video/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p__annotated.mp4",
+      "annotated_video_debug_avi": "exports/testing_environment/runs/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_20260713T183044Z/video/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p__annotated.avi",
+      "annotated_video_mp4": "exports/testing_environment/runs/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_20260713T183044Z/video/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p__annotated.mp4",
+      "interactive_viewer_html": "exports/testing_environment/runs/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_20260713T183044Z/interactive_viewer.html",
+      "landmarks_csv": "exports/testing_environment/runs/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_20260713T183044Z/landmarks/landmarks.csv",
+      "landmarks_json": "exports/testing_environment/runs/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_20260713T183044Z/landmarks/landmarks.json",
+      "metadata": "exports/testing_environment/runs/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_20260713T183044Z/metadata.json",
+      "per_frame_measurements_csv": "exports/testing_environment/runs/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_20260713T183044Z/measurements/per_frame_measurements.csv",
+      "per_frame_measurements_json": "exports/testing_environment/runs/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_20260713T183044Z/measurements/per_frame_measurements.json",
+      "time_series_json": "exports/testing_environment/runs/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_20260713T183044Z/measurements/time_series.json"
+    },
+    "processed_frame_count": 152,
+    "processing_duration_seconds": 7.212317250203341,
+    "selected_frame_policy": "Clinician-controlled frame selection only; no event inference.",
+    "status": "success",
+    "testing_environment": {
+      "app_duration_seconds": 7.214965832885355,
+      "config": {
+        "allowed_extensions": [
+          ".mp4",
+          ".mov",
+          ".avi"
+        ],
+        "annotated_video_codec": "MJPG",
+        "confidence_threshold": null,
+        "frame_skip": 1,
+        "future_model_selection": "mediapipe_pose_landmarker_lite",
+        "input_dir": "exports/testing_environment/uploads",
+        "logs_dir": "logs/testing_environment",
+        "max_upload_mb": 512,
+        "output_dir": "exports/testing_environment/runs"
+      },
+      "experimental_notice": "JumpGuard AI frame-by-frame outputs are clinician-selected measurements only. No landing event, peak flexion moment, initial contact, ACL risk, diagnosis, recommendation, or athlete-versus-reference comparison is inferred.",
+      "run_id": "Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_20260713T183044Z",
+      "status": "success",
+      "workflow": "interactive_frame_by_frame"
+    },
+    "video": {
+      "codec": "h264",
+      "duration_seconds": 5.071733333333333,
+      "filename": "Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_.mp4",
+      "fps": 29.97002997002997,
+      "frame_count": 152,
+      "height": 1080,
+      "path": "exports/testing_environment/uploads/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_20260713T183044Z/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_.mp4",
+      "width": 608
+    }
+  },
+  "run_directory": "exports/testing_environment/runs/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_20260713T183044Z",
+  "run_id": "Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_20260713T183044Z",
+  "status": "success",
+  "uploaded_video": "exports/testing_environment/uploads/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_20260713T183044Z/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_.mp4"
+}

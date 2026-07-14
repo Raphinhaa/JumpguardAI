@@ -1,0 +1,68 @@
+{
+  "automatic_clinical_interpretation_generated": false,
+  "automatic_reference_comparison_generated": false,
+  "automatic_reports_generated": false,
+  "error": null,
+  "event_detection_generated": false,
+  "execution_timestamp": "2026-07-13T14:57:20.859423+00:00",
+  "frame_count": 24,
+  "log": [
+    {
+      "elapsed_seconds": 0.016381874680519104,
+      "message": "Loaded sample_video.avi",
+      "stage": "video_loaded"
+    },
+    {
+      "elapsed_seconds": 0.6158052086830139,
+      "message": "Exported MediaPipe landmarks",
+      "stage": "pose_estimated"
+    },
+    {
+      "elapsed_seconds": 0.6393810836598277,
+      "message": "Exported existing annotated video",
+      "stage": "video_annotated"
+    },
+    {
+      "elapsed_seconds": 0.6566021246835589,
+      "message": "Exported per-frame measurements",
+      "stage": "measurements_exported"
+    },
+    {
+      "elapsed_seconds": 0.6571599589660764,
+      "message": "Exported synchronized viewer",
+      "stage": "interactive_viewer_exported"
+    }
+  ],
+  "measurement_columns": [
+    "hip_flexion_right",
+    "hip_flexion_left",
+    "knee_flexion_right",
+    "knee_flexion_left",
+    "ankle_angle_right",
+    "ankle_angle_left"
+  ],
+  "output_locations": {
+    "annotated_video": "exports/testing_environment/runs/run_prompt19_interactive_smoke/video/sample_video_annotated.avi",
+    "interactive_viewer_html": "exports/testing_environment/runs/run_prompt19_interactive_smoke/interactive_viewer.html",
+    "landmarks_csv": "exports/testing_environment/runs/run_prompt19_interactive_smoke/landmarks/landmarks.csv",
+    "landmarks_json": "exports/testing_environment/runs/run_prompt19_interactive_smoke/landmarks/landmarks.json",
+    "metadata": "exports/testing_environment/runs/run_prompt19_interactive_smoke/metadata.json",
+    "per_frame_measurements_csv": "exports/testing_environment/runs/run_prompt19_interactive_smoke/measurements/per_frame_measurements.csv",
+    "per_frame_measurements_json": "exports/testing_environment/runs/run_prompt19_interactive_smoke/measurements/per_frame_measurements.json",
+    "time_series_json": "exports/testing_environment/runs/run_prompt19_interactive_smoke/measurements/time_series.json"
+  },
+  "processed_frame_count": 3,
+  "processing_duration_seconds": 0.6571648749522865,
+  "selected_frame_policy": "Clinician-controlled frame selection only; no event inference.",
+  "status": "success",
+  "video": {
+    "codec": "MJPG",
+    "duration_seconds": 2.0,
+    "filename": "sample_video.avi",
+    "fps": 12.0,
+    "frame_count": 24,
+    "height": 64,
+    "path": "reports/video_processing/sample_video.avi",
+    "width": 96
+  }
+}

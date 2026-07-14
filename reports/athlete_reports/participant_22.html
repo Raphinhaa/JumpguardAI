@@ -2,10 +2,42 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Athlete Report 22</title>
-<style>body{font-family:Arial,sans-serif;line-height:1.45;max-width:1100px;margin:32px auto;padding:0 20px;}pre{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;white-space:pre-wrap;}h1,h2,h3{color:#1f2933;}p{color:#263238;}</style>
+<style>
+:root{--ink:#1f2933;--muted:#52606d;--line:#d9e2ec;--panel:#ffffff;--soft:#f7f9fb;--accent:#315a7d;--accent-soft:#e7eef5;--ok:#4d7c59;--warn:#a86816;--low:#2f6f9f;}
+body{font-family:Arial,Helvetica,sans-serif;line-height:1.5;color:var(--ink);background:#f4f7fa;margin:0;}
+.report-shell{max-width:1180px;margin:0 auto;padding:32px 24px 48px;}
+.report-header{background:#102a43;color:#fff;padding:28px 32px;border-radius:8px;margin-bottom:22px;}
+.report-header h1{margin:0 0 8px;font-size:28px;letter-spacing:0;}
+.report-header p{margin:0;color:#dbe8f4;}
+.summary-card,.evidence-card,.simple-card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:20px;margin:18px 0;box-shadow:0 1px 2px rgba(16,42,67,.05);}
+.evidence-section h2{font-size:24px;margin:26px 0 8px;color:#102a43;}
+.section-note,.muted{color:var(--muted);}
+.evidence-card h3{margin:0;color:#102a43;font-size:21px;}
+.card-meta{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 16px;}
+.badge{display:inline-block;border:1px solid var(--line);background:var(--accent-soft);color:#17324d;border-radius:999px;padding:4px 10px;font-size:12px;font-weight:700;}
+.evidence-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(280px,.9fr);gap:18px;align-items:start;}
+.prose-block h4,.measurement-block h4,.literature-block h4{margin:16px 0 6px;color:#243b53;font-size:15px;text-transform:uppercase;letter-spacing:.03em;}
+.prose-block p{margin:0 0 10px;color:#263238;}
+.measurement-table{width:100%;border-collapse:collapse;font-size:13px;background:#fff;border:1px solid var(--line);}
+.measurement-table th{background:#eef3f8;text-align:left;color:#243b53;font-weight:700;border-bottom:1px solid var(--line);padding:9px;}
+.measurement-table td{border-bottom:1px solid #edf2f7;padding:8px 9px;vertical-align:top;}
+.measurement-table tr:nth-child(even) td{background:#fbfdff;}
+.figure-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:14px;}
+.figure-grid figure{margin:0;border:1px solid var(--line);border-radius:6px;background:#fff;padding:10px;}
+.figure-grid img{display:block;width:100%;height:auto;}
+.figure-grid figcaption{font-size:12px;color:var(--muted);margin-top:6px;}
+.literature-list{margin:8px 0 0;padding-left:18px;}
+.literature-list li{margin-bottom:8px;}
+.literature-list a{color:#0b65c2;text-decoration:none;}
+.literature-list a:hover{text-decoration:underline;}
+.limitation{border-left:4px solid #bcccdc;background:#f8fafc;padding:10px 12px;color:#394b59;}
+@media(max-width:900px){.evidence-grid{grid-template-columns:1fr}.report-shell{padding:18px 14px}.report-header{border-radius:0;margin:0 -14px 18px}.measurement-table{font-size:12px}}
+body{background:#f4f7fa;}pre{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;white-space:pre-wrap;}h1,h2,h3{color:#1f2933;}p{color:#263238;}</style>
 </head>
 <body>
+<main class="report-shell">
 <h1>Athlete Report: Participant 22</h1>
 <p>This report is descriptive and dataset-relative. It does not provide medical diagnosis, treatment advice, injury prediction, or probabilistic injury estimates.</p>
 <h2>Athlete Overview</h2>
@@ -107,6 +139,7 @@
 <pre>| 22 | knee_flexion_rom_symmetry_index | -0.05306 | 54.76 | 0.06041 | -0.184 | 2.168 | -3.601 | 2.858 |</pre>
 <h2>Biomechanical Observations</h2>
 <p>_No rows available._</p>
+<section class="evidence-section"><h2>Evidence-Based ACL Biomechanical Observations</h2><p class="muted">No evidence-based observations generated.</p></section>
 <h2>Literature Context</h2>
 <pre>| feature | category | concept | literature_language | source |</pre>
 <pre>| --- | --- | --- | --- | --- |</pre>
@@ -114,10 +147,7 @@
 <pre>| hip_flexion_right_mean | hip | Hip sagittal-plane mechanics | Hip flexion and trunk-lower-extremity strategy are discussed in landing biomechanics literature as part of movement-pattern assessment. | Padua et al. 2009, Am J Sports Med; https://doi.org/10.1177/0363546509343200 |</pre>
 <pre>| knee_flexion_right_mean | knee | Knee sagittal-plane mechanics | Knee flexion during landing is commonly evaluated in ACL biomechanics and jump-landing movement-quality literature. | Hewett et al. 2005, Am J Sports Med; https://doi.org/10.1177/0363546504269591 |</pre>
 <h2>Visualizations</h2>
-<p>- distribution_plots: `reports/athlete_reports/participant_22_assets/distribution_plots.png`</p>
-<p>- percentile_comparison: `reports/athlete_reports/participant_22_assets/percentile_comparison.png`</p>
-<p>- population_comparison: `reports/athlete_reports/participant_22_assets/population_comparison.png`</p>
-<p>- radar_chart: `reports/athlete_reports/participant_22_assets/radar_chart.png`</p>
-<p>- symmetry_comparison: `reports/athlete_reports/participant_22_assets/symmetry_comparison.png`</p>
+<p>- No visualizations generated because no observed athlete feature values were available.</p>
+</main>
 </body>
 </html>

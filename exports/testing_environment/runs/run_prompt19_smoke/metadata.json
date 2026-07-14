@@ -1,0 +1,81 @@
+{
+  "error": null,
+  "execution_timestamp": "2026-07-13T14:23:35.757632+00:00",
+  "feature_count": 57,
+  "frame_count": 24,
+  "log": [
+    {
+      "elapsed_seconds": 0.017172124702483416,
+      "message": "Loaded sample_video.avi",
+      "stage": "video_loaded"
+    },
+    {
+      "elapsed_seconds": 0.6115196249447763,
+      "message": "Exported MediaPipe landmarks",
+      "stage": "pose_estimated"
+    },
+    {
+      "elapsed_seconds": 0.6382232089526951,
+      "message": "Exported annotated MediaPipe video",
+      "stage": "video_annotated"
+    },
+    {
+      "elapsed_seconds": 1.0593834170140326,
+      "message": "Exported Prompt-3-compatible features",
+      "stage": "features_extracted"
+    },
+    {
+      "elapsed_seconds": 1.067086874973029,
+      "message": "Exported evidence-based observations",
+      "stage": "evidence_interpreted"
+    },
+    {
+      "elapsed_seconds": 1.0686101247556508,
+      "message": "Generated run-local athlete report",
+      "stage": "report_generated"
+    },
+    {
+      "elapsed_seconds": 1.0699356668628752,
+      "message": "Generated run-local dashboard",
+      "stage": "dashboard_generated"
+    }
+  ],
+  "mediapipe_version": "0.10.35",
+  "output_locations": {
+    "athlete_report_html": "exports/testing_environment/runs/run_prompt19_smoke/athlete_report/athlete_report.html",
+    "athlete_report_json": "exports/testing_environment/runs/run_prompt19_smoke/athlete_report/athlete_report.json",
+    "athlete_report_markdown": "exports/testing_environment/runs/run_prompt19_smoke/athlete_report/athlete_report.md",
+    "dashboard_html": "exports/testing_environment/runs/run_prompt19_smoke/dashboard/index.html",
+    "dashboard_json": "exports/testing_environment/runs/run_prompt19_smoke/dashboard/dashboard_payload.json",
+    "evidence_knowledge_base_json": "exports/testing_environment/runs/run_prompt19_smoke/evidence_based_knowledge_base.json",
+    "evidence_observations_csv": "exports/testing_environment/runs/run_prompt19_smoke/evidence_based_observations.csv",
+    "evidence_observations_json": "exports/testing_environment/runs/run_prompt19_smoke/evidence_based_observations.json",
+    "features_feature_statistics": "exports/testing_environment/runs/run_prompt19_smoke/features/feature_statistics.json",
+    "features_feature_table_csv": "exports/testing_environment/runs/run_prompt19_smoke/features/feature_table.csv",
+    "features_feature_table_json": "exports/testing_environment/runs/run_prompt19_smoke/features/feature_table.json",
+    "features_landing_events": "exports/testing_environment/runs/run_prompt19_smoke/features/landing_events.json",
+    "features_plot_0": "exports/testing_environment/runs/run_prompt19_smoke/features/plots/joint_angles.png",
+    "features_plot_1": "exports/testing_environment/runs/run_prompt19_smoke/features/plots/rom.png",
+    "features_plot_2": "exports/testing_environment/runs/run_prompt19_smoke/features/plots/symmetry.png",
+    "features_plot_3": "exports/testing_environment/runs/run_prompt19_smoke/features/plots/feature_preview.png",
+    "features_symmetry_summary": "exports/testing_environment/runs/run_prompt19_smoke/features/symmetry_summary.json",
+    "features_trajectory_features": "exports/testing_environment/runs/run_prompt19_smoke/features/trajectory_features.json",
+    "landmarks_csv": "exports/testing_environment/runs/run_prompt19_smoke/landmarks/landmarks.csv",
+    "landmarks_json": "exports/testing_environment/runs/run_prompt19_smoke/landmarks/landmarks.json",
+    "metadata": "exports/testing_environment/runs/run_prompt19_smoke/metadata.json",
+    "video": "exports/testing_environment/runs/run_prompt19_smoke/video/sample_video_annotated.avi"
+  },
+  "predictions_generated": false,
+  "processing_duration_seconds": 1.0699360840953887,
+  "status": "success",
+  "video": {
+    "codec": "MJPG",
+    "duration_seconds": 2.0,
+    "filename": "sample_video.avi",
+    "fps": 12.0,
+    "frame_count": 24,
+    "height": 64,
+    "path": "reports/video_processing/sample_video.avi",
+    "width": 96
+  }
+}

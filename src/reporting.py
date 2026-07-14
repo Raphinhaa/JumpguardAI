@@ -22,6 +22,8 @@ from .biomechanical_intelligence import (
     plot_radar,
     plot_symmetry,
 )
+from .evidence_interpretation import EvidenceBasedInterpreter
+from .evidence_report_rendering import evidence_report_css, render_evidence_observations_html
 
 if TYPE_CHECKING:
     from .dataset import Dataset
@@ -55,6 +57,7 @@ class AthleteReport:
         population_comparison: Dataset-relative feature comparisons.
         symmetry_summary: Prompt 3 symmetry feature rows.
         observations: Prompt 6 observation rows for this athlete.
+        evidence_based_observations: Prompt 13 evidence-backed observations.
         literature_context: Prompt 6 literature mapping rows.
         visualizations: Exported visualization paths.
     """
@@ -65,6 +68,7 @@ class AthleteReport:
     population_comparison: list[dict[str, Any]]
     symmetry_summary: list[dict[str, Any]]
     observations: list[dict[str, Any]]
+    evidence_based_observations: list[dict[str, Any]]
     literature_context: list[dict[str, Any]]
     visualizations: dict[str, str]
 
@@ -78,6 +82,7 @@ class AthleteReport:
             "population_comparison": self.population_comparison,
             "symmetry_summary": self.symmetry_summary,
             "observations": self.observations,
+            "evidence_based_observations": self.evidence_based_observations,
             "literature_context": self.literature_context,
             "visualizations": self.visualizations,
             "safety_statement": (
@@ -113,6 +118,9 @@ class AthleteReportGenerator:
         self.observations = _read_required(self.reports_dir / "biomechanical_observations.csv")
         self.knowledge_mapping = _read_required(
             self.reports_dir / "biomechanical_knowledge_mapping.csv"
+        )
+        self.evidence_based_observations = _read_optional_json_records(
+            self.reports_dir / "evidence_based_observations.json"
         )
 
     def generate(
@@ -151,6 +159,7 @@ class AthleteReportGenerator:
                     self.observations["participant_id"].astype(int).eq(participant_id)
                 ]
             ),
+            evidence_based_observations=self._evidence_observations(participant_id),
             literature_context=self._literature_context(athlete_rows),
             visualizations=visualizations,
         )
@@ -201,7 +210,12 @@ class AthleteReportGenerator:
 
         destination = Path(path)
         destination.parent.mkdir(parents=True, exist_ok=True)
-        destination.write_text(render_html(report), encoding="utf-8")
+        asset_dir = destination.parent / f"{destination.stem}_assets" / "evidence"
+        asset_href_prefix = f"{destination.stem}_assets/evidence/"
+        destination.write_text(
+            render_html(report, asset_dir=asset_dir, asset_href_prefix=asset_href_prefix),
+            encoding="utf-8",
+        )
         return destination
 
     def export_visualizations(
@@ -305,6 +319,18 @@ class AthleteReportGenerator:
         mapping = self.knowledge_mapping[self.knowledge_mapping["feature"].isin(features)]
         return _records(mapping.drop_duplicates(["concept", "source"]).sort_values("concept"))
 
+    def _evidence_observations(self, participant_id: int) -> list[dict[str, Any]]:
+        if not self.evidence_based_observations.empty:
+            rows = self.evidence_based_observations[
+                self.evidence_based_observations["participant_id"].astype(int).eq(participant_id)
+            ]
+            return _records(rows)
+        result = EvidenceBasedInterpreter().interpret_athlete_percentiles(
+            self.athlete_percentiles,
+            participant_id=participant_id,
+        )
+        return _records(result.observations)
+
 
 def render_markdown(report: AthleteReport) -> str:
     """Render an AthleteReport as Markdown."""
@@ -337,6 +363,10 @@ def render_markdown(report: AthleteReport) -> str:
             "",
             _markdown_table(_display_rows(report.observations)),
             "",
+            "## Evidence-Based ACL Biomechanical Observations",
+            "",
+            _markdown_table(_display_rows(report.evidence_based_observations)),
+            "",
             "## Literature Context",
             "",
             _markdown_table(_display_rows(report.literature_context)),
@@ -354,10 +384,33 @@ def render_markdown(report: AthleteReport) -> str:
     return "\n".join(lines)
 
 
-def render_html(report: AthleteReport) -> str:
+def render_html(
+    report: AthleteReport,
+    *,
+    asset_dir: str | Path | None = None,
+    asset_href_prefix: str = "",
+) -> str:
     """Render an AthleteReport as standalone HTML."""
 
-    markdown = render_markdown(report)
+    evidence_html = render_evidence_observations_html(
+        report.evidence_based_observations,
+        asset_dir=asset_dir,
+        asset_href_prefix=asset_href_prefix,
+        filename_prefix=f"participant_{report.participant_id:02d}_evidence_observation",
+    )
+    markdown = render_markdown(
+        AthleteReport(
+            participant_id=report.participant_id,
+            overview=report.overview,
+            biomechanical_summary=report.biomechanical_summary,
+            population_comparison=report.population_comparison,
+            symmetry_summary=report.symmetry_summary,
+            observations=report.observations,
+            evidence_based_observations=[],
+            literature_context=report.literature_context,
+            visualizations=report.visualizations,
+        )
+    )
     body_lines = []
     for line in markdown.splitlines():
         if line.startswith("# "):
@@ -377,12 +430,20 @@ def render_html(report: AthleteReport) -> str:
     return (
         "<!doctype html>\n"
         "<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n"
+        "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n"
         f"<title>Athlete Report {report.participant_id}</title>\n"
-        "<style>body{font-family:Arial,sans-serif;line-height:1.45;max-width:1100px;margin:32px auto;padding:0 20px;}"
+        "<style>"
+        + evidence_report_css()
+        + "body{background:#f4f7fa;}"
         "pre{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;white-space:pre-wrap;}"
         "h1,h2,h3{color:#1f2933;}p{color:#263238;}</style>\n"
         "</head>\n<body>\n"
-        + "\n".join(body_lines)
+        "<main class=\"report-shell\">\n"
+        + "\n".join(body_lines).replace(
+            "<h2>Evidence-Based ACL Biomechanical Observations</h2>\n<p>_No rows available._</p>",
+            evidence_html,
+        )
+        + "\n</main>"
         + "\n</body>\n</html>\n"
     )
 
@@ -422,6 +483,13 @@ def _read_required(path: Path) -> pd.DataFrame:
     if not path.exists():
         raise FileNotFoundError(f"Required reporting input is missing: {path}")
     return pd.read_csv(path)
+
+
+def _read_optional_json_records(path: Path) -> pd.DataFrame:
+    if not path.exists():
+        return pd.DataFrame()
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    return pd.DataFrame(payload)
 
 
 def _symmetry_rows(rows: pd.DataFrame) -> pd.DataFrame:

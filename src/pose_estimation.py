@@ -5,6 +5,8 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from pathlib import Path
+import shutil
+import subprocess
 from typing import Any
 
 import json
@@ -55,6 +57,44 @@ MEDIAPIPE_POSE_LANDMARKS: tuple[str, ...] = (
     "right_foot_index",
 )
 
+MEDIAPIPE_POSE_CONNECTIONS: tuple[tuple[int, int], ...] = (
+    (0, 1),
+    (1, 2),
+    (2, 3),
+    (3, 7),
+    (0, 4),
+    (4, 5),
+    (5, 6),
+    (6, 8),
+    (9, 10),
+    (11, 12),
+    (11, 13),
+    (13, 15),
+    (15, 17),
+    (15, 19),
+    (15, 21),
+    (17, 19),
+    (12, 14),
+    (14, 16),
+    (16, 18),
+    (16, 20),
+    (16, 22),
+    (18, 20),
+    (11, 23),
+    (12, 24),
+    (23, 24),
+    (23, 25),
+    (24, 26),
+    (25, 27),
+    (26, 28),
+    (27, 29),
+    (28, 30),
+    (29, 31),
+    (30, 32),
+    (27, 31),
+    (28, 32),
+)
+
 
 @dataclass(frozen=True)
 class LandmarkRecord:
@@ -80,6 +120,15 @@ class PoseEstimationResult:
     frame_count: int
     fps: float
     landmarks: pd.DataFrame
+
+
+@dataclass(frozen=True)
+class BrowserVideoExportResult:
+    """Result of converting an annotated video into browser-playable MP4."""
+
+    mp4_path: Path | None
+    warning: str | None
+    command: tuple[str, ...] | None = None
 
 
 class PoseEstimationError(RuntimeError):
@@ -339,15 +388,43 @@ def landmark_preview(
 
 
 def annotate_frame(frame: np.ndarray, frame_landmarks: pd.DataFrame) -> np.ndarray:
-    """Overlay available landmark points on a frame copy."""
+    """Overlay available landmark points and skeleton connections on a frame copy."""
 
     annotated = frame.copy()
     height, width = annotated.shape[:2]
+    points = _landmark_pixel_points(frame_landmarks, width=width, height=height)
+    for start, end in _pose_connections():
+        if start in points and end in points:
+            cv2.line(annotated, points[start], points[end], (0, 180, 255), 2)
     for _, row in frame_landmarks.dropna(subset=["x", "y"]).iterrows():
         x = int(float(row["x"]) * width)
         y = int(float(row["y"]) * height)
         cv2.circle(annotated, (x, y), 3, (0, 255, 0), -1)
     return annotated
+
+
+def _landmark_pixel_points(
+    frame_landmarks: pd.DataFrame,
+    *,
+    width: int,
+    height: int,
+) -> dict[int, tuple[int, int]]:
+    points: dict[int, tuple[int, int]] = {}
+    for _, row in frame_landmarks.dropna(subset=["x", "y"]).iterrows():
+        points[int(row["landmark_index"])] = (
+            int(float(row["x"]) * width),
+            int(float(row["y"]) * height),
+        )
+    return points
+
+
+def _pose_connections() -> tuple[tuple[int, int], ...]:
+    try:
+        import mediapipe as mp
+
+        return tuple((int(start), int(end)) for start, end in mp.solutions.pose.POSE_CONNECTIONS)
+    except Exception:
+        return MEDIAPIPE_POSE_CONNECTIONS
 
 
 def export_annotated_frames(
@@ -398,6 +475,50 @@ def export_annotated_video(
     finally:
         writer.release()
     return destination
+
+
+def export_browser_compatible_video(
+    annotated_video_path: str | Path,
+    output_path: str | Path | None = None,
+) -> BrowserVideoExportResult:
+    """Create an H.264 MP4 copy of an annotated video for browser playback."""
+
+    source = Path(annotated_video_path)
+    destination = Path(output_path) if output_path is not None else source.with_suffix(".mp4")
+    ffmpeg = shutil.which("ffmpeg")
+    if ffmpeg is None:
+        return BrowserVideoExportResult(
+            None,
+            "FFmpeg is unavailable; annotated AVI was retained, but embedded browser playback may be unavailable.",
+            None,
+        )
+    command = (
+        ffmpeg,
+        "-y",
+        "-i",
+        str(source),
+        "-vcodec",
+        "libx264",
+        "-pix_fmt",
+        "yuv420p",
+        str(destination),
+    )
+    completed = subprocess.run(command, capture_output=True, text=True, check=False)
+    if completed.returncode != 0:
+        detail = (completed.stderr or completed.stdout or "unknown FFmpeg error").strip().splitlines()
+        message = detail[-1] if detail else "unknown FFmpeg error"
+        return BrowserVideoExportResult(
+            None,
+            f"FFmpeg could not create browser-compatible MP4: {message}",
+            command,
+        )
+    if not destination.exists() or destination.stat().st_size == 0:
+        return BrowserVideoExportResult(
+            None,
+            "FFmpeg completed, but the browser-compatible MP4 was not created or was empty.",
+            command,
+        )
+    return BrowserVideoExportResult(destination, None, command)
 
 
 def _landmark_rows(

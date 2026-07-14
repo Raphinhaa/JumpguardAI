@@ -1,31 +1,31 @@
 {
   "error": null,
-  "execution_timestamp": "2026-07-10T04:32:31.803094+00:00",
+  "execution_timestamp": "2026-07-13T13:48:24.801708+00:00",
   "feature_count": 57,
-  "frame_count": 92,
+  "frame_count": 152,
   "log": [
     {
-      "elapsed_seconds": 0.041732416953891516,
-      "message": "Loaded jump.mp4",
+      "elapsed_seconds": 0.04783162474632263,
+      "message": "Loaded jump_2.mp4",
       "stage": "video_loaded"
     },
     {
-      "elapsed_seconds": 1.0366383749060333,
+      "elapsed_seconds": 0.9664966249838471,
       "message": "Exported MediaPipe landmarks",
       "stage": "pose_estimated"
     },
     {
-      "elapsed_seconds": 1.5269864578731358,
+      "elapsed_seconds": 1.4803475001826882,
       "message": "Exported Prompt-3-compatible features",
       "stage": "features_extracted"
     },
     {
-      "elapsed_seconds": 1.5292813749983907,
+      "elapsed_seconds": 1.4830940831452608,
       "message": "Generated run-local athlete report",
       "stage": "report_generated"
     },
     {
-      "elapsed_seconds": 1.5308633749373257,
+      "elapsed_seconds": 1.4848545831628144,
       "message": "Generated run-local dashboard",
       "stage": "dashboard_generated"
     }
@@ -50,19 +50,19 @@
     "landmarks_csv": "/Users/arnavanney/Documents/JumpguardAI/reports/run_demo_pipeline/landmarks/landmarks.csv",
     "landmarks_json": "/Users/arnavanney/Documents/JumpguardAI/reports/run_demo_pipeline/landmarks/landmarks.json",
     "metadata": "/Users/arnavanney/Documents/JumpguardAI/reports/run_demo_pipeline/metadata.json",
-    "video": "/Users/arnavanney/Documents/JumpguardAI/reports/run_demo_pipeline/video/jump.mp4"
+    "video": "/Users/arnavanney/Documents/JumpguardAI/reports/run_demo_pipeline/video/jump_2.mp4"
   },
   "predictions_generated": false,
-  "processing_duration_seconds": 1.5308639998547733,
+  "processing_duration_seconds": 1.4848551251925528,
   "status": "success",
   "video": {
     "codec": "h264",
-    "duration_seconds": 3.066666666666667,
-    "filename": "jump.mp4",
-    "fps": 30.0,
-    "frame_count": 92,
+    "duration_seconds": 5.071733333333333,
+    "filename": "jump_2.mp4",
+    "fps": 29.97002997002997,
+    "frame_count": 152,
     "height": 1080,
-    "path": "/Users/arnavanney/Documents/JumpguardAI/data/sample/jump.mp4",
+    "path": "/Users/arnavanney/Documents/JumpguardAI/data/sample/jump_2.mp4",
     "width": 608
   }
 }

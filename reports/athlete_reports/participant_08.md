@@ -116,6 +116,10 @@ This report is descriptive and dataset-relative. It does not provide medical dia
 
 _No rows available._
 
+## Evidence-Based ACL Biomechanical Observations
+
+_No rows available._
+
 ## Literature Context
 
 | feature | category | concept | literature_language | source |
@@ -126,8 +130,4 @@ _No rows available._
 
 ## Visualizations
 
-- distribution_plots: `reports/athlete_reports/participant_08_assets/distribution_plots.png`
-- percentile_comparison: `reports/athlete_reports/participant_08_assets/percentile_comparison.png`
-- population_comparison: `reports/athlete_reports/participant_08_assets/population_comparison.png`
-- radar_chart: `reports/athlete_reports/participant_08_assets/radar_chart.png`
-- symmetry_comparison: `reports/athlete_reports/participant_08_assets/symmetry_comparison.png`
+- No visualizations generated because no observed athlete feature values were available.

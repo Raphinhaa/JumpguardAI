@@ -1,0 +1,10 @@
+event,frame_number,timestamp,source_feature,value,status,method
+initial_contact,,,,,unavailable,No documented initial-contact detector exists in the current pipeline.
+peak_landing,,,,,unavailable,No documented landing-phase or peak-landing detector exists in the current pipeline.
+maximum_knee_flexion,10,0.3333333333,knee_flexion_right_maximum,161.0918931,computed,Frame of first finite maximum for this joint-angle signal.
+maximum_knee_flexion,2,0.06666666667,knee_flexion_left_maximum,176.1872362,computed,Frame of first finite maximum for this joint-angle signal.
+maximum_hip_flexion,22,0.7333333333,hip_flexion_right_maximum,117.2220625,computed,Frame of first finite maximum for this joint-angle signal.
+maximum_hip_flexion,25,0.8333333333,hip_flexion_left_maximum,124.068148,computed,Frame of first finite maximum for this joint-angle signal.
+maximum_ankle_angle,64,2.133333333,ankle_angle_right_maximum,144.2180175,computed,Frame of first finite maximum for this joint-angle signal.
+maximum_ankle_angle,53,1.766666667,ankle_angle_left_maximum,150.5290091,computed,Frame of first finite maximum for this joint-angle signal.
+peak_mean_knee_flexion_frame,10,0.3333333333,"mean(knee_flexion_left,knee_flexion_right)",167.748217,computed,Existing landing_events peak_flexion_frame logic: maximum row-wise mean of knee flexion columns.

@@ -1,0 +1,138 @@
+{
+  "error": null,
+  "experimental_notice": "JumpGuard AI frame-by-frame outputs are clinician-selected measurements only. No landing event, peak flexion moment, initial contact, ACL risk, diagnosis, recommendation, or athlete-versus-reference comparison is inferred.",
+  "generated_files": {
+    "annotated_video": "exports/testing_environment/runs/run_prompt22r_video_integration_smoke/video/sample_video_annotated.mp4",
+    "annotated_video_debug_avi": "exports/testing_environment/runs/run_prompt22r_video_integration_smoke/video/sample_video_annotated.avi",
+    "annotated_video_mp4": "exports/testing_environment/runs/run_prompt22r_video_integration_smoke/video/sample_video_annotated.mp4",
+    "interactive_viewer_html": "exports/testing_environment/runs/run_prompt22r_video_integration_smoke/interactive_viewer.html",
+    "landmarks_csv": "exports/testing_environment/runs/run_prompt22r_video_integration_smoke/landmarks/landmarks.csv",
+    "landmarks_json": "exports/testing_environment/runs/run_prompt22r_video_integration_smoke/landmarks/landmarks.json",
+    "measurement_debug_raw_csv": "exports/testing_environment/runs/run_prompt22r_video_integration_smoke/measurement_debug/measurement_debug_raw.csv",
+    "measurement_debug_raw_json": "exports/testing_environment/runs/run_prompt22r_video_integration_smoke/measurement_debug/measurement_debug_raw.json",
+    "measurement_debugger_html": "exports/testing_environment/runs/run_prompt22r_video_integration_smoke/measurement_debug/measurement_debugger.html",
+    "metadata": "exports/testing_environment/runs/run_prompt22r_video_integration_smoke/metadata.json",
+    "per_frame_measurements_csv": "exports/testing_environment/runs/run_prompt22r_video_integration_smoke/measurements/per_frame_measurements.csv",
+    "per_frame_measurements_json": "exports/testing_environment/runs/run_prompt22r_video_integration_smoke/measurements/per_frame_measurements.json",
+    "time_series_json": "exports/testing_environment/runs/run_prompt22r_video_integration_smoke/measurements/time_series.json"
+  },
+  "log_path": "logs/testing_environment/run_prompt22r_video_integration_smoke.log",
+  "manifest_path": "exports/testing_environment/runs/run_prompt22r_video_integration_smoke/testing_environment_manifest.json",
+  "metadata": {
+    "automatic_clinical_interpretation_generated": false,
+    "automatic_reference_comparison_generated": false,
+    "automatic_reports_generated": false,
+    "browser_video_warning": null,
+    "derived_measurement_columns": [
+      "delta_from_previous_frame",
+      "absolute_difference",
+      "percent_difference",
+      "symmetry_index"
+    ],
+    "developer_measurement_debug_generated": true,
+    "error": null,
+    "event_detection_generated": false,
+    "execution_timestamp": "2026-07-14T06:44:43.345683+00:00",
+    "frame_count": 24,
+    "log": [
+      {
+        "elapsed_seconds": 0.01655287528410554,
+        "message": "Loaded sample_video.avi",
+        "stage": "video_loaded"
+      },
+      {
+        "elapsed_seconds": 0.5973131251521409,
+        "message": "Exported MediaPipe landmarks",
+        "stage": "pose_estimated"
+      },
+      {
+        "elapsed_seconds": 0.6985982921905816,
+        "message": "Exported existing annotated video",
+        "stage": "video_annotated"
+      },
+      {
+        "elapsed_seconds": 0.698601458221674,
+        "message": "Exported browser-compatible annotated MP4",
+        "stage": "video_mp4_exported"
+      },
+      {
+        "elapsed_seconds": 0.7184180002659559,
+        "message": "Exported per-frame measurements",
+        "stage": "measurements_exported"
+      },
+      {
+        "elapsed_seconds": 0.7211508331820369,
+        "message": "Exported developer-only measurement debug artifacts",
+        "stage": "measurement_debug_exported"
+      },
+      {
+        "elapsed_seconds": 0.7217463753186166,
+        "message": "Exported synchronized viewer",
+        "stage": "interactive_viewer_exported"
+      }
+    ],
+    "measurement_columns": [
+      "hip_flexion_right",
+      "hip_flexion_left",
+      "knee_flexion_right",
+      "knee_flexion_left",
+      "ankle_angle_right",
+      "ankle_angle_left"
+    ],
+    "output_locations": {
+      "annotated_video": "exports/testing_environment/runs/run_prompt22r_video_integration_smoke/video/sample_video_annotated.mp4",
+      "annotated_video_debug_avi": "exports/testing_environment/runs/run_prompt22r_video_integration_smoke/video/sample_video_annotated.avi",
+      "annotated_video_mp4": "exports/testing_environment/runs/run_prompt22r_video_integration_smoke/video/sample_video_annotated.mp4",
+      "interactive_viewer_html": "exports/testing_environment/runs/run_prompt22r_video_integration_smoke/interactive_viewer.html",
+      "landmarks_csv": "exports/testing_environment/runs/run_prompt22r_video_integration_smoke/landmarks/landmarks.csv",
+      "landmarks_json": "exports/testing_environment/runs/run_prompt22r_video_integration_smoke/landmarks/landmarks.json",
+      "measurement_debug_raw_csv": "exports/testing_environment/runs/run_prompt22r_video_integration_smoke/measurement_debug/measurement_debug_raw.csv",
+      "measurement_debug_raw_json": "exports/testing_environment/runs/run_prompt22r_video_integration_smoke/measurement_debug/measurement_debug_raw.json",
+      "measurement_debugger_html": "exports/testing_environment/runs/run_prompt22r_video_integration_smoke/measurement_debug/measurement_debugger.html",
+      "metadata": "exports/testing_environment/runs/run_prompt22r_video_integration_smoke/metadata.json",
+      "per_frame_measurements_csv": "exports/testing_environment/runs/run_prompt22r_video_integration_smoke/measurements/per_frame_measurements.csv",
+      "per_frame_measurements_json": "exports/testing_environment/runs/run_prompt22r_video_integration_smoke/measurements/per_frame_measurements.json",
+      "time_series_json": "exports/testing_environment/runs/run_prompt22r_video_integration_smoke/measurements/time_series.json"
+    },
+    "processed_frame_count": 3,
+    "processing_duration_seconds": 0.7217536671087146,
+    "selected_frame_policy": "Clinician-controlled frame selection only; no event inference.",
+    "status": "success",
+    "testing_environment": {
+      "app_duration_seconds": 0.7231427920050919,
+      "config": {
+        "allowed_extensions": [
+          ".mp4",
+          ".mov",
+          ".avi"
+        ],
+        "annotated_video_codec": "MJPG",
+        "confidence_threshold": null,
+        "frame_skip": 8,
+        "future_model_selection": "mediapipe_pose_landmarker_lite",
+        "input_dir": "exports/testing_environment/uploads",
+        "logs_dir": "logs/testing_environment",
+        "max_upload_mb": 512,
+        "output_dir": "exports/testing_environment/runs"
+      },
+      "experimental_notice": "JumpGuard AI frame-by-frame outputs are clinician-selected measurements only. No landing event, peak flexion moment, initial contact, ACL risk, diagnosis, recommendation, or athlete-versus-reference comparison is inferred.",
+      "run_id": "run_prompt22r_video_integration_smoke",
+      "status": "success",
+      "workflow": "interactive_frame_by_frame"
+    },
+    "video": {
+      "codec": "MJPG",
+      "duration_seconds": 2.0,
+      "filename": "sample_video.avi",
+      "fps": 12.0,
+      "frame_count": 24,
+      "height": 64,
+      "path": "reports/video_processing/sample_video.avi",
+      "width": 96
+    }
+  },
+  "run_directory": "exports/testing_environment/runs/run_prompt22r_video_integration_smoke",
+  "run_id": "run_prompt22r_video_integration_smoke",
+  "status": "success",
+  "uploaded_video": "reports/video_processing/sample_video.avi"
+}

@@ -33,9 +33,9 @@ The required API is `process_video(video_path, output_directory)`. Optional keyw
 The pipeline performs the following stages in order:
 
 1. Load the video with the existing Prompt 9 `Video` abstraction.
-2. Copy the input video into the run package.
-3. Estimate MediaPipe landmarks with the existing Prompt 10 `PoseEstimator` interface.
-4. Export landmarks through the existing Prompt 10 deterministic CSV/JSON exporter.
+2. Estimate MediaPipe landmarks with the existing Prompt 10 `PoseEstimator` interface.
+3. Export landmarks through the existing Prompt 10 deterministic CSV/JSON exporter.
+4. Export the canonical annotated MediaPipe video into the run package.
 5. Extract Prompt-3-compatible features through the existing Prompt 11 `FeatureExtractor`.
 6. Export Prompt 11 feature tables, summaries, landing-event metadata, trajectory summaries, and plots.
 7. Generate a run-local athlete report package from the current feature table.
@@ -49,7 +49,7 @@ Each run creates `reports/<run_timestamp_or_run_id>/` with this structure:
 ```text
 reports/<run>/
   video/
-    <input_video>
+    <input_stem>_annotated.avi
   landmarks/
     landmarks.csv
     landmarks.json

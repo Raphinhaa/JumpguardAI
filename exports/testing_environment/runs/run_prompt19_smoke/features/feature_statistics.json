@@ -1,0 +1,62 @@
+{
+  "ankle_angle_left": {
+    "maximum": null,
+    "mean": null,
+    "median": null,
+    "minimum": null,
+    "rom": null,
+    "std": null,
+    "time_to_peak": null,
+    "variance": null
+  },
+  "ankle_angle_right": {
+    "maximum": null,
+    "mean": null,
+    "median": null,
+    "minimum": null,
+    "rom": null,
+    "std": null,
+    "time_to_peak": null,
+    "variance": null
+  },
+  "hip_flexion_left": {
+    "maximum": null,
+    "mean": null,
+    "median": null,
+    "minimum": null,
+    "rom": null,
+    "std": null,
+    "time_to_peak": null,
+    "variance": null
+  },
+  "hip_flexion_right": {
+    "maximum": null,
+    "mean": null,
+    "median": null,
+    "minimum": null,
+    "rom": null,
+    "std": null,
+    "time_to_peak": null,
+    "variance": null
+  },
+  "knee_flexion_left": {
+    "maximum": null,
+    "mean": null,
+    "median": null,
+    "minimum": null,
+    "rom": null,
+    "std": null,
+    "time_to_peak": null,
+    "variance": null
+  },
+  "knee_flexion_right": {
+    "maximum": null,
+    "mean": null,
+    "median": null,
+    "minimum": null,
+    "rom": null,
+    "std": null,
+    "time_to_peak": null,
+    "variance": null
+  }
+}

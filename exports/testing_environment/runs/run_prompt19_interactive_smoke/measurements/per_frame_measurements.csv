@@ -1,0 +1,4 @@
+frame_index,timestamp,landmark_confidence_mean,landmark_confidence_minimum,landmark_visibility_mean,visible_landmark_count,hip_flexion_right,hip_flexion_left,knee_flexion_right,knee_flexion_left,ankle_angle_right,ankle_angle_left
+0,0,,,,0,,,,,,
+8,0.6666666667,,,,0,,,,,,
+16,1.333333333,,,,0,,,,,,

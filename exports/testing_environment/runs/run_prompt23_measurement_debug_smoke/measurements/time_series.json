@@ -1,0 +1,130 @@
+{
+  "delta_from_previous_frame": {
+    "ankle_angle_left": [
+      null,
+      null,
+      null
+    ],
+    "ankle_angle_right": [
+      null,
+      null,
+      null
+    ],
+    "hip_flexion_left": [
+      null,
+      null,
+      null
+    ],
+    "hip_flexion_right": [
+      null,
+      null,
+      null
+    ],
+    "knee_flexion_left": [
+      null,
+      null,
+      null
+    ],
+    "knee_flexion_right": [
+      null,
+      null,
+      null
+    ]
+  },
+  "frame_index": [
+    0,
+    8,
+    16
+  ],
+  "measurements": {
+    "ankle_angle_left": [
+      null,
+      null,
+      null
+    ],
+    "ankle_angle_right": [
+      null,
+      null,
+      null
+    ],
+    "hip_flexion_left": [
+      null,
+      null,
+      null
+    ],
+    "hip_flexion_right": [
+      null,
+      null,
+      null
+    ],
+    "knee_flexion_left": [
+      null,
+      null,
+      null
+    ],
+    "knee_flexion_right": [
+      null,
+      null,
+      null
+    ]
+  },
+  "policy": "Frame-level series only; no event inference or interpolation.",
+  "symmetry": {
+    "ankle_angle": {
+      "absolute_difference": [
+        null,
+        null,
+        null
+      ],
+      "percent_difference": [
+        null,
+        null,
+        null
+      ],
+      "symmetry_index": [
+        null,
+        null,
+        null
+      ]
+    },
+    "hip_flexion": {
+      "absolute_difference": [
+        null,
+        null,
+        null
+      ],
+      "percent_difference": [
+        null,
+        null,
+        null
+      ],
+      "symmetry_index": [
+        null,
+        null,
+        null
+      ]
+    },
+    "knee_flexion": {
+      "absolute_difference": [
+        null,
+        null,
+        null
+      ],
+      "percent_difference": [
+        null,
+        null,
+        null
+      ],
+      "symmetry_index": [
+        null,
+        null,
+        null
+      ]
+    }
+  },
+  "timestamp": [
+    0.0,
+    0.6666666666666666,
+    1.3333333333333333
+  ]
+}

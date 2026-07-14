@@ -1,0 +1,68 @@
+{
+  "automatic_clinical_interpretation_generated": false,
+  "automatic_reference_comparison_generated": false,
+  "automatic_reports_generated": false,
+  "error": null,
+  "event_detection_generated": false,
+  "execution_timestamp": "2026-07-13T15:23:28.029803+00:00",
+  "frame_count": 152,
+  "log": [
+    {
+      "elapsed_seconds": 0.008791042026132345,
+      "message": "Loaded Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_.mp4",
+      "stage": "video_loaded"
+    },
+    {
+      "elapsed_seconds": 5.173165417276323,
+      "message": "Exported MediaPipe landmarks",
+      "stage": "pose_estimated"
+    },
+    {
+      "elapsed_seconds": 6.176722249947488,
+      "message": "Exported existing annotated video",
+      "stage": "video_annotated"
+    },
+    {
+      "elapsed_seconds": 6.962721209041774,
+      "message": "Exported per-frame measurements",
+      "stage": "measurements_exported"
+    },
+    {
+      "elapsed_seconds": 7.000333041884005,
+      "message": "Exported synchronized viewer",
+      "stage": "interactive_viewer_exported"
+    }
+  ],
+  "measurement_columns": [
+    "hip_flexion_right",
+    "hip_flexion_left",
+    "knee_flexion_right",
+    "knee_flexion_left",
+    "ankle_angle_right",
+    "ankle_angle_left"
+  ],
+  "output_locations": {
+    "annotated_video": "exports/testing_environment/runs/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_20260713T152328Z/video/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p__annotated.avi",
+    "interactive_viewer_html": "exports/testing_environment/runs/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_20260713T152328Z/interactive_viewer.html",
+    "landmarks_csv": "exports/testing_environment/runs/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_20260713T152328Z/landmarks/landmarks.csv",
+    "landmarks_json": "exports/testing_environment/runs/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_20260713T152328Z/landmarks/landmarks.json",
+    "metadata": "exports/testing_environment/runs/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_20260713T152328Z/metadata.json",
+    "per_frame_measurements_csv": "exports/testing_environment/runs/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_20260713T152328Z/measurements/per_frame_measurements.csv",
+    "per_frame_measurements_json": "exports/testing_environment/runs/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_20260713T152328Z/measurements/per_frame_measurements.json",
+    "time_series_json": "exports/testing_environment/runs/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_20260713T152328Z/measurements/time_series.json"
+  },
+  "processed_frame_count": 152,
+  "processing_duration_seconds": 7.000341750215739,
+  "selected_frame_policy": "Clinician-controlled frame selection only; no event inference.",
+  "status": "success",
+  "video": {
+    "codec": "h264",
+    "duration_seconds": 5.071733333333333,
+    "filename": "Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_.mp4",
+    "fps": 29.97002997002997,
+    "frame_count": 152,
+    "height": 1080,
+    "path": "exports/testing_environment/uploads/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_20260713T152328Z/Vertical_Jump_Side_View_-_Tennyson_Leiby_608p_.mp4",
+    "width": 608
+  }
+}

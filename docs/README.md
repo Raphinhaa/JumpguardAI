@@ -26,3 +26,5 @@ Current reports:
 - `POSE_ESTIMATION_REPORT.md`: Prompt 10 MediaPipe pose landmark engine
 - `FEATURE_EXTRACTION_REPORT.md`: Prompt 11 landmark-derived feature extraction
 - `PIPELINE_REPORT.md`: Prompt 12 end-to-end uploaded-video orchestration
+- `MEDIAPIPE_VISUALIZATION_AUDIT.md`: Stabilization S1 annotated-video integration audit
+- `PROMPT13_EVIDENCE_BASED_INTERPRETATION.md`: Prompt 13 evidence-based biomechanical interpretation layer

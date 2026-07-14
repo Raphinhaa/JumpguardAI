@@ -16,6 +16,7 @@ from src.pose_estimation import (
     PoseEstimationResult,
     annotate_frame,
     export_annotated_frames,
+    export_browser_compatible_video,
     export_landmarks,
     landmark_preview,
 )
@@ -124,6 +125,66 @@ def test_visualization_utilities(
     assert len(paths) == 1
     assert paths[0].exists()
     plt.close("all")
+
+
+def test_browser_compatible_video_export_reports_missing_ffmpeg(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    source = tmp_path / "annotated.avi"
+    source.write_bytes(b"avi")
+    monkeypatch.setattr("src.pose_estimation.shutil.which", lambda name: None)
+
+    result = export_browser_compatible_video(source)
+
+    assert result.mp4_path is None
+    assert result.warning and "FFmpeg is unavailable" in result.warning
+
+
+def test_browser_compatible_video_export_uses_h264_command(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    source = tmp_path / "annotated.avi"
+    destination = tmp_path / "annotated.mp4"
+    source.write_bytes(b"avi")
+    monkeypatch.setattr("src.pose_estimation.shutil.which", lambda name: "/usr/bin/ffmpeg")
+
+    def fake_run(command, capture_output, text, check):
+        destination.write_bytes(b"mp4")
+        return type("Completed", (), {"returncode": 0, "stdout": "", "stderr": ""})()
+
+    monkeypatch.setattr("src.pose_estimation.subprocess.run", fake_run)
+
+    result = export_browser_compatible_video(source, destination)
+
+    assert result.mp4_path == destination
+    assert result.warning is None
+    assert result.command is not None
+    assert "libx264" in result.command
+    assert "yuv420p" in result.command
+
+
+def test_annotate_frame_draws_landmark_connections() -> None:
+    frame = np.zeros((100, 100, 3), dtype=np.uint8)
+    rows = []
+    for index, name in enumerate(MEDIAPIPE_POSE_LANDMARKS):
+        x, y = (np.nan, np.nan)
+        if name == "right_shoulder":
+            x, y = (0.2, 0.2)
+        elif name == "right_elbow":
+            x, y = (0.8, 0.8)
+        rows.append(
+            {
+                "frame_number": 0,
+                "timestamp": 0.0,
+                "landmark_index": index,
+                "landmark_name": name,
+                "x": x,
+                "y": y,
+                "z": 0.0 if np.isfinite(x) else np.nan,
+                "visibility": 1.0 if np.isfinite(x) else np.nan,
+                "confidence": 1.0 if np.isfinite(x) else np.nan,
+            }
+        )
+
+    annotated = annotate_frame(frame, pd.DataFrame(rows))
+
+    assert annotated[50, 50].sum() > 0
 
 
 def test_missing_model_file_raises(tmp_path: Path) -> None:

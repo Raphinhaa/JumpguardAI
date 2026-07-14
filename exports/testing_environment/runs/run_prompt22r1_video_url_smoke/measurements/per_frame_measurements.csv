@@ -1,0 +1,4 @@
+frame_index,timestamp,landmark_confidence_mean,landmark_confidence_minimum,landmark_visibility_mean,visible_landmark_count,hip_flexion_right,hip_flexion_left,knee_flexion_right,knee_flexion_left,ankle_angle_right,ankle_angle_left,delta_hip_flexion_right,delta_hip_flexion_left,delta_knee_flexion_right,delta_knee_flexion_left,delta_ankle_angle_right,delta_ankle_angle_left,hip_flexion_absolute_difference,hip_flexion_percent_difference,hip_flexion_symmetry_index,knee_flexion_absolute_difference,knee_flexion_percent_difference,knee_flexion_symmetry_index,ankle_angle_absolute_difference,ankle_angle_percent_difference,ankle_angle_symmetry_index
+0,0,,,,0,,,,,,,,,,,,,,,,,,,,,
+8,0.6666666667,,,,0,,,,,,,,,,,,,,,,,,,,,
+16,1.333333333,,,,0,,,,,,,,,,,,,,,,,,,,,

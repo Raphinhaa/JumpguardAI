@@ -10,14 +10,24 @@ from time import perf_counter
 from typing import Any
 
 import json
-import shutil
 
 import pandas as pd
 
 from .feature_extraction import ExtractionMetadata
 from .feature_extraction import FeatureExtractor as LandmarkFeatureExtractor
-from .pose_estimation import MediaPipePoseEstimator, PoseEstimator
-from .video_processing import Video
+from .evidence_interpretation import (
+    EvidenceBasedInterpreter,
+    export_evidence_outputs,
+    load_reference_feature_table,
+)
+from .evidence_report_rendering import evidence_report_css, render_evidence_observations_html
+from .pose_estimation import (
+    MediaPipePoseEstimator,
+    PoseEstimator,
+    export_annotated_video,
+    export_browser_compatible_video,
+)
+from .video_processing import SUPPORTED_VIDEO_EXTENSIONS, Video
 
 
 @dataclass(frozen=True)
@@ -88,7 +98,6 @@ class JumpGuardPipeline:
                 "height": video.height,
                 "codec": video.metadata.codec,
             }
-            generated["video"] = str(_copy_video(video.path, run_directory / "video"))
             _log(log, "video_loaded", start_time, f"Loaded {video.filename}")
 
             pose_result = self.estimate_pose(video, frame_skip=frame_skip)
@@ -102,13 +111,28 @@ class JumpGuardPipeline:
             generated["landmarks_json"] = str(landmarks_json)
             _log(log, "pose_estimated", start_time, "Exported MediaPipe landmarks")
 
+            annotated_video = self.export_video(video, pose_result, run_directory / "video")
+            generated["video"] = str(annotated_video)
+            _log(log, "video_annotated", start_time, "Exported annotated MediaPipe video")
+
             feature_result = self.extract_features(video, pose_result)
             features_dir = run_directory / "features"
             feature_paths = self.feature_extractor.export(feature_result, features_dir)
             generated.update({f"features_{key}": str(path) for key, path in feature_paths.items()})
             _log(log, "features_extracted", start_time, "Exported Prompt-3-compatible features")
 
-            report_paths = self.generate_report(feature_result.feature_table, run_directory / "athlete_report")
+            evidence_result = self.generate_evidence(feature_result.feature_table)
+            evidence_paths = export_evidence_outputs(evidence_result, run_directory)
+            generated.update({f"evidence_{key}": str(path) for key, path in evidence_paths.items()})
+            evidence_observations = _json_records(evidence_result.observations)
+            _log(log, "evidence_interpreted", start_time, "Exported evidence-based observations")
+
+            report_paths = self.generate_report(
+                feature_result.feature_table,
+                run_directory / "athlete_report",
+                video_path=annotated_video,
+                evidence_observations=evidence_observations,
+            )
             generated.update({f"athlete_report_{key}": str(path) for key, path in report_paths.items()})
             _log(log, "report_generated", start_time, "Generated run-local athlete report")
 
@@ -116,6 +140,8 @@ class JumpGuardPipeline:
                 feature_result.feature_table,
                 run_directory / "dashboard",
                 report_paths,
+                video_path=annotated_video,
+                evidence_observations=evidence_observations,
             )
             generated.update({f"dashboard_{key}": str(path) for key, path in dashboard_paths.items()})
             _log(log, "dashboard_generated", start_time, "Generated run-local dashboard")
@@ -164,13 +190,43 @@ class JumpGuardPipeline:
             metadata=ExtractionMetadata(trial_name=video.filename, condition="uploaded"),
         )
 
-    def generate_report(self, feature_table: pd.DataFrame, output_dir: str | Path) -> dict[str, Path]:
+    def export_video(self, video: Video, pose_result: Any, output_dir: str | Path) -> Path:
+        """Export the canonical annotated video using the Prompt 10 utility."""
+
+        destination = Path(output_dir)
+        _clear_video_exports(destination)
+        avi_path = export_annotated_video(
+            video,
+            pose_result,
+            destination / f"{video.path.stem}_annotated.avi",
+        )
+        mp4_result = export_browser_compatible_video(avi_path)
+        return mp4_result.mp4_path or avi_path
+
+    def generate_evidence(self, feature_table: pd.DataFrame) -> Any:
+        """Generate Prompt 13 evidence observations using the reference dataset when available."""
+
+        reference = load_reference_feature_table()
+        if reference is None:
+            reference = feature_table
+        return EvidenceBasedInterpreter().interpret_feature_table(feature_table, reference)
+
+    def generate_report(
+        self,
+        feature_table: pd.DataFrame,
+        output_dir: str | Path,
+        *,
+        video_path: str | Path | None = None,
+        evidence_observations: list[dict[str, Any]] | None = None,
+    ) -> dict[str, Path]:
         """Generate run-local Markdown, HTML, and JSON reports."""
 
         destination = Path(output_dir)
         destination.mkdir(parents=True, exist_ok=True)
         payload = {
             "summary": "Run-local uploaded-video report generated from existing pipeline outputs.",
+            "video": None if video_path is None else str(video_path),
+            "evidence_based_observations": evidence_observations or [],
             "feature_table": _json_records(feature_table),
             "safety_statement": (
                 "This report is descriptive. It does not diagnose injury, estimate risk, "
@@ -185,7 +241,14 @@ class JumpGuardPipeline:
             encoding="utf-8",
         )
         md_path.write_text(_render_run_report_markdown(payload), encoding="utf-8")
-        html_path.write_text(_render_run_report_html(payload), encoding="utf-8")
+        html_path.write_text(
+            _render_run_report_html(
+                payload,
+                asset_dir=destination / "evidence_assets",
+                asset_href_prefix="evidence_assets/",
+            ),
+            encoding="utf-8",
+        )
         return {"json": json_path, "markdown": md_path, "html": html_path}
 
     def generate_dashboard(
@@ -193,6 +256,9 @@ class JumpGuardPipeline:
         feature_table: pd.DataFrame,
         output_dir: str | Path,
         report_paths: dict[str, Path],
+        *,
+        video_path: str | Path | None = None,
+        evidence_observations: list[dict[str, Any]] | None = None,
     ) -> dict[str, Path]:
         """Generate a run-local static dashboard for current feature table."""
 
@@ -201,6 +267,8 @@ class JumpGuardPipeline:
         payload = {
             "feature_table": _json_records(feature_table),
             "feature_count": int(feature_table.shape[1] - 5),
+            "video": None if video_path is None else str(video_path),
+            "evidence_based_observations": evidence_observations or [],
             "reports": {key: str(path) for key, path in report_paths.items()},
             "safety_statement": (
                 "Dashboard coordinates current run outputs only. No models are trained "
@@ -257,11 +325,11 @@ class PipelineExecutionError(RuntimeError):
         self.result = result
 
 
-def _copy_video(source: Path, destination_dir: Path) -> Path:
+def _clear_video_exports(destination_dir: Path) -> None:
     destination_dir.mkdir(parents=True, exist_ok=True)
-    destination = destination_dir / source.name
-    shutil.copy2(source, destination)
-    return destination
+    for path in destination_dir.iterdir():
+        if path.is_file() and path.suffix.lower() in SUPPORTED_VIDEO_EXTENSIONS:
+            path.unlink()
 
 
 def _log(log: list[dict[str, Any]], stage: str, start_time: float, message: str) -> None:
@@ -280,25 +348,43 @@ def _render_run_report_markdown(payload: dict[str, Any]) -> str:
         f"{payload['safety_statement']}\n\n"
         "## Summary\n\n"
         f"{payload['summary']}\n\n"
-        "## Feature Table\n\n"
+        + _markdown_video_reference(payload)
+        + _markdown_evidence_reference(payload)
+        + "## Feature Table\n\n"
         "```json\n"
         + json.dumps(_json_ready(payload["feature_table"]), indent=2, sort_keys=True)
         + "\n```\n"
     )
 
 
-def _render_run_report_html(payload: dict[str, Any]) -> str:
+def _render_run_report_html(
+    payload: dict[str, Any],
+    *,
+    asset_dir: str | Path | None = None,
+    asset_href_prefix: str = "",
+) -> str:
     return (
         "<!doctype html>\n<html lang=\"en\"><head><meta charset=\"utf-8\">"
+        "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
         "<title>JumpGuard Uploaded Video Report</title>"
-        "<style>body{font-family:Arial,sans-serif;max-width:1000px;margin:32px auto;line-height:1.45;}"
-        "pre{background:#f0f4f8;padding:12px;overflow:auto;}</style></head><body>"
-        "<h1>JumpGuard Uploaded Video Report</h1>"
-        f"<p>{escape(payload['safety_statement'])}</p>"
-        f"<p>{escape(payload['summary'])}</p>"
-        "<h2>Feature Table</h2><pre>"
+        "<style>"
+        + evidence_report_css()
+        + "pre{background:#f0f4f8;padding:12px;overflow:auto;border-radius:6px;}"
+        + "</style></head><body><main class=\"report-shell\">"
+        "<header class=\"report-header\"><h1>JumpGuard Uploaded Video Report</h1>"
+        f"<p>{escape(payload['safety_statement'])}</p></header>"
+        f"<section class=\"summary-card\"><h2>Summary</h2><p>{escape(payload['summary'])}</p>"
+        + _html_video_reference(payload)
+        + "</section>"
+        + render_evidence_observations_html(
+            payload.get("evidence_based_observations") or [],
+            asset_dir=asset_dir,
+            asset_href_prefix=asset_href_prefix,
+            filename_prefix="run_evidence_observation",
+        )
+        + "<section class=\"simple-card\"><h2>Feature Table</h2><pre>"
         + escape(json.dumps(_json_ready(payload["feature_table"]), indent=2, sort_keys=True))
-        + "</pre></body></html>\n"
+        + "</pre></section></main></body></html>\n"
     )
 
 
@@ -311,7 +397,9 @@ def _render_run_dashboard_html(payload: dict[str, Any]) -> str:
         "<h1>JumpGuard Run Dashboard</h1>"
         f"<p>{escape(payload['safety_statement'])}</p>"
         f"<p>Feature count: {payload['feature_count']}</p>"
-        "<h2>Reports</h2>"
+        + _html_video_reference(payload)
+        + _html_evidence_reference(payload)
+        + "<h2>Reports</h2>"
         + "".join(
             f"<p>{escape(name)}: <a href=\"../athlete_report/{Path(path).name}\">{escape(Path(path).name)}</a></p>"
             for name, path in payload["reports"].items()
@@ -319,6 +407,42 @@ def _render_run_dashboard_html(payload: dict[str, Any]) -> str:
         + "<h2>Feature Table</h2><pre>"
         + escape(json.dumps(_json_ready(payload["feature_table"]), indent=2, sort_keys=True))
         + "</pre></body></html>\n"
+    )
+
+
+def _markdown_video_reference(payload: dict[str, Any]) -> str:
+    if not payload.get("video"):
+        return ""
+    return f"## Annotated Video\n\n{payload['video']}\n\n"
+
+
+def _html_video_reference(payload: dict[str, Any]) -> str:
+    if not payload.get("video"):
+        return ""
+    path = Path(payload["video"])
+    return f"<h2>Annotated Video</h2><p><a href=\"../video/{escape(path.name)}\">{escape(path.name)}</a></p>"
+
+
+def _markdown_evidence_reference(payload: dict[str, Any]) -> str:
+    observations = payload.get("evidence_based_observations") or []
+    if not observations:
+        return "## Evidence-Based ACL Biomechanical Observations\n\n_No evidence-based observations generated._\n\n"
+    return (
+        "## Evidence-Based ACL Biomechanical Observations\n\n"
+        "```json\n"
+        + json.dumps(_json_ready(observations), indent=2, sort_keys=True)
+        + "\n```\n\n"
+    )
+
+
+def _html_evidence_reference(payload: dict[str, Any]) -> str:
+    observations = payload.get("evidence_based_observations") or []
+    if not observations:
+        return "<h2>Evidence-Based Observations</h2><p>No evidence-based observations generated.</p>"
+    return (
+        "<h2>Evidence-Based Observations</h2><pre>"
+        + escape(json.dumps(_json_ready(observations), indent=2, sort_keys=True))
+        + "</pre>"
     )
 
 

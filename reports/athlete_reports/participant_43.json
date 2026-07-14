@@ -370,6 +370,203 @@
       }
     ]
   },
+  "evidence_based_observations": [
+    {
+      "comparison_performed": "2 supporting feature(s) fell outside the reference dataset's central 90% interval (2 low-tail, 0 high-tail). This is a dataset-relative comparison, not a clinical threshold.",
+      "evidence_based_explanation": "Sagittal-plane knee flexion is commonly evaluated in jump-landing ACL biomechanics. Prospective and clinical jump-landing studies discuss knee mechanics as part of neuromuscular-control assessment.",
+      "evidence_strength": "Moderate for movement-context interpretation; not sufficient for diagnosis or prediction from this feature alone.",
+      "features_used": [
+        "knee_flexion_left_median",
+        "knee_flexion_right_median"
+      ],
+      "limitation": "This observation is descriptive and dataset-relative. It is not diagnostic, does not predict ACL injury, and does not establish tissue status or ligament integrity.",
+      "literature_sources": [
+        {
+          "citation": "Hewett TE, Myer GD, Ford KR, Heidt RS Jr, Colosimo AJ, McLean SG, van den Bogert AJ, Paterno MV, Succop P. Biomechanical measures of neuromuscular control and valgus loading of the knee predict anterior cruciate ligament injury risk in female athletes: a prospective study. Am J Sports Med. 2005;33(4):492-501.",
+          "doi": "10.1177/0363546504269591",
+          "pmid": "15722287",
+          "url": "https://doi.org/10.1177/0363546504269591"
+        },
+        {
+          "citation": "Padua DA, Marshall SW, Boling MC, Thigpen CA, Garrett WE Jr, Beutler AI. The Landing Error Scoring System (LESS) is a valid and reliable clinical assessment tool of jump-landing biomechanics: The JUMP-ACL study. Am J Sports Med. 2009;37(10):1996-2002.",
+          "doi": "10.1177/0363546509343200",
+          "pmid": "19726623",
+          "url": "https://doi.org/10.1177/0363546509343200"
+        }
+      ],
+      "observation_id": "participant_43_sagittal_knee_flexion",
+      "participant_id": 43,
+      "safety_label": "context_only_not_diagnosis_not_prediction",
+      "suggested_clinical_consideration": "Consider reviewing the landing video and full lower-extremity movement pattern with a qualified clinician or biomechanist.",
+      "supporting_features": [
+        {
+          "feature": "knee_flexion_left_median",
+          "measured_value": 10.83675016,
+          "reference_mean": 47.89711624,
+          "reference_p05": 16.40968798,
+          "reference_p95": 72.95943467,
+          "reference_percentile": 2.380952381,
+          "reference_std": 17.92858603,
+          "reference_tail": "low_reference_tail",
+          "z_score": -2.067110368
+        },
+        {
+          "feature": "knee_flexion_right_median",
+          "measured_value": 12.75197911,
+          "reference_mean": 47.64388864,
+          "reference_p05": 15.29774867,
+          "reference_p95": 74.18898471,
+          "reference_percentile": 4.761904762,
+          "reference_std": 18.10125271,
+          "reference_tail": "low_reference_tail",
+          "z_score": -1.927596398
+        }
+      ],
+      "title": "Knee sagittal-plane flexion features from Prompt 11."
+    },
+    {
+      "comparison_performed": "6 supporting feature(s) fell outside the reference dataset's central 90% interval (4 low-tail, 2 high-tail). This is a dataset-relative comparison, not a clinical threshold.",
+      "evidence_based_explanation": "Hip flexion is part of sagittal-plane landing strategy and is considered alongside trunk, knee, and ankle mechanics in jump-landing assessment research.",
+      "evidence_strength": "Limited-to-moderate for movement-context interpretation; this project does not measure trunk motion or joint moments.",
+      "features_used": [
+        "hip_flexion_left_mean",
+        "hip_flexion_left_median",
+        "hip_flexion_left_rom",
+        "hip_flexion_right_mean",
+        "hip_flexion_right_median",
+        "hip_flexion_right_rom"
+      ],
+      "limitation": "This observation is descriptive and dataset-relative. It is not diagnostic, does not predict ACL injury, and does not establish tissue status or ligament integrity.",
+      "literature_sources": [
+        {
+          "citation": "Padua DA, Marshall SW, Boling MC, Thigpen CA, Garrett WE Jr, Beutler AI. The Landing Error Scoring System (LESS) is a valid and reliable clinical assessment tool of jump-landing biomechanics: The JUMP-ACL study. Am J Sports Med. 2009;37(10):1996-2002.",
+          "doi": "10.1177/0363546509343200",
+          "pmid": "19726623",
+          "url": "https://doi.org/10.1177/0363546509343200"
+        }
+      ],
+      "observation_id": "participant_43_sagittal_hip_strategy",
+      "participant_id": 43,
+      "safety_label": "context_only_not_diagnosis_not_prediction",
+      "suggested_clinical_consideration": "Consider reviewing whether the observed hip strategy is consistent across trials and with the athlete's task context.",
+      "supporting_features": [
+        {
+          "feature": "hip_flexion_left_mean",
+          "measured_value": 28.21672886,
+          "reference_mean": 46.83602905,
+          "reference_p05": 31.27212202,
+          "reference_p95": 61.14325678,
+          "reference_percentile": 4.761904762,
+          "reference_std": 9.838548489,
+          "reference_tail": "low_reference_tail",
+          "z_score": -1.892484467
+        },
+        {
+          "feature": "hip_flexion_left_median",
+          "measured_value": 14.56797381,
+          "reference_mean": 44.74661409,
+          "reference_p05": 20.41214415,
+          "reference_p95": 72.8239368,
+          "reference_percentile": 4.761904762,
+          "reference_std": 16.79886461,
+          "reference_tail": "low_reference_tail",
+          "z_score": -1.796469046
+        },
+        {
+          "feature": "hip_flexion_left_rom",
+          "measured_value": 113.965345,
+          "reference_mean": 87.52142357,
+          "reference_p05": 59.96098216,
+          "reference_p95": 113.9574424,
+          "reference_percentile": 95.23809524,
+          "reference_std": 18.12187009,
+          "reference_tail": "high_reference_tail",
+          "z_score": 1.45922696
+        },
+        {
+          "feature": "hip_flexion_right_mean",
+          "measured_value": 28.41254345,
+          "reference_mean": 46.96279442,
+          "reference_p05": 29.60955121,
+          "reference_p95": 65.42251943,
+          "reference_percentile": 4.761904762,
+          "reference_std": 10.21952553,
+          "reference_tail": "low_reference_tail",
+          "z_score": -1.81517732
+        },
+        {
+          "feature": "hip_flexion_right_median",
+          "measured_value": 13.99012617,
+          "reference_mean": 44.82419602,
+          "reference_p05": 19.68786743,
+          "reference_p95": 72.79453112,
+          "reference_percentile": 4.761904762,
+          "reference_std": 17.16089614,
+          "reference_tail": "low_reference_tail",
+          "z_score": -1.796763386
+        },
+        {
+          "feature": "hip_flexion_right_rom",
+          "measured_value": 115.9873494,
+          "reference_mean": 88.17372207,
+          "reference_p05": 60.53165345,
+          "reference_p95": 115.8425729,
+          "reference_percentile": 95.23809524,
+          "reference_std": 18.16690157,
+          "reference_tail": "high_reference_tail",
+          "z_score": 1.531005559
+        }
+      ],
+      "title": "Hip sagittal-plane flexion features from Prompt 11."
+    },
+    {
+      "comparison_performed": "2 supporting feature(s) fell outside the reference dataset's central 90% interval (2 low-tail, 0 high-tail). This is a dataset-relative comparison, not a clinical threshold.",
+      "evidence_based_explanation": "Ankle position is one component of lower-extremity jump-landing assessment. This interpretation is limited to descriptive sagittal-plane movement context.",
+      "evidence_strength": "Limited for ACL-specific interpretation from ankle angle alone.",
+      "features_used": [
+        "ankle_angle_left_mean",
+        "ankle_angle_right_mean"
+      ],
+      "limitation": "This observation is descriptive and dataset-relative. It is not diagnostic, does not predict ACL injury, and does not establish tissue status or ligament integrity.",
+      "literature_sources": [
+        {
+          "citation": "Padua DA, Marshall SW, Boling MC, Thigpen CA, Garrett WE Jr, Beutler AI. The Landing Error Scoring System (LESS) is a valid and reliable clinical assessment tool of jump-landing biomechanics: The JUMP-ACL study. Am J Sports Med. 2009;37(10):1996-2002.",
+          "doi": "10.1177/0363546509343200",
+          "pmid": "19726623",
+          "url": "https://doi.org/10.1177/0363546509343200"
+        }
+      ],
+      "observation_id": "participant_43_sagittal_ankle_strategy",
+      "participant_id": 43,
+      "safety_label": "context_only_not_diagnosis_not_prediction",
+      "suggested_clinical_consideration": "Consider ankle observations only in combination with the full landing pattern and source video review.",
+      "supporting_features": [
+        {
+          "feature": "ankle_angle_left_mean",
+          "measured_value": 2.749995628,
+          "reference_mean": 10.8622742,
+          "reference_p05": 4.921064716,
+          "reference_p95": 19.35867698,
+          "reference_percentile": 2.380952381,
+          "reference_std": 4.680899663,
+          "reference_tail": "low_reference_tail",
+          "z_score": -1.733059702
+        },
+        {
+          "feature": "ankle_angle_right_mean",
+          "measured_value": 2.735382748,
+          "reference_mean": 11.30765116,
+          "reference_p05": 6.031583317,
+          "reference_p95": 19.6699665,
+          "reference_percentile": 2.380952381,
+          "reference_std": 4.364877626,
+          "reference_tail": "low_reference_tail",
+          "z_score": -1.963919528
+        }
+      ],
+      "title": "Ankle sagittal-plane angle features from Prompt 11."
+    }
+  ],
   "literature_context": [
     {
       "category": "ankle",
@@ -1271,11 +1468,5 @@
       "z_score": -0.07375104822
     }
   ],
-  "visualizations": {
-    "distribution_plots": "reports/athlete_reports/participant_43_assets/distribution_plots.png",
-    "percentile_comparison": "reports/athlete_reports/participant_43_assets/percentile_comparison.png",
-    "population_comparison": "reports/athlete_reports/participant_43_assets/population_comparison.png",
-    "radar_chart": "reports/athlete_reports/participant_43_assets/radar_chart.png",
-    "symmetry_comparison": "reports/athlete_reports/participant_43_assets/symmetry_comparison.png"
-  }
+  "visualizations": {}
 }

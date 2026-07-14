@@ -60,6 +60,9 @@ class Dashboard:
         self.knowledge_mapping = _read_csv(
             self.reports_dir / "biomechanical_knowledge_mapping.csv"
         )
+        self.evidence_based_observations = _read_json_records_optional(
+            self.reports_dir / "evidence_based_observations.json"
+        )
         _require_dir(self.athlete_reports_dir)
         _require_dir(self.plots_dir)
 
@@ -119,6 +122,7 @@ class Dashboard:
             "population": self.show_population(),
             "features": [self.show_feature(feature) for feature in self.feature_names],
             "symmetry": self.show_symmetry(),
+            "evidence_based_observations": self.show_evidence_based_observations(),
             "plot_gallery": self.show_plot_gallery(),
             "reports": self.list_reports(),
             "time_series_available": self.dataset is not None,
@@ -149,9 +153,20 @@ class Dashboard:
             "summary": _record(summary.iloc[0].to_dict()),
             "percentiles": _records(percentiles),
             "observations": _records(observations),
+            "evidence_based_observations": self.show_evidence_based_observations(participant_id),
             "reports": self.report_paths(participant_id),
             "missing_feature_count": int(percentiles["value"].isna().sum()),
         }
+
+    def show_evidence_based_observations(self, participant_id: int | None = None) -> list[dict[str, Any]]:
+        """Return Prompt 13 evidence-backed observations when available."""
+
+        rows = self.evidence_based_observations.copy()
+        if rows.empty:
+            return []
+        if participant_id is not None:
+            rows = rows[rows["participant_id"].astype(int).eq(int(participant_id))]
+        return _records(rows)
 
     def show_population(self) -> dict[str, Any]:
         """Return population comparison statistics."""
@@ -313,6 +328,7 @@ a{{color:#0b65c2;}}
 <section class=\"grid\">
 <div><h2>Athlete Overview</h2><pre id=\"athleteOverview\"></pre></div>
 <div><h2>Biomechanical Observations</h2><pre id=\"athleteObservations\"></pre></div>
+<div><h2>Evidence-Based Observations</h2><pre id=\"evidenceObservations\"></pre></div>
 <div><h2>Athlete Reports</h2><div id=\"athleteReports\"></div></div>
 </section>
 <section>
@@ -341,6 +357,7 @@ function renderAthlete() {{
   const athlete = currentAthlete();
   document.getElementById('athleteOverview').textContent = pretty(athlete.summary);
   document.getElementById('athleteObservations').textContent = pretty(athlete.observations.slice(0, 20));
+  document.getElementById('evidenceObservations').textContent = pretty(athlete.evidence_based_observations.slice(0, 20));
   const reports = athlete.reports;
   document.getElementById('athleteReports').innerHTML = Object.keys(reports).map(
     key => `<p><a href=\"../../${{reports[key]}}\">${{key}}</a></p>`
@@ -376,6 +393,12 @@ def _read_csv(path: Path) -> pd.DataFrame:
     if not path.exists():
         raise FileNotFoundError(f"Required dashboard input is missing: {path}")
     return pd.read_csv(path)
+
+
+def _read_json_records_optional(path: Path) -> pd.DataFrame:
+    if not path.exists():
+        return pd.DataFrame()
+    return pd.DataFrame(json.loads(path.read_text(encoding="utf-8")))
 
 
 def _require_dir(path: Path) -> None:

@@ -1,0 +1,68 @@
+{
+  "automatic_clinical_interpretation_generated": false,
+  "automatic_reference_comparison_generated": false,
+  "automatic_reports_generated": false,
+  "error": null,
+  "event_detection_generated": false,
+  "execution_timestamp": "2026-07-13T15:04:16.921865+00:00",
+  "frame_count": 92,
+  "log": [
+    {
+      "elapsed_seconds": 0.037421292159706354,
+      "message": "Loaded Vertical_Jump_-_Side_view_-_Simone_Fallgren_608p_.mp4",
+      "stage": "video_loaded"
+    },
+    {
+      "elapsed_seconds": 2.5012072920799255,
+      "message": "Exported MediaPipe landmarks",
+      "stage": "pose_estimated"
+    },
+    {
+      "elapsed_seconds": 3.014912291895598,
+      "message": "Exported existing annotated video",
+      "stage": "video_annotated"
+    },
+    {
+      "elapsed_seconds": 3.495874250307679,
+      "message": "Exported per-frame measurements",
+      "stage": "measurements_exported"
+    },
+    {
+      "elapsed_seconds": 3.5190403750166297,
+      "message": "Exported synchronized viewer",
+      "stage": "interactive_viewer_exported"
+    }
+  ],
+  "measurement_columns": [
+    "hip_flexion_right",
+    "hip_flexion_left",
+    "knee_flexion_right",
+    "knee_flexion_left",
+    "ankle_angle_right",
+    "ankle_angle_left"
+  ],
+  "output_locations": {
+    "annotated_video": "exports/testing_environment/runs/Vertical_Jump_-_Side_view_-_Simone_Fallgren_608p_20260713T150416Z/video/Vertical_Jump_-_Side_view_-_Simone_Fallgren_608p__annotated.avi",
+    "interactive_viewer_html": "exports/testing_environment/runs/Vertical_Jump_-_Side_view_-_Simone_Fallgren_608p_20260713T150416Z/interactive_viewer.html",
+    "landmarks_csv": "exports/testing_environment/runs/Vertical_Jump_-_Side_view_-_Simone_Fallgren_608p_20260713T150416Z/landmarks/landmarks.csv",
+    "landmarks_json": "exports/testing_environment/runs/Vertical_Jump_-_Side_view_-_Simone_Fallgren_608p_20260713T150416Z/landmarks/landmarks.json",
+    "metadata": "exports/testing_environment/runs/Vertical_Jump_-_Side_view_-_Simone_Fallgren_608p_20260713T150416Z/metadata.json",
+    "per_frame_measurements_csv": "exports/testing_environment/runs/Vertical_Jump_-_Side_view_-_Simone_Fallgren_608p_20260713T150416Z/measurements/per_frame_measurements.csv",
+    "per_frame_measurements_json": "exports/testing_environment/runs/Vertical_Jump_-_Side_view_-_Simone_Fallgren_608p_20260713T150416Z/measurements/per_frame_measurements.json",
+    "time_series_json": "exports/testing_environment/runs/Vertical_Jump_-_Side_view_-_Simone_Fallgren_608p_20260713T150416Z/measurements/time_series.json"
+  },
+  "processed_frame_count": 92,
+  "processing_duration_seconds": 3.5190494172275066,
+  "selected_frame_policy": "Clinician-controlled frame selection only; no event inference.",
+  "status": "success",
+  "video": {
+    "codec": "h264",
+    "duration_seconds": 3.066666666666667,
+    "filename": "Vertical_Jump_-_Side_view_-_Simone_Fallgren_608p_.mp4",
+    "fps": 30.0,
+    "frame_count": 92,
+    "height": 1080,
+    "path": "exports/testing_environment/uploads/Vertical_Jump_-_Side_view_-_Simone_Fallgren_608p_20260713T150416Z/Vertical_Jump_-_Side_view_-_Simone_Fallgren_608p_.mp4",
+    "width": 608
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "input_dir": "exports/testing_environment/uploads",
+  "output_dir": "exports/testing_environment/runs",
+  "logs_dir": "logs/testing_environment",
+  "frame_skip": 1,
+  "max_upload_mb": 512,
+  "allowed_extensions": [".mp4", ".mov", ".avi"],
+  "confidence_threshold": null,
+  "annotated_video_codec": "MJPG",
+  "future_model_selection": "mediapipe_pose_landmarker_lite"
+}
