@@ -1,0 +1,333 @@
+{
+  "confidence_summary": [
+    {
+      "confidence_mean": 0.998700262402459,
+      "confidence_min": 0.9768673181533813,
+      "confidence_missing_frames": 1,
+      "frame_count": 140,
+      "landmark_name": "left_shoulder",
+      "visibility_mean": 0.9977465134730442,
+      "visibility_min": 0.9691950678825378,
+      "visibility_missing_frames": 1
+    },
+    {
+      "confidence_mean": 0.9993087503549863,
+      "confidence_min": 0.9829046726226807,
+      "confidence_missing_frames": 1,
+      "frame_count": 140,
+      "landmark_name": "right_shoulder",
+      "visibility_mean": 0.9994114332919498,
+      "visibility_min": 0.981353759765625,
+      "visibility_missing_frames": 1
+    },
+    {
+      "confidence_mean": 0.9993288628488993,
+      "confidence_min": 0.9944682121276855,
+      "confidence_missing_frames": 1,
+      "frame_count": 140,
+      "landmark_name": "left_hip",
+      "visibility_mean": 0.9990024618107638,
+      "visibility_min": 0.9968894124031067,
+      "visibility_missing_frames": 1
+    },
+    {
+      "confidence_mean": 0.9995894500677535,
+      "confidence_min": 0.997374415397644,
+      "confidence_missing_frames": 1,
+      "frame_count": 140,
+      "landmark_name": "right_hip",
+      "visibility_mean": 0.9995722714945566,
+      "visibility_min": 0.9980295300483704,
+      "visibility_missing_frames": 1
+    },
+    {
+      "confidence_mean": 0.9990655651195444,
+      "confidence_min": 0.9945113658905029,
+      "confidence_missing_frames": 1,
+      "frame_count": 140,
+      "landmark_name": "left_knee",
+      "visibility_mean": 0.4089647192213175,
+      "visibility_min": 0.10966568440198898,
+      "visibility_missing_frames": 1
+    },
+    {
+      "confidence_mean": 0.9993297461983112,
+      "confidence_min": 0.9958213567733765,
+      "confidence_missing_frames": 1,
+      "frame_count": 140,
+      "landmark_name": "right_knee",
+      "visibility_mean": 0.9476187160546831,
+      "visibility_min": 0.7471018433570862,
+      "visibility_missing_frames": 1
+    },
+    {
+      "confidence_mean": 0.9989624902498808,
+      "confidence_min": 0.9941290616989136,
+      "confidence_missing_frames": 1,
+      "frame_count": 140,
+      "landmark_name": "left_ankle",
+      "visibility_mean": 0.59964905764988,
+      "visibility_min": 0.14164386689662933,
+      "visibility_missing_frames": 1
+    },
+    {
+      "confidence_mean": 0.9988367463187348,
+      "confidence_min": 0.9914257526397705,
+      "confidence_missing_frames": 1,
+      "frame_count": 140,
+      "landmark_name": "right_ankle",
+      "visibility_mean": 0.9369823915495289,
+      "visibility_min": 0.7162635326385498,
+      "visibility_missing_frames": 1
+    }
+  ],
+  "findings": [
+    {
+      "status": "Verified implementation trace",
+      "text": "Hip measurements use the existing shoulder -> hip -> knee landmark triplets and the unsigned internal vector-angle formula documented in the code."
+    },
+    {
+      "status": "Observed-data audit",
+      "text": "Large left/right differences, when present, are reported as ranked observations from existing computed values, not as clinical abnormalities or formula errors."
+    },
+    {
+      "status": "Inconclusive cause",
+      "text": "This audit can identify missing or low-confidence landmark evidence, but it cannot prove occlusion, camera perspective, or MediaPipe estimation error without paired visual review and external ground truth."
+    }
+  ],
+  "hip_discrepancy_summary": {
+    "finite_hip_pair_count": 139,
+    "largest_differences": [
+      {
+        "absolute_difference": 71.22207156788271,
+        "evidence_notes": [
+          "left hip triplet includes visibility below 0.5"
+        ],
+        "frame_index": 50,
+        "hip_flexion_left": 81.58863922706891,
+        "hip_flexion_right": 10.366567659186208,
+        "left_confidence_min": 0.997502863407135,
+        "left_visibility_min": 0.39046135544776917,
+        "rank": 1,
+        "right_confidence_min": 0.9979812502861023,
+        "right_visibility_min": 0.9595491290092468,
+        "timestamp": 1.6738082485270487
+      },
+      {
+        "absolute_difference": 71.06297003886291,
+        "evidence_notes": [
+          "left hip triplet includes visibility below 0.5"
+        ],
+        "frame_index": 51,
+        "hip_flexion_left": 79.99738079397399,
+        "hip_flexion_right": 8.934410755111077,
+        "left_confidence_min": 0.9972624778747559,
+        "left_visibility_min": 0.43288350105285645,
+        "rank": 2,
+        "right_confidence_min": 0.9978063702583313,
+        "right_visibility_min": 0.9702543020248413,
+        "timestamp": 1.7072844134975897
+      },
+      {
+        "absolute_difference": 66.00937229587132,
+        "evidence_notes": [
+          "left hip triplet includes visibility below 0.5"
+        ],
+        "frame_index": 46,
+        "hip_flexion_left": 80.77312198800111,
+        "hip_flexion_right": 14.763749692129792,
+        "left_confidence_min": 0.9969953298568726,
+        "left_visibility_min": 0.23448696732521057,
+        "rank": 3,
+        "right_confidence_min": 0.9971953630447388,
+        "right_visibility_min": 0.9028341770172119,
+        "timestamp": 1.5399035886448849
+      },
+      {
+        "absolute_difference": 65.6245974112812,
+        "evidence_notes": [
+          "left hip triplet includes visibility below 0.5"
+        ],
+        "frame_index": 47,
+        "hip_flexion_left": 83.95757700713048,
+        "hip_flexion_right": 18.332979595849288,
+        "left_confidence_min": 0.9973317384719849,
+        "left_visibility_min": 0.27022212743759155,
+        "rank": 4,
+        "right_confidence_min": 0.9975082874298096,
+        "right_visibility_min": 0.9359467625617981,
+        "timestamp": 1.573379753615426
+      },
+      {
+        "absolute_difference": 63.39753639118137,
+        "evidence_notes": [
+          "left hip triplet includes visibility below 0.5"
+        ],
+        "frame_index": 52,
+        "hip_flexion_left": 76.3622184018527,
+        "hip_flexion_right": 12.964682010671332,
+        "left_confidence_min": 0.9974817633628845,
+        "left_visibility_min": 0.4158259332180023,
+        "rank": 5,
+        "right_confidence_min": 0.9981284737586975,
+        "right_visibility_min": 0.9703407287597656,
+        "timestamp": 1.7407605784681306
+      },
+      {
+        "absolute_difference": 57.52235938140382,
+        "evidence_notes": [
+          "left hip triplet includes visibility below 0.5"
+        ],
+        "frame_index": 48,
+        "hip_flexion_left": 73.72856989617617,
+        "hip_flexion_right": 16.206210514772348,
+        "left_confidence_min": 0.9968922734260559,
+        "left_visibility_min": 0.3348354399204254,
+        "rank": 6,
+        "right_confidence_min": 0.9972273707389832,
+        "right_visibility_min": 0.9383403658866882,
+        "timestamp": 1.6068559185859668
+      },
+      {
+        "absolute_difference": 54.74063644098887,
+        "evidence_notes": [
+          "left hip triplet includes visibility below 0.5"
+        ],
+        "frame_index": 42,
+        "hip_flexion_left": 77.42637658043999,
+        "hip_flexion_right": 22.68574013945112,
+        "left_confidence_min": 0.9989308714866638,
+        "left_visibility_min": 0.2842114269733429,
+        "rank": 7,
+        "right_confidence_min": 0.9990037083625793,
+        "right_visibility_min": 0.9252403974533081,
+        "timestamp": 1.405998928762721
+      },
+      {
+        "absolute_difference": 54.401551245161684,
+        "evidence_notes": [
+          "left hip triplet includes visibility below 0.5"
+        ],
+        "frame_index": 45,
+        "hip_flexion_left": 73.45137013955552,
+        "hip_flexion_right": 19.049818894393837,
+        "left_confidence_min": 0.9984962940216064,
+        "left_visibility_min": 0.2423328012228012,
+        "rank": 8,
+        "right_confidence_min": 0.9982559084892273,
+        "right_visibility_min": 0.912513792514801,
+        "timestamp": 1.5064274236743438
+      },
+      {
+        "absolute_difference": 53.679022683708865,
+        "evidence_notes": [
+          "left hip triplet includes visibility below 0.5"
+        ],
+        "frame_index": 49,
+        "hip_flexion_left": 73.93033468404295,
+        "hip_flexion_right": 20.251312000334085,
+        "left_confidence_min": 0.9970383644104004,
+        "left_visibility_min": 0.38904207944869995,
+        "rank": 9,
+        "right_confidence_min": 0.9972566962242126,
+        "right_visibility_min": 0.9440830945968628,
+        "timestamp": 1.6403320835565078
+      },
+      {
+        "absolute_difference": 52.03172873857016,
+        "evidence_notes": [
+          "left hip triplet includes visibility below 0.5"
+        ],
+        "frame_index": 53,
+        "hip_flexion_left": 71.07919173054576,
+        "hip_flexion_right": 19.0474629919756,
+        "left_confidence_min": 0.9984959363937378,
+        "left_visibility_min": 0.4660663604736328,
+        "rank": 10,
+        "right_confidence_min": 0.9990808963775635,
+        "right_visibility_min": 0.9775276780128479,
+        "timestamp": 1.7742367434386717
+      }
+    ],
+    "rank_policy": "Ranked by existing computed abs(hip_flexion_left - hip_flexion_right); no clinical threshold is applied."
+  },
+  "measurement_definitions": [
+    {
+      "convention": "Unsigned internal 3D vector angle from MediaPipe landmark coordinates.",
+      "expected_range_degrees": "0 to 180 when vectors are finite and nonzero; NaN otherwise.",
+      "formula": "degrees(arccos(clip(dot(vector_a, vector_b) / (||vector_a|| * ||vector_b||), -1, 1)))",
+      "interpretation_boundary": "MediaPipe-derived geometric approximation; not laboratory inverse kinematics or a clinical score.",
+      "landmarks": "right_shoulder -> right_hip -> right_knee",
+      "signal": "hip_flexion_right",
+      "vector_a": "right_shoulder - right_hip",
+      "vector_b": "right_knee - right_hip",
+      "vertex": "right_hip"
+    },
+    {
+      "convention": "Unsigned internal 3D vector angle from MediaPipe landmark coordinates.",
+      "expected_range_degrees": "0 to 180 when vectors are finite and nonzero; NaN otherwise.",
+      "formula": "degrees(arccos(clip(dot(vector_a, vector_b) / (||vector_a|| * ||vector_b||), -1, 1)))",
+      "interpretation_boundary": "MediaPipe-derived geometric approximation; not laboratory inverse kinematics or a clinical score.",
+      "landmarks": "left_shoulder -> left_hip -> left_knee",
+      "signal": "hip_flexion_left",
+      "vector_a": "left_shoulder - left_hip",
+      "vector_b": "left_knee - left_hip",
+      "vertex": "left_hip"
+    },
+    {
+      "convention": "Unsigned internal 3D vector angle from MediaPipe landmark coordinates.",
+      "expected_range_degrees": "0 to 180 when vectors are finite and nonzero; NaN otherwise.",
+      "formula": "degrees(arccos(clip(dot(vector_a, vector_b) / (||vector_a|| * ||vector_b||), -1, 1)))",
+      "interpretation_boundary": "MediaPipe-derived geometric approximation; not laboratory inverse kinematics or a clinical score.",
+      "landmarks": "right_hip -> right_knee -> right_ankle",
+      "signal": "knee_flexion_right",
+      "vector_a": "right_hip - right_knee",
+      "vector_b": "right_ankle - right_knee",
+      "vertex": "right_knee"
+    },
+    {
+      "convention": "Unsigned internal 3D vector angle from MediaPipe landmark coordinates.",
+      "expected_range_degrees": "0 to 180 when vectors are finite and nonzero; NaN otherwise.",
+      "formula": "degrees(arccos(clip(dot(vector_a, vector_b) / (||vector_a|| * ||vector_b||), -1, 1)))",
+      "interpretation_boundary": "MediaPipe-derived geometric approximation; not laboratory inverse kinematics or a clinical score.",
+      "landmarks": "left_hip -> left_knee -> left_ankle",
+      "signal": "knee_flexion_left",
+      "vector_a": "left_hip - left_knee",
+      "vector_b": "left_ankle - left_knee",
+      "vertex": "left_knee"
+    },
+    {
+      "convention": "Unsigned internal 3D vector angle from MediaPipe landmark coordinates.",
+      "expected_range_degrees": "0 to 180 when vectors are finite and nonzero; NaN otherwise.",
+      "formula": "degrees(arccos(clip(dot(vector_a, vector_b) / (||vector_a|| * ||vector_b||), -1, 1)))",
+      "interpretation_boundary": "MediaPipe-derived geometric approximation; not laboratory inverse kinematics or a clinical score.",
+      "landmarks": "right_knee -> right_ankle -> right_foot_index",
+      "signal": "ankle_angle_right",
+      "vector_a": "right_knee - right_ankle",
+      "vector_b": "right_foot_index - right_ankle",
+      "vertex": "right_ankle"
+    },
+    {
+      "convention": "Unsigned internal 3D vector angle from MediaPipe landmark coordinates.",
+      "expected_range_degrees": "0 to 180 when vectors are finite and nonzero; NaN otherwise.",
+      "formula": "degrees(arccos(clip(dot(vector_a, vector_b) / (||vector_a|| * ||vector_b||), -1, 1)))",
+      "interpretation_boundary": "MediaPipe-derived geometric approximation; not laboratory inverse kinematics or a clinical score.",
+      "landmarks": "left_knee -> left_ankle -> left_foot_index",
+      "signal": "ankle_angle_left",
+      "vector_a": "left_knee - left_ankle",
+      "vector_b": "left_foot_index - left_ankle",
+      "vertex": "left_ankle"
+    }
+  ],
+  "recommendations": [
+    "Use Measurement Debug Mode to visually inspect ranked frames before considering any formula change.",
+    "If recurrent discrepancies coincide with low shoulder, hip, or knee visibility, document the affected frames as measurement-quality concerns rather than changing biomechanics automatically.",
+    "Do not alter the hip angle definition without paired validation data or an explicitly approved future scientific prompt."
+  ],
+  "scope": {
+    "measurement_values_recomputed": false,
+    "notes": "Angles, deltas, symmetry values, landmarks, confidence, and visibility are read from existing frame records.",
+    "purpose": "Investigate observed left/right hip measurement differences using existing diagnostic outputs.",
+    "scientific_pipeline_modified": false
+  }
+}

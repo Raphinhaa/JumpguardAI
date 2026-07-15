@@ -10,10 +10,12 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
+from copy import deepcopy
 import json
 
 import pandas as pd
 
+from app.pipeline.measurement_confidence import attach_measurement_confidence
 from src.feature_extraction import ANGLE_SIGNAL_MAP
 from src.pose_estimation import MEDIAPIPE_POSE_CONNECTIONS
 
@@ -42,7 +44,7 @@ def export_measurement_debug_raw(
     csv_destination = Path(csv_path)
     json_destination = Path(json_path)
     csv_destination.parent.mkdir(parents=True, exist_ok=True)
-    rows = _debug_rows(frame_database)
+    rows = _debug_rows(_ensure_confidence_metadata(frame_database))
     pd.DataFrame(rows).to_csv(csv_destination, index=False, float_format="%.10g")
     json_destination.write_text(json.dumps(rows, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return csv_destination, json_destination
@@ -55,8 +57,10 @@ def render_measurement_debugger_html(
 ) -> str:
     """Render a standalone developer diagnostic page."""
 
+    frames = _ensure_confidence_metadata(frame_database)
+
     payload = {
-        "frames": frame_database,
+        "frames": frames,
         "angle_map": ANGLE_SIGNAL_MAP,
         "connections": MEDIAPIPE_POSE_CONNECTIONS,
         "debug_landmarks": DEBUG_LANDMARKS,
@@ -220,12 +224,15 @@ def render_measurement_debugger_html(
       const selectedAngle = angleSelect.value || Object.keys(angleMap)[0];
       const triplet = angleMap[selectedAngle] || [];
       const vectors = vectorText(frame, triplet);
+      const confidence = frame.measurement_confidence?.[selectedAngle] || {{}};
       document.getElementById('frameLabel').textContent = frame.frame_index ?? '--';
       document.getElementById('timeLabel').textContent = fmt(frame.timestamp, 3) + ' s';
       document.getElementById('anglePanel').innerHTML = '<table><tbody>' +
         `<tr><th>Signal</th><td>${{selectedAngle}}</td></tr>` +
         `<tr><th>Landmarks</th><td>${{triplet.join(' -> ')}}</td></tr>` +
         `<tr><th>Current angle</th><td>${{fmt(frame.measurements?.[selectedAngle], 6)}} deg</td></tr>` +
+        `<tr><th>Confidence</th><td>${{fmt(confidence.score_percent, 1)}}% · ${{confidence.category?.label || 'Low Confidence'}} · ${{confidence.limb_role || 'Unknown limb role'}}</td></tr>` +
+        `<tr><th>Confidence method</th><td>${{confidence.calculation || 'Mean visibility of contributing landmarks.'}}</td></tr>` +
         `<tr><th>Vector A</th><td>${{vectors.a}}</td></tr>` +
         `<tr><th>Vector B</th><td>${{vectors.b}}</td></tr>` +
         '</tbody></table>';
@@ -241,10 +248,16 @@ def render_measurement_debugger_html(
     }}
     function renderConfidence(frame) {{
       const landmarks = landmarkMap(frame);
-      document.getElementById('confidencePanel').innerHTML = debugLandmarks.map(name => {{
+      const measurementRows = Object.entries(frame.measurement_confidence || {{}}).map(([signal, confidence]) => {{
+        const visibilities = confidence.landmark_visibilities || {{}};
+        const visibilityText = Object.entries(visibilities).map(([name, value]) => `${{name}}=${{fmt(value, 3)}}`).join(', ');
+        return `<tr><td>${{signal}}</td><td>${{fmt(confidence.score_percent, 1)}}%</td><td>${{confidence.category?.label || 'Low Confidence'}}</td><td>${{confidence.limb_role || 'Unknown limb role'}}</td><td>${{visibilityText}}</td></tr>`;
+      }}).join('');
+      const landmarkRows = debugLandmarks.map(name => {{
         const row = landmarks[name] || {{}};
         return `<p><span class="status-dot" style="background:${{visibilityColor(row.visibility)}}"></span>${{name}} visibility ${{fmt(row.visibility, 4)}} confidence ${{fmt(row.confidence, 4)}}</p>`;
       }}).join('');
+      document.getElementById('confidencePanel').innerHTML = '<h3>Measurement Confidence Percentages</h3><p class="muted">Developer-only: score is the mean visibility of the landmarks used by each joint-angle measurement.</p><table><thead><tr><th>Signal</th><th>Score</th><th>Category</th><th>Limb role</th><th>Landmark visibilities</th></tr></thead><tbody>' + measurementRows + '</tbody></table><h3>Landmark Visibility</h3>' + landmarkRows;
     }}
     function renderComparison(frame) {{
       const pairs = [['hip_flexion', 'hip_flexion_left', 'hip_flexion_right'], ['knee_flexion', 'knee_flexion_left', 'knee_flexion_right'], ['ankle_angle', 'ankle_angle_left', 'ankle_angle_right']];
@@ -291,6 +304,11 @@ def _debug_rows(frame_database: list[dict[str, Any]]) -> list[dict[str, Any]]:
                 "percent_difference": symmetry.get("percent_difference"),
                 "symmetry_index": symmetry.get("symmetry_index"),
             }
+            confidence = frame.get("measurement_confidence", {}).get(signal, {})
+            row["measurement_confidence_percent"] = confidence.get("score_percent")
+            row["measurement_confidence_category"] = confidence.get("category", {}).get("label")
+            row["measurement_confidence_limb_role"] = confidence.get("limb_role")
+            row["measurement_confidence_calculation"] = confidence.get("calculation")
             for label, landmark in zip(("first", "vertex", "third"), landmarks, strict=True):
                 source = landmark_lookup.get(landmark, {})
                 row[f"{label}_landmark"] = landmark
@@ -303,6 +321,13 @@ def _debug_rows(frame_database: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return _json_ready(rows)
 
 
+def _ensure_confidence_metadata(frame_database: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    frames = deepcopy(frame_database)
+    if frames and any("measurement_confidence" not in frame or "camera_orientation" not in frame for frame in frames):
+        attach_measurement_confidence(frames)
+    return frames
+
+
 def _json_ready(value: Any) -> Any:
     if isinstance(value, dict):
         return {str(key): _json_ready(item) for key, item in value.items()}
@@ -313,4 +338,3 @@ def _json_ready(value: Any) -> Any:
     if pd.isna(value):
         return None
     return value
-

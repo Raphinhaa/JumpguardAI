@@ -1,0 +1,127 @@
+{
+  "automatic_clinical_interpretation_generated": false,
+  "automatic_reference_comparison_generated": false,
+  "automatic_reports_generated": false,
+  "browser_video_warning": null,
+  "camera_aware_confidence_generated": true,
+  "camera_orientation": {
+    "camera_facing_side": "right",
+    "fixed_for_session": true,
+    "landmarks_used": [
+      "<side>_shoulder",
+      "<side>_hip",
+      "<side>_knee",
+      "<side>_ankle",
+      "<side>_heel",
+      "<side>_foot_index"
+    ],
+    "method": "Average landmark visibility for shoulder, hip, knee, ankle, heel, and foot_index across processed frames; higher side is fixed as camera-facing for the session.",
+    "opposite_side": "left",
+    "side_visibility_averages": {
+      "left": 0.7467812735965287,
+      "right": 0.963379951706831
+    }
+  },
+  "derived_measurement_columns": [
+    "delta_from_previous_frame",
+    "absolute_difference",
+    "percent_difference",
+    "symmetry_index"
+  ],
+  "developer_hip_discrepancy_investigation_generated": true,
+  "developer_hip_validation_generated": true,
+  "developer_measurement_debug_generated": true,
+  "error": null,
+  "event_detection_generated": false,
+  "execution_timestamp": "2026-07-15T13:50:14.641241+00:00",
+  "frame_count": 92,
+  "log": [
+    {
+      "elapsed_seconds": 0.03744124993681908,
+      "message": "Loaded jump.mp4",
+      "stage": "video_loaded"
+    },
+    {
+      "elapsed_seconds": 2.6071715839207172,
+      "message": "Exported MediaPipe landmarks",
+      "stage": "pose_estimated"
+    },
+    {
+      "elapsed_seconds": 3.8634257088415325,
+      "message": "Exported existing annotated video",
+      "stage": "video_annotated"
+    },
+    {
+      "elapsed_seconds": 3.8634275840595365,
+      "message": "Exported browser-compatible annotated MP4",
+      "stage": "video_mp4_exported"
+    },
+    {
+      "elapsed_seconds": 4.389566333964467,
+      "message": "Exported per-frame measurements",
+      "stage": "measurements_exported"
+    },
+    {
+      "elapsed_seconds": 4.475371959153563,
+      "message": "Exported developer-only measurement debug artifacts",
+      "stage": "measurement_debug_exported"
+    },
+    {
+      "elapsed_seconds": 4.479293041862547,
+      "message": "Exported developer-only hip measurement validation audit",
+      "stage": "hip_measurement_validation_exported"
+    },
+    {
+      "elapsed_seconds": 4.488752333912998,
+      "message": "Exported developer-only hip discrepancy investigation",
+      "stage": "hip_discrepancy_investigation_exported"
+    },
+    {
+      "elapsed_seconds": 4.546604749746621,
+      "message": "Exported synchronized viewer",
+      "stage": "interactive_viewer_exported"
+    }
+  ],
+  "measurement_columns": [
+    "hip_flexion_right",
+    "hip_flexion_left",
+    "knee_flexion_right",
+    "knee_flexion_left",
+    "ankle_angle_right",
+    "ankle_angle_left"
+  ],
+  "output_locations": {
+    "annotated_video": "exports/testing_environment/runs/run_prompt27_confidence_smoke/video/jump_annotated.mp4",
+    "annotated_video_debug_avi": "exports/testing_environment/runs/run_prompt27_confidence_smoke/video/jump_annotated.avi",
+    "annotated_video_mp4": "exports/testing_environment/runs/run_prompt27_confidence_smoke/video/jump_annotated.mp4",
+    "hip_discrepancy_investigation_html": "exports/testing_environment/runs/run_prompt27_confidence_smoke/measurement_debug/hip_discrepancy_investigation_report.html",
+    "hip_discrepancy_investigation_json": "exports/testing_environment/runs/run_prompt27_confidence_smoke/measurement_debug/hip_discrepancy_investigation_report.json",
+    "hip_discrepancy_investigation_report": "exports/testing_environment/runs/run_prompt27_confidence_smoke/measurement_debug/hip_discrepancy_investigation_report.md",
+    "hip_measurement_validation_json": "exports/testing_environment/runs/run_prompt27_confidence_smoke/measurement_debug/hip_measurement_validation_report.json",
+    "hip_measurement_validation_report": "exports/testing_environment/runs/run_prompt27_confidence_smoke/measurement_debug/hip_measurement_validation_report.md",
+    "interactive_viewer_html": "exports/testing_environment/runs/run_prompt27_confidence_smoke/interactive_viewer.html",
+    "landmarks_csv": "exports/testing_environment/runs/run_prompt27_confidence_smoke/landmarks/landmarks.csv",
+    "landmarks_json": "exports/testing_environment/runs/run_prompt27_confidence_smoke/landmarks/landmarks.json",
+    "measurement_debug_raw_csv": "exports/testing_environment/runs/run_prompt27_confidence_smoke/measurement_debug/measurement_debug_raw.csv",
+    "measurement_debug_raw_json": "exports/testing_environment/runs/run_prompt27_confidence_smoke/measurement_debug/measurement_debug_raw.json",
+    "measurement_debugger_html": "exports/testing_environment/runs/run_prompt27_confidence_smoke/measurement_debug/measurement_debugger.html",
+    "metadata": "exports/testing_environment/runs/run_prompt27_confidence_smoke/metadata.json",
+    "per_frame_measurements_csv": "exports/testing_environment/runs/run_prompt27_confidence_smoke/measurements/per_frame_measurements.csv",
+    "per_frame_measurements_json": "exports/testing_environment/runs/run_prompt27_confidence_smoke/measurements/per_frame_measurements.json",
+    "time_series_json": "exports/testing_environment/runs/run_prompt27_confidence_smoke/measurements/time_series.json"
+  },
+  "processed_frame_count": 92,
+  "processing_duration_seconds": 4.546629999764264,
+  "selected_frame_policy": "Clinician-controlled frame selection only; no event inference.",
+  "status": "success",
+  "video": {
+    "codec": "h264",
+    "duration_seconds": 3.066666666666667,
+    "filename": "jump.mp4",
+    "fps": 30.0,
+    "frame_count": 92,
+    "height": 1080,
+    "path": "exports/testing_environment/uploads/jump_20260714T064708Z/jump.mp4",
+    "width": 608
+  }
+}

@@ -1,0 +1,179 @@
+{
+  "error": null,
+  "experimental_notice": "JumpGuard AI frame-by-frame outputs are clinician-selected measurements only. No landing event, peak flexion moment, initial contact, ACL risk, diagnosis, recommendation, or athlete-versus-reference comparison is inferred.",
+  "generated_files": {
+    "annotated_video": "exports/testing_environment/runs/videoplayback_20260715T135950Z/video/videoplayback_annotated.mp4",
+    "annotated_video_debug_avi": "exports/testing_environment/runs/videoplayback_20260715T135950Z/video/videoplayback_annotated.avi",
+    "annotated_video_mp4": "exports/testing_environment/runs/videoplayback_20260715T135950Z/video/videoplayback_annotated.mp4",
+    "hip_discrepancy_investigation_html": "exports/testing_environment/runs/videoplayback_20260715T135950Z/measurement_debug/hip_discrepancy_investigation_report.html",
+    "hip_discrepancy_investigation_json": "exports/testing_environment/runs/videoplayback_20260715T135950Z/measurement_debug/hip_discrepancy_investigation_report.json",
+    "hip_discrepancy_investigation_report": "exports/testing_environment/runs/videoplayback_20260715T135950Z/measurement_debug/hip_discrepancy_investigation_report.md",
+    "hip_measurement_validation_json": "exports/testing_environment/runs/videoplayback_20260715T135950Z/measurement_debug/hip_measurement_validation_report.json",
+    "hip_measurement_validation_report": "exports/testing_environment/runs/videoplayback_20260715T135950Z/measurement_debug/hip_measurement_validation_report.md",
+    "interactive_viewer_html": "exports/testing_environment/runs/videoplayback_20260715T135950Z/interactive_viewer.html",
+    "landmarks_csv": "exports/testing_environment/runs/videoplayback_20260715T135950Z/landmarks/landmarks.csv",
+    "landmarks_json": "exports/testing_environment/runs/videoplayback_20260715T135950Z/landmarks/landmarks.json",
+    "measurement_debug_raw_csv": "exports/testing_environment/runs/videoplayback_20260715T135950Z/measurement_debug/measurement_debug_raw.csv",
+    "measurement_debug_raw_json": "exports/testing_environment/runs/videoplayback_20260715T135950Z/measurement_debug/measurement_debug_raw.json",
+    "measurement_debugger_html": "exports/testing_environment/runs/videoplayback_20260715T135950Z/measurement_debug/measurement_debugger.html",
+    "metadata": "exports/testing_environment/runs/videoplayback_20260715T135950Z/metadata.json",
+    "per_frame_measurements_csv": "exports/testing_environment/runs/videoplayback_20260715T135950Z/measurements/per_frame_measurements.csv",
+    "per_frame_measurements_json": "exports/testing_environment/runs/videoplayback_20260715T135950Z/measurements/per_frame_measurements.json",
+    "time_series_json": "exports/testing_environment/runs/videoplayback_20260715T135950Z/measurements/time_series.json"
+  },
+  "log_path": "logs/testing_environment/videoplayback_20260715T135950Z.log",
+  "manifest_path": "exports/testing_environment/runs/videoplayback_20260715T135950Z/testing_environment_manifest.json",
+  "metadata": {
+    "automatic_clinical_interpretation_generated": false,
+    "automatic_reference_comparison_generated": false,
+    "automatic_reports_generated": false,
+    "browser_video_warning": null,
+    "camera_aware_confidence_generated": true,
+    "camera_orientation": {
+      "camera_facing_side": "right",
+      "fixed_for_session": true,
+      "landmarks_used": [
+        "<side>_shoulder",
+        "<side>_hip",
+        "<side>_knee",
+        "<side>_ankle",
+        "<side>_heel",
+        "<side>_foot_index"
+      ],
+      "method": "Average landmark visibility for shoulder, hip, knee, ankle, heel, and foot_index across processed frames; higher side is fixed as camera-facing for the session.",
+      "opposite_side": "left",
+      "side_visibility_averages": {
+        "left": 0.7302473146084258,
+        "right": 0.9518301085316592
+      }
+    },
+    "derived_measurement_columns": [
+      "delta_from_previous_frame",
+      "absolute_difference",
+      "percent_difference",
+      "symmetry_index"
+    ],
+    "developer_hip_discrepancy_investigation_generated": true,
+    "developer_hip_validation_generated": true,
+    "developer_measurement_debug_generated": true,
+    "error": null,
+    "event_detection_generated": false,
+    "execution_timestamp": "2026-07-15T13:59:50.475855+00:00",
+    "frame_count": 140,
+    "log": [
+      {
+        "elapsed_seconds": 0.04191204207018018,
+        "message": "Loaded videoplayback.mp4",
+        "stage": "video_loaded"
+      },
+      {
+        "elapsed_seconds": 3.4622983750887215,
+        "message": "Exported MediaPipe landmarks",
+        "stage": "pose_estimated"
+      },
+      {
+        "elapsed_seconds": 4.311011458281428,
+        "message": "Exported existing annotated video",
+        "stage": "video_annotated"
+      },
+      {
+        "elapsed_seconds": 4.3110144580714405,
+        "message": "Exported browser-compatible annotated MP4",
+        "stage": "video_mp4_exported"
+      },
+      {
+        "elapsed_seconds": 5.099178042262793,
+        "message": "Exported per-frame measurements",
+        "stage": "measurements_exported"
+      },
+      {
+        "elapsed_seconds": 5.249780958052725,
+        "message": "Exported developer-only measurement debug artifacts",
+        "stage": "measurement_debug_exported"
+      },
+      {
+        "elapsed_seconds": 5.255045208148658,
+        "message": "Exported developer-only hip measurement validation audit",
+        "stage": "hip_measurement_validation_exported"
+      },
+      {
+        "elapsed_seconds": 5.2660287083126605,
+        "message": "Exported developer-only hip discrepancy investigation",
+        "stage": "hip_discrepancy_investigation_exported"
+      },
+      {
+        "elapsed_seconds": 5.35201200004667,
+        "message": "Exported synchronized viewer",
+        "stage": "interactive_viewer_exported"
+      }
+    ],
+    "measurement_columns": [
+      "hip_flexion_right",
+      "hip_flexion_left",
+      "knee_flexion_right",
+      "knee_flexion_left",
+      "ankle_angle_right",
+      "ankle_angle_left"
+    ],
+    "output_locations": {
+      "annotated_video": "exports/testing_environment/runs/videoplayback_20260715T135950Z/video/videoplayback_annotated.mp4",
+      "annotated_video_debug_avi": "exports/testing_environment/runs/videoplayback_20260715T135950Z/video/videoplayback_annotated.avi",
+      "annotated_video_mp4": "exports/testing_environment/runs/videoplayback_20260715T135950Z/video/videoplayback_annotated.mp4",
+      "hip_discrepancy_investigation_html": "exports/testing_environment/runs/videoplayback_20260715T135950Z/measurement_debug/hip_discrepancy_investigation_report.html",
+      "hip_discrepancy_investigation_json": "exports/testing_environment/runs/videoplayback_20260715T135950Z/measurement_debug/hip_discrepancy_investigation_report.json",
+      "hip_discrepancy_investigation_report": "exports/testing_environment/runs/videoplayback_20260715T135950Z/measurement_debug/hip_discrepancy_investigation_report.md",
+      "hip_measurement_validation_json": "exports/testing_environment/runs/videoplayback_20260715T135950Z/measurement_debug/hip_measurement_validation_report.json",
+      "hip_measurement_validation_report": "exports/testing_environment/runs/videoplayback_20260715T135950Z/measurement_debug/hip_measurement_validation_report.md",
+      "interactive_viewer_html": "exports/testing_environment/runs/videoplayback_20260715T135950Z/interactive_viewer.html",
+      "landmarks_csv": "exports/testing_environment/runs/videoplayback_20260715T135950Z/landmarks/landmarks.csv",
+      "landmarks_json": "exports/testing_environment/runs/videoplayback_20260715T135950Z/landmarks/landmarks.json",
+      "measurement_debug_raw_csv": "exports/testing_environment/runs/videoplayback_20260715T135950Z/measurement_debug/measurement_debug_raw.csv",
+      "measurement_debug_raw_json": "exports/testing_environment/runs/videoplayback_20260715T135950Z/measurement_debug/measurement_debug_raw.json",
+      "measurement_debugger_html": "exports/testing_environment/runs/videoplayback_20260715T135950Z/measurement_debug/measurement_debugger.html",
+      "metadata": "exports/testing_environment/runs/videoplayback_20260715T135950Z/metadata.json",
+      "per_frame_measurements_csv": "exports/testing_environment/runs/videoplayback_20260715T135950Z/measurements/per_frame_measurements.csv",
+      "per_frame_measurements_json": "exports/testing_environment/runs/videoplayback_20260715T135950Z/measurements/per_frame_measurements.json",
+      "time_series_json": "exports/testing_environment/runs/videoplayback_20260715T135950Z/measurements/time_series.json"
+    },
+    "processed_frame_count": 140,
+    "processing_duration_seconds": 5.352025375235826,
+    "selected_frame_policy": "Clinician-controlled frame selection only; no event inference.",
+    "status": "success",
+    "testing_environment": {
+      "app_duration_seconds": 5.357165916357189,
+      "config": {
+        "allowed_extensions": [
+          ".mp4",
+          ".mov",
+          ".avi"
+        ],
+        "annotated_video_codec": "MJPG",
+        "confidence_threshold": null,
+        "frame_skip": 1,
+        "future_model_selection": "mediapipe_pose_landmarker_lite",
+        "input_dir": "exports/testing_environment/uploads",
+        "logs_dir": "logs/testing_environment",
+        "max_upload_mb": 512,
+        "output_dir": "exports/testing_environment/runs"
+      },
+      "experimental_notice": "JumpGuard AI frame-by-frame outputs are clinician-selected measurements only. No landing event, peak flexion moment, initial contact, ACL risk, diagnosis, recommendation, or athlete-versus-reference comparison is inferred.",
+      "run_id": "videoplayback_20260715T135950Z",
+      "status": "success",
+      "workflow": "interactive_frame_by_frame"
+    },
+    "video": {
+      "codec": "h264",
+      "duration_seconds": 4.686663095875737,
+      "filename": "videoplayback.mp4",
+      "fps": 29.872,
+      "frame_count": 140,
+      "height": 640,
+      "path": "exports/testing_environment/uploads/videoplayback_20260715T135950Z/videoplayback.mp4",
+      "width": 360
+    }
+  },
+  "run_directory": "exports/testing_environment/runs/videoplayback_20260715T135950Z",
+  "run_id": "videoplayback_20260715T135950Z",
+  "status": "success",
+  "uploaded_video": "exports/testing_environment/uploads/videoplayback_20260715T135950Z/videoplayback.mp4"
+}

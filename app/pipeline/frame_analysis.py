@@ -14,12 +14,14 @@ from pathlib import Path
 from time import perf_counter
 from typing import Any
 
+from copy import deepcopy
 import json
 
 import numpy as np
 import pandas as pd
 
 from app.pipeline.hip_validation_audit import export_hip_discrepancy_investigation, export_hip_validation_audit
+from app.pipeline.measurement_confidence import attach_measurement_confidence
 from app.pipeline.measurement_debug import export_measurement_debug_raw, render_measurement_debugger_html
 from app.ui.artifacts import artifact_href
 from src.feature_extraction import ANGLE_SIGNAL_MAP
@@ -86,6 +88,7 @@ class InteractiveFrameAnalyzer:
         status = "success"
         error: str | None = None
         video_details: dict[str, Any] | None = None
+        camera_orientation: dict[str, Any] | None = None
         try:
             video = Video(video_path)
             video_details = {
@@ -131,6 +134,7 @@ class InteractiveFrameAnalyzer:
 
             joint_angles = self.feature_extractor.calculate_joint_angles(pose_result.landmarks)
             frame_database = build_frame_measurement_database(joint_angles, pose_result.landmarks)
+            camera_orientation = frame_database[0].get("camera_orientation") if frame_database else None
             measurements_dir = run_directory / "measurements"
             measurements_dir.mkdir(parents=True, exist_ok=True)
             measurements_csv = measurements_dir / "per_frame_measurements.csv"
@@ -225,6 +229,8 @@ class InteractiveFrameAnalyzer:
             "developer_measurement_debug_generated": "measurement_debugger_html" in generated,
             "developer_hip_validation_generated": "hip_measurement_validation_report" in generated,
             "developer_hip_discrepancy_investigation_generated": "hip_discrepancy_investigation_report" in generated,
+            "camera_aware_confidence_generated": camera_orientation is not None,
+            "camera_orientation": camera_orientation,
             "selected_frame_policy": "Clinician-controlled frame selection only; no event inference.",
             "browser_video_warning": generated.get("annotated_video_warning"),
             "output_locations": dict(sorted(generated.items())),
@@ -288,6 +294,7 @@ def build_frame_measurement_database(
             }
         )
         previous_measurements = measurements
+    attach_measurement_confidence(records)
     return records
 
 
@@ -302,10 +309,11 @@ def render_interactive_viewer_html(
     """Render a standalone synchronized frame-by-frame viewer."""
 
     source = source_video or {}
-    session_summary_html = _session_summary_html(source, frame_database)
+    viewer_frames = _ensure_confidence_metadata(frame_database)
+    session_summary_html = _session_summary_html(source, viewer_frames)
     export_panel_html = _export_panel_html(generated_files or {}, video_path)
     payload = {
-        "frames": frame_database,
+        "frames": _clinician_confidence_payload(viewer_frames),
         "video": str(video_path),
         "source_video": source,
         "video_warning": video_warning,
@@ -367,6 +375,12 @@ def render_interactive_viewer_html(
     .clinical-card span{{display:block;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.04em;font-weight:800;margin-bottom:6px;}}
     .clinical-card strong{{display:block;color:#1f3449;font-size:22px;line-height:1.1;}}
     .clinical-card small{{display:block;color:#627d98;margin-top:4px;font-size:12px;}}
+    .confidence-badge{{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:5px 9px;font-size:12px;font-weight:800;margin-top:8px;border:1px solid transparent;}}
+    .confidence-high{{background:#e8f7ef;color:#17633f;border-color:#bde5ce;}}
+    .confidence-moderate{{background:#fff8db;color:#725400;border-color:#f1db8b;}}
+    .confidence-partial{{background:#fff0df;color:#8a4b00;border-color:#f3c08a;}}
+    .confidence-low{{background:#fdecec;color:#9f1d1d;border-color:#f3b8b8;}}
+    .limb-role{{display:inline-block;color:#627d98;font-size:12px;margin-top:5px;}}
     .summary-grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;}}
     .summary-card{{border:1px solid #e6edf5;border-radius:8px;background:#fff;padding:12px;min-height:76px;}}
     .summary-card span{{display:block;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.04em;font-weight:800;margin-bottom:5px;}}
@@ -487,7 +501,9 @@ def render_interactive_viewer_html(
         <li><strong>Absolute Difference</strong>Absolute left/right difference for the same joint measurement at the selected frame.</li>
         <li><strong>Percent Difference</strong>Left/right difference normalized by the average of both sides for the selected frame.</li>
         <li><strong>Symmetry Index</strong>Signed left/right symmetry value computed by the existing JumpGuard formula for the selected frame.</li>
-        <li><strong>Pose Confidence</strong>MediaPipe landmark confidence summary for the selected processed frame.</li>
+        <li><strong>Camera-Facing Limb</strong>The side with higher average visibility across shoulder, hip, knee, ankle, heel, and foot-index landmarks for the full recording. This designation is fixed for the session.</li>
+        <li><strong>Measurement Confidence</strong>Category derived from the visibility of only the landmarks used by that joint measurement. Categories do not change angle values, deltas, symmetry, or exported measurements.</li>
+        <li><strong>Confidence Categories</strong>High Confidence, Moderate Confidence, Partially Occluded, and Low Confidence summarize measurement visibility quality for clinician review.</li>
       </ul>
     </div>
   </dialog>
@@ -554,6 +570,35 @@ def render_interactive_viewer_html(
     function metricCard(label, value, helper='') {{
       return '<div class="clinical-card"><span>' + label + '</span><strong>' + value + '</strong>' + (helper ? '<small>' + helper + '</small>' : '') + '</div>';
     }}
+    function confidenceClass(category) {{
+      const key = category?.key || 'low';
+      return key === 'partial' ? 'confidence-partial' : 'confidence-' + key;
+    }}
+    function confidenceIcon(category) {{
+      const key = category?.key || 'low';
+      if (key === 'high') return '🟢';
+      if (key === 'moderate') return '🟡';
+      if (key === 'partial') return '🟠';
+      return '🔴';
+    }}
+    function confidenceBadge(confidence) {{
+      const category = confidence?.category || {{key: 'low', label: 'Low Confidence'}};
+      return '<span class="confidence-badge ' + confidenceClass(category) + '">' + confidenceIcon(category) + ' ' + category.label + '</span>';
+    }}
+    function measurementCard(name, value, confidence) {{
+      return '<div class="clinical-card"><span>' + labelFor(name) + '</span><strong>' + fmtDegrees(value) + '</strong>' +
+        '<small>' + (confidence?.limb_role || 'Limb role unavailable') + '</small>' + confidenceBadge(confidence) + '</div>';
+    }}
+    function frameOverallConfidence(frame) {{
+      const confidences = Object.values(frame.measurement_confidence || {{}});
+      const order = {{high: 3, moderate: 2, partial: 1, low: 0}};
+      if (!confidences.length) return {{key: 'low', label: 'Low Confidence'}};
+      return confidences.reduce((lowest, item) => order[item?.category?.key || 'low'] < order[lowest.key] ? item.category : lowest, {{key: 'high', label: 'High Confidence'}});
+    }}
+    function formatSide(side) {{
+      if (!side || side === 'unknown') return 'Unknown';
+      return side.charAt(0).toUpperCase() + side.slice(1);
+    }}
     function selectFrame(index, seek=true) {{
       if (!frames.length) return;
       selected = Math.max(0, Math.min(frames.length - 1, index));
@@ -564,13 +609,13 @@ def render_interactive_viewer_html(
       jumpTime.value = Number.isFinite(frame.timestamp) ? Number(frame.timestamp).toFixed(2) : '0';
       if (seek && Number.isFinite(frame.timestamp)) video.currentTime = frame.timestamp;
       const entries = Object.entries(frame.measurements || {{}});
+      const orientation = frame.camera_orientation || {{}};
       frameInfo.innerHTML = '<h3>Selected Frame</h3><div class="measurement-card-grid">' +
         metricCard('Frame Number', frame.frame_index, 'Processed frame index') +
         metricCard('Timestamp', fmt(frame.timestamp, ' s'), 'Video time') +
-        metricCard('Mean Pose Confidence', fmt(frame.landmark_confidence?.mean), 'MediaPipe landmark summary') +
         '</div>';
       measurements.innerHTML = '<h3>Joint Angles</h3><div class="measurement-card-grid">' +
-        (entries.length ? entries.map(([name, value]) => metricCard(labelFor(name), fmtDegrees(value), 'Current frame')).join('') : '<p class="muted">No joint-angle measurements are available for this frame.</p>') +
+        (entries.length ? entries.map(([name, value]) => measurementCard(name, value, frame.measurement_confidence?.[name])).join('') : '<p class="muted">No joint-angle measurements are available for this frame.</p>') +
         '</div>';
       const deltas = frame.derived_measurements?.delta_from_previous_frame || {{}};
       const symmetry = frame.derived_measurements?.symmetry || {{}};
@@ -586,9 +631,8 @@ def render_interactive_viewer_html(
         '</div><div class="clinical-card"><span>Trunk Measurement</span><strong>Unavailable</strong><small>' + (frame.derived_measurements?.trunk?.reason || 'No validated trunk signal is produced.') + '</small></div>';
       confidencePanel.innerHTML = '<h3>Landmark Confidence</h3>' +
         '<div class="measurement-card-grid">' +
-        metricCard('Mean Confidence', fmt(frame.landmark_confidence?.mean), 'Selected frame') +
-        metricCard('Minimum Confidence', fmt(frame.landmark_confidence?.minimum), 'Lowest landmark confidence') +
-        metricCard('Visible Landmarks', frame.landmark_confidence?.visible_landmark_count ?? 'NaN', 'Landmarks reported visible') + '</div>';
+        '<div class="clinical-card"><span>Camera-Facing Limb</span><strong>' + formatSide(orientation.camera_facing_side) + '</strong><small>Fixed for the full recording</small></div>' +
+        '<div class="clinical-card"><span>Opposite Limb</span><strong>' + formatSide(orientation.opposite_side) + '</strong><small>Fixed for the full recording</small></div>' + '</div>';
       drawGraphs();
       drawComparisonBars();
     }}
@@ -642,6 +686,13 @@ def render_interactive_viewer_html(
         ctx.beginPath(); ctx.moveTo(padLeft, zeroY); ctx.lineTo(w - padRight, zeroY); ctx.stroke();
         ctx.setLineDash([]); ctx.fillStyle = '#627d98'; ctx.font = '12px Arial'; ctx.fillText('0 reference', w - padRight - 82, zeroY - 6);
       }}
+      frames.forEach((frame, i) => {{
+        const category = frameOverallConfidence(frame);
+        const x = padLeft + (frames.length <= 1 ? 0 : i / (frames.length - 1)) * plotW;
+        const colors = {{high: '#2f855a', moderate: '#c8a11a', partial: '#d97917', low: '#c53030'}};
+        ctx.fillStyle = colors[category.key] || colors.low;
+        ctx.fillRect(x - 1, h - padBottom + 10, 2, 8);
+      }});
       const graphPoints = [];
       keys.forEach((key, keyIndex) => {{
         ctx.strokeStyle = colors[keyIndex]; ctx.lineWidth = source === 'delta' ? 3.4 : 2.6; ctx.beginPath();
@@ -857,24 +908,62 @@ def _float_or_none(value: Any) -> float | None:
 
 
 def _session_summary_html(source_video: dict[str, Any], frame_database: list[dict[str, Any]]) -> str:
-    confidence_values = [
-        _float_or_none(frame.get("landmark_confidence", {}).get("mean"))
-        for frame in frame_database
-    ]
-    finite_confidence = [value for value in confidence_values if value is not None]
-    mean_confidence = None if not finite_confidence else float(np.mean(finite_confidence))
+    orientation = frame_database[0].get("camera_orientation", {}) if frame_database else {}
     cards = [
         ("Uploaded file", source_video.get("filename") or "Unknown"),
         ("Duration", _format_seconds(source_video.get("duration_seconds"))),
         ("Source frames", _format_count(source_video.get("frame_count"))),
         ("Processed frames", _format_count(len(frame_database))),
-        ("Frame rate", _format_rate(source_video.get("fps"))),
-        ("Pose confidence", _format_number(mean_confidence)),
+        ("Camera-facing limb", _format_side(orientation.get("camera_facing_side"))),
+        ("Opposite limb", _format_side(orientation.get("opposite_side"))),
     ]
     return "<div class=\"summary-grid\">" + "".join(
         f"<div class=\"summary-card\"><span>{_html_escape(label)}</span><strong>{_html_escape(value)}</strong></div>"
         for label, value in cards
     ) + "</div>"
+
+
+def _ensure_confidence_metadata(frame_database: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    frames = deepcopy(frame_database)
+    if frames and any("measurement_confidence" not in frame or "camera_orientation" not in frame for frame in frames):
+        attach_measurement_confidence(frames)
+    return frames
+
+
+def _clinician_confidence_payload(frame_database: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    frames = deepcopy(frame_database)
+    for frame in frames:
+        sanitized = {}
+        for signal, confidence in frame.get("measurement_confidence", {}).items():
+            sanitized[signal] = {
+                "category": confidence.get("category"),
+                "side": confidence.get("side"),
+                "limb_role": confidence.get("limb_role"),
+            }
+        frame["measurement_confidence"] = sanitized
+    return frames
+
+
+def _overall_session_confidence(frame_database: list[dict[str, Any]]) -> str:
+    order = {"high": 3, "moderate": 2, "partial": 1, "low": 0}
+    lowest_key = "high"
+    for frame in frame_database:
+        for confidence in frame.get("measurement_confidence", {}).values():
+            key = confidence.get("category", {}).get("key", "low")
+            if order.get(key, 0) < order[lowest_key]:
+                lowest_key = key
+    labels = {
+        "high": "🟢 High Confidence",
+        "moderate": "🟡 Moderate Confidence",
+        "partial": "🟠 Partially Occluded",
+        "low": "🔴 Low Confidence",
+    }
+    return labels[lowest_key]
+
+
+def _format_side(value: Any) -> str:
+    side = str(value or "unknown")
+    return "Unknown" if side == "unknown" else side.capitalize()
 
 
 def _export_panel_html(generated_files: dict[str, str], video_path: str | Path) -> str:

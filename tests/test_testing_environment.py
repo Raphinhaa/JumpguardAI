@@ -337,12 +337,15 @@ def test_interactive_viewer_contains_professional_workstation_controls_and_no_re
     assert "Measurement-only workspace" in html
     assert "Session Summary" in html
     assert "Processed frames" in html
-    assert "Pose confidence" in html
+    assert "Camera-facing limb" in html
     assert "Exports" in html
     assert "Annotated MP4" in html
     assert "Per-frame CSV" in html
     assert "Measurement Debugger" in html
     assert "Measurement Definitions" in html
+    assert "High Confidence" in html
+    assert "Low Confidence" in html
+    assert "Camera-Facing Limb" in html
     assert "Left Knee Flexion" in html
     assert "Frame-to-Frame Change" in html
     assert "Left/Right Symmetry" in html
@@ -350,6 +353,10 @@ def test_interactive_viewer_contains_professional_workstation_controls_and_no_re
     assert "graphTooltip" in html
     assert "0 reference" in html
     assert "°" in html
+    assert "score_percent" not in html
+    assert "Frame Confidence" not in html
+    assert "Overall Frame Confidence" not in html
+    assert "Overall confidence" not in html
     assert '<source src="/artifact?path=video/jump.mp4" type="video/mp4">' in html
     assert '<video id="video" controls preload="metadata" playsinline muted>' in html
     assert "Annotated Video" in html
@@ -431,7 +438,56 @@ def test_measurement_debugger_exports_diagnostic_artifacts_without_recomputing_v
     hip_left = debug_table[debug_table["signal"].eq("hip_flexion_left")].iloc[0]
     assert hip_left["angle_value"] == 101.25
     assert hip_left["landmarks_used"] == "left_shoulder -> left_hip -> left_knee"
+    assert hip_left["measurement_confidence_percent"] == 80.0
+    assert hip_left["measurement_confidence_category"] == "Moderate Confidence"
+    assert "Measurement Confidence Percentages" in html
+    assert "score_percent" in html
+    assert "80.0" in html
     assert json.loads(json_path.read_text(encoding="utf-8"))[0]["frame_index"] == 4
+
+
+def test_camera_aware_confidence_uses_fixed_orientation_and_frame_level_joint_visibility() -> None:
+    joint_angles = pd.DataFrame(
+        [
+            {
+                "frame_number": 1,
+                "timestamp": 0.04,
+                "hip_flexion_right": 101.0,
+                "hip_flexion_left": 102.0,
+                "knee_flexion_right": 121.0,
+                "knee_flexion_left": 122.0,
+                "ankle_angle_right": 91.0,
+                "ankle_angle_left": 92.0,
+            },
+            {
+                "frame_number": 2,
+                "timestamp": 0.08,
+                "hip_flexion_right": 103.0,
+                "hip_flexion_left": 104.0,
+                "knee_flexion_right": 123.0,
+                "knee_flexion_left": 124.0,
+                "ankle_angle_right": 93.0,
+                "ankle_angle_left": 94.0,
+            },
+        ]
+    )
+    landmarks = pd.DataFrame(
+        _confidence_landmarks(1, left_visibility=0.95, right_visibility=0.35)
+        + _confidence_landmarks(2, left_visibility=0.95, right_visibility=0.95, left_knee_visibility=0.45)
+    )
+
+    database = build_frame_measurement_database(joint_angles, landmarks)
+
+    first = database[0]
+    second = database[1]
+    assert first["camera_orientation"]["camera_facing_side"] == "left"
+    assert second["camera_orientation"]["camera_facing_side"] == "left"
+    assert first["measurement_confidence"]["hip_flexion_left"]["limb_role"] == "Camera-Facing Limb"
+    assert first["measurement_confidence"]["hip_flexion_right"]["limb_role"] == "Opposite Limb"
+    assert first["measurement_confidence"]["hip_flexion_left"]["category"]["label"] == "High Confidence"
+    assert first["measurement_confidence"]["hip_flexion_right"]["category"]["label"] == "Low Confidence"
+    assert second["measurement_confidence"]["knee_flexion_left"]["category"]["label"] == "Moderate Confidence"
+    assert second["measurements"]["knee_flexion_left"] == 124.0
 
 
 def test_hip_validation_audit_ranks_existing_hip_differences_and_preserves_values(tmp_path: Path) -> None:
@@ -585,4 +641,41 @@ def _hip_audit_landmarks(frame_number: int, *, visibility: float) -> list[dict[s
             "confidence": visibility,
         }
         for index, name in names
+    ]
+
+
+def _confidence_landmarks(
+    frame_number: int,
+    *,
+    left_visibility: float,
+    right_visibility: float,
+    left_knee_visibility: float | None = None,
+) -> list[dict[str, float | int | str]]:
+    names = [
+        (11, "left_shoulder", left_visibility),
+        (12, "right_shoulder", right_visibility),
+        (23, "left_hip", left_visibility),
+        (24, "right_hip", right_visibility),
+        (25, "left_knee", left_knee_visibility if left_knee_visibility is not None else left_visibility),
+        (26, "right_knee", right_visibility),
+        (27, "left_ankle", left_visibility),
+        (28, "right_ankle", right_visibility),
+        (29, "left_heel", left_visibility),
+        (30, "right_heel", right_visibility),
+        (31, "left_foot_index", left_visibility),
+        (32, "right_foot_index", right_visibility),
+    ]
+    return [
+        {
+            "frame_number": frame_number,
+            "timestamp": frame_number * 0.04,
+            "landmark_index": index,
+            "landmark_name": name,
+            "x": 0.1 + index / 100,
+            "y": 0.2 + index / 100,
+            "z": 0.0,
+            "visibility": visibility,
+            "confidence": visibility,
+        }
+        for index, name, visibility in names
     ]
