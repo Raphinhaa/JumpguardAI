@@ -1,0 +1,1596 @@
+{
+  "confidence_summary": [
+    {
+      "confidence_mean": 0.998700262402459,
+      "confidence_min": 0.9768673181533813,
+      "confidence_missing_frames": 1,
+      "frame_count": 140,
+      "landmark_name": "left_shoulder",
+      "visibility_mean": 0.9977465134730442,
+      "visibility_min": 0.9691950678825378,
+      "visibility_missing_frames": 1
+    },
+    {
+      "confidence_mean": 0.9993087503549863,
+      "confidence_min": 0.9829046726226807,
+      "confidence_missing_frames": 1,
+      "frame_count": 140,
+      "landmark_name": "right_shoulder",
+      "visibility_mean": 0.9994114332919498,
+      "visibility_min": 0.981353759765625,
+      "visibility_missing_frames": 1
+    },
+    {
+      "confidence_mean": 0.9993288628488993,
+      "confidence_min": 0.9944682121276855,
+      "confidence_missing_frames": 1,
+      "frame_count": 140,
+      "landmark_name": "left_hip",
+      "visibility_mean": 0.9990024618107638,
+      "visibility_min": 0.9968894124031067,
+      "visibility_missing_frames": 1
+    },
+    {
+      "confidence_mean": 0.9995894500677535,
+      "confidence_min": 0.997374415397644,
+      "confidence_missing_frames": 1,
+      "frame_count": 140,
+      "landmark_name": "right_hip",
+      "visibility_mean": 0.9995722714945566,
+      "visibility_min": 0.9980295300483704,
+      "visibility_missing_frames": 1
+    },
+    {
+      "confidence_mean": 0.9990655651195444,
+      "confidence_min": 0.9945113658905029,
+      "confidence_missing_frames": 1,
+      "frame_count": 140,
+      "landmark_name": "left_knee",
+      "visibility_mean": 0.4089647192213175,
+      "visibility_min": 0.10966568440198898,
+      "visibility_missing_frames": 1
+    },
+    {
+      "confidence_mean": 0.9993297461983112,
+      "confidence_min": 0.9958213567733765,
+      "confidence_missing_frames": 1,
+      "frame_count": 140,
+      "landmark_name": "right_knee",
+      "visibility_mean": 0.9476187160546831,
+      "visibility_min": 0.7471018433570862,
+      "visibility_missing_frames": 1
+    },
+    {
+      "confidence_mean": 0.9989624902498808,
+      "confidence_min": 0.9941290616989136,
+      "confidence_missing_frames": 1,
+      "frame_count": 140,
+      "landmark_name": "left_ankle",
+      "visibility_mean": 0.59964905764988,
+      "visibility_min": 0.14164386689662933,
+      "visibility_missing_frames": 1
+    },
+    {
+      "confidence_mean": 0.9988367463187348,
+      "confidence_min": 0.9914257526397705,
+      "confidence_missing_frames": 1,
+      "frame_count": 140,
+      "landmark_name": "right_ankle",
+      "visibility_mean": 0.9369823915495289,
+      "visibility_min": 0.7162635326385498,
+      "visibility_missing_frames": 1
+    }
+  ],
+  "findings": [
+    {
+      "status": "Verified implementation trace",
+      "text": "Hip measurements use the existing shoulder -> hip -> knee landmark triplets and the unsigned internal vector-angle formula documented in the code."
+    },
+    {
+      "status": "Observed-data audit",
+      "text": "Large left/right differences, when present, are reported as ranked observations from existing computed values, not as clinical abnormalities or formula errors."
+    },
+    {
+      "status": "Inconclusive cause",
+      "text": "This audit can identify missing or low-confidence landmark evidence, but it cannot prove occlusion, camera perspective, or MediaPipe estimation error without paired visual review and external ground truth."
+    }
+  ],
+  "frame_investigations": [
+    {
+      "absolute_difference": 71.22207156788271,
+      "confidence_rank": 7,
+      "evidence_notes": [
+        "left hip triplet includes visibility below 0.5"
+      ],
+      "frame_index": 50,
+      "hip_flexion_left": 81.58863922706891,
+      "hip_flexion_right": 10.366567659186208,
+      "left_confidence_min": 0.997502863407135,
+      "left_hip_triplet": {
+        "confidence_min": 0.997502863407135,
+        "landmark_names": [
+          "left_shoulder",
+          "left_hip",
+          "left_knee"
+        ],
+        "landmarks": [
+          {
+            "confidence": 0.997502863407135,
+            "name": "left_shoulder",
+            "visibility": 0.9940617680549622,
+            "x": 0.47071608901023865,
+            "y": 0.34127670526504517,
+            "z": 0.27563974261283875
+          },
+          {
+            "confidence": 0.9994648098945618,
+            "name": "left_hip",
+            "visibility": 0.9989128112792969,
+            "x": 0.47682085633277893,
+            "y": 0.4827091693878174,
+            "z": 0.20751239359378815
+          },
+          {
+            "confidence": 0.9988186955451965,
+            "name": "left_knee",
+            "visibility": 0.39046135544776917,
+            "x": 0.46781378984451294,
+            "y": 0.5806980729103088,
+            "z": 0.35134419798851013
+          }
+        ],
+        "missing_landmarks": [],
+        "nonfinite_coordinates": [],
+        "vector_a": [
+          -0.006104767322540283,
+          -0.14143246412277222,
+          0.0681273490190506
+        ],
+        "vector_b": [
+          -0.009007066488265991,
+          0.09798890352249146,
+          0.14383180439472198
+        ],
+        "visibility_min": 0.39046135544776917,
+        "z_mean": 0.27816544473171234
+      },
+      "left_visibility_min": 0.39046135544776917,
+      "near_far_comparison": {
+        "near_far_inference": "Unknown; no camera calibration or documented camera-side metadata is available in the existing debug records.",
+        "z_geometry_evidence": "left hip-triplet mean z=0.278165, right hip-triplet mean z=-0.244142. MediaPipe z is available for comparison, but this audit does not infer camera near/far side from z alone."
+      },
+      "origin_evidence": [
+        "left hip triplet visibility below 0.5",
+        "camera perspective cannot be determined from available single-view debug records",
+        "hip angle uses documented unsigned shoulder-hip-knee vector geometry"
+      ],
+      "rank": 1,
+      "right_confidence_min": 0.9979812502861023,
+      "right_hip_triplet": {
+        "confidence_min": 0.9979812502861023,
+        "landmark_names": [
+          "right_shoulder",
+          "right_hip",
+          "right_knee"
+        ],
+        "landmarks": [
+          {
+            "confidence": 0.9979812502861023,
+            "name": "right_shoulder",
+            "visibility": 0.9985212683677673,
+            "x": 0.47033053636550903,
+            "y": 0.33476555347442627,
+            "z": -0.4252280592918396
+          },
+          {
+            "confidence": 0.9995042085647583,
+            "name": "right_hip",
+            "visibility": 0.9994513392448425,
+            "x": 0.45711424946784973,
+            "y": 0.48285111784935,
+            "z": -0.20714278519153595
+          },
+          {
+            "confidence": 0.9987040758132935,
+            "name": "right_knee",
+            "visibility": 0.9595491290092468,
+            "x": 0.4542991816997528,
+            "y": 0.5876973867416382,
+            "z": -0.10005547106266022
+          }
+        ],
+        "missing_landmarks": [],
+        "nonfinite_coordinates": [],
+        "vector_a": [
+          0.013216286897659302,
+          -0.1480855643749237,
+          -0.21808527410030365
+        ],
+        "vector_b": [
+          -0.002815067768096924,
+          0.10484626889228821,
+          0.10708731412887573
+        ],
+        "visibility_min": 0.9595491290092468,
+        "z_mean": -0.24414210518201193
+      },
+      "right_visibility_min": 0.9595491290092468,
+      "timestamp": 1.6738082485270487
+    },
+    {
+      "absolute_difference": 71.06297003886291,
+      "confidence_rank": 9,
+      "evidence_notes": [
+        "left hip triplet includes visibility below 0.5"
+      ],
+      "frame_index": 51,
+      "hip_flexion_left": 79.99738079397399,
+      "hip_flexion_right": 8.934410755111077,
+      "left_confidence_min": 0.9972624778747559,
+      "left_hip_triplet": {
+        "confidence_min": 0.9972624778747559,
+        "landmark_names": [
+          "left_shoulder",
+          "left_hip",
+          "left_knee"
+        ],
+        "landmarks": [
+          {
+            "confidence": 0.9972624778747559,
+            "name": "left_shoulder",
+            "visibility": 0.9932175278663635,
+            "x": 0.4701063334941864,
+            "y": 0.34004300832748413,
+            "z": 0.28148603439331055
+          },
+          {
+            "confidence": 0.9993155002593994,
+            "name": "left_hip",
+            "visibility": 0.998832643032074,
+            "x": 0.4808608889579773,
+            "y": 0.48259809613227844,
+            "z": 0.2094387710094452
+          },
+          {
+            "confidence": 0.9985995888710022,
+            "name": "left_knee",
+            "visibility": 0.43288350105285645,
+            "x": 0.4718950390815735,
+            "y": 0.5815389156341553,
+            "z": 0.34042030572891235
+          }
+        ],
+        "missing_landmarks": [],
+        "nonfinite_coordinates": [],
+        "vector_a": [
+          -0.010754555463790894,
+          -0.1425550878047943,
+          0.07204726338386536
+        ],
+        "vector_b": [
+          -0.008965849876403809,
+          0.09894081950187683,
+          0.13098153471946716
+        ],
+        "visibility_min": 0.43288350105285645,
+        "z_mean": 0.27711503704388935
+      },
+      "left_visibility_min": 0.43288350105285645,
+      "near_far_comparison": {
+        "near_far_inference": "Unknown; no camera calibration or documented camera-side metadata is available in the existing debug records.",
+        "z_geometry_evidence": "left hip-triplet mean z=0.277115, right hip-triplet mean z=-0.241566. MediaPipe z is available for comparison, but this audit does not infer camera near/far side from z alone."
+      },
+      "origin_evidence": [
+        "left hip triplet visibility below 0.5",
+        "camera perspective cannot be determined from available single-view debug records",
+        "hip angle uses documented unsigned shoulder-hip-knee vector geometry"
+      ],
+      "rank": 2,
+      "right_confidence_min": 0.9978063702583313,
+      "right_hip_triplet": {
+        "confidence_min": 0.9978063702583313,
+        "landmark_names": [
+          "right_shoulder",
+          "right_hip",
+          "right_knee"
+        ],
+        "landmarks": [
+          {
+            "confidence": 0.9978063702583313,
+            "name": "right_shoulder",
+            "visibility": 0.9983546137809753,
+            "x": 0.46865078806877136,
+            "y": 0.33387917280197144,
+            "z": -0.41095107793807983
+          },
+          {
+            "confidence": 0.9993993043899536,
+            "name": "right_hip",
+            "visibility": 0.9994338154792786,
+            "x": 0.45869454741477966,
+            "y": 0.4824828803539276,
+            "z": -0.20908375084400177
+          },
+          {
+            "confidence": 0.998630166053772,
+            "name": "right_knee",
+            "visibility": 0.9702543020248413,
+            "x": 0.4537385106086731,
+            "y": 0.5879704356193542,
+            "z": -0.10466424375772476
+          }
+        ],
+        "missing_landmarks": [],
+        "nonfinite_coordinates": [],
+        "vector_a": [
+          0.0099562406539917,
+          -0.14860370755195618,
+          -0.20186732709407806
+        ],
+        "vector_b": [
+          -0.004956036806106567,
+          0.10548755526542664,
+          0.10441950708627701
+        ],
+        "visibility_min": 0.9702543020248413,
+        "z_mean": -0.2415663575132688
+      },
+      "right_visibility_min": 0.9702543020248413,
+      "timestamp": 1.7072844134975897
+    },
+    {
+      "absolute_difference": 66.00937229587132,
+      "confidence_rank": 1,
+      "evidence_notes": [
+        "left hip triplet includes visibility below 0.5"
+      ],
+      "frame_index": 46,
+      "hip_flexion_left": 80.77312198800111,
+      "hip_flexion_right": 14.763749692129792,
+      "left_confidence_min": 0.9969953298568726,
+      "left_hip_triplet": {
+        "confidence_min": 0.9969953298568726,
+        "landmark_names": [
+          "left_shoulder",
+          "left_hip",
+          "left_knee"
+        ],
+        "landmarks": [
+          {
+            "confidence": 0.9969953298568726,
+            "name": "left_shoulder",
+            "visibility": 0.9935556054115295,
+            "x": 0.4763760268688202,
+            "y": 0.35323524475097656,
+            "z": 0.244216650724411
+          },
+          {
+            "confidence": 0.9996198415756226,
+            "name": "left_hip",
+            "visibility": 0.9987454414367676,
+            "x": 0.4781884551048279,
+            "y": 0.48866719007492065,
+            "z": 0.19784805178642273
+          },
+          {
+            "confidence": 0.9991638660430908,
+            "name": "left_knee",
+            "visibility": 0.23448696732521057,
+            "x": 0.47028112411499023,
+            "y": 0.5773285627365112,
+            "z": 0.3634313642978668
+          }
+        ],
+        "missing_landmarks": [],
+        "nonfinite_coordinates": [],
+        "vector_a": [
+          -0.0018124282360076904,
+          -0.1354319453239441,
+          0.04636859893798828
+        ],
+        "vector_b": [
+          -0.007907330989837646,
+          0.08866137266159058,
+          0.1655833125114441
+        ],
+        "visibility_min": 0.23448696732521057,
+        "z_mean": 0.2684986889362335
+      },
+      "left_visibility_min": 0.23448696732521057,
+      "near_far_comparison": {
+        "near_far_inference": "Unknown; no camera calibration or documented camera-side metadata is available in the existing debug records.",
+        "z_geometry_evidence": "left hip-triplet mean z=0.268499, right hip-triplet mean z=-0.240496. MediaPipe z is available for comparison, but this audit does not infer camera near/far side from z alone."
+      },
+      "origin_evidence": [
+        "left hip triplet visibility below 0.5",
+        "camera perspective cannot be determined from available single-view debug records",
+        "hip angle uses documented unsigned shoulder-hip-knee vector geometry"
+      ],
+      "rank": 3,
+      "right_confidence_min": 0.9971953630447388,
+      "right_hip_triplet": {
+        "confidence_min": 0.9971953630447388,
+        "landmark_names": [
+          "right_shoulder",
+          "right_hip",
+          "right_knee"
+        ],
+        "landmarks": [
+          {
+            "confidence": 0.9971953630447388,
+            "name": "right_shoulder",
+            "visibility": 0.9979242086410522,
+            "x": 0.456770658493042,
+            "y": 0.3448837399482727,
+            "z": -0.4205195903778076
+          },
+          {
+            "confidence": 0.999688982963562,
+            "name": "right_hip",
+            "visibility": 0.9994242191314697,
+            "x": 0.44944384694099426,
+            "y": 0.48716986179351807,
+            "z": -0.19746899604797363
+          },
+          {
+            "confidence": 0.9991851449012756,
+            "name": "right_knee",
+            "visibility": 0.9028341770172119,
+            "x": 0.45407000184059143,
+            "y": 0.587504506111145,
+            "z": -0.10349874943494797
+          }
+        ],
+        "missing_landmarks": [],
+        "nonfinite_coordinates": [],
+        "vector_a": [
+          0.0073268115520477295,
+          -0.14228612184524536,
+          -0.22305059432983398
+        ],
+        "vector_b": [
+          0.004626154899597168,
+          0.10033464431762695,
+          0.09397024661302567
+        ],
+        "visibility_min": 0.9028341770172119,
+        "z_mean": -0.24049577862024307
+      },
+      "right_visibility_min": 0.9028341770172119,
+      "timestamp": 1.5399035886448849
+    },
+    {
+      "absolute_difference": 65.6245974112812,
+      "confidence_rank": 3,
+      "evidence_notes": [
+        "left hip triplet includes visibility below 0.5"
+      ],
+      "frame_index": 47,
+      "hip_flexion_left": 83.95757700713048,
+      "hip_flexion_right": 18.332979595849288,
+      "left_confidence_min": 0.9973317384719849,
+      "left_hip_triplet": {
+        "confidence_min": 0.9973317384719849,
+        "landmark_names": [
+          "left_shoulder",
+          "left_hip",
+          "left_knee"
+        ],
+        "landmarks": [
+          {
+            "confidence": 0.9973317384719849,
+            "name": "left_shoulder",
+            "visibility": 0.9941873550415039,
+            "x": 0.4616506099700928,
+            "y": 0.34953269362449646,
+            "z": 0.25071877241134644
+          },
+          {
+            "confidence": 0.9996115565299988,
+            "name": "left_hip",
+            "visibility": 0.9987512826919556,
+            "x": 0.47638314962387085,
+            "y": 0.48341041803359985,
+            "z": 0.2033303827047348
+          },
+          {
+            "confidence": 0.9993738532066345,
+            "name": "left_knee",
+            "visibility": 0.27022212743759155,
+            "x": 0.4673025608062744,
+            "y": 0.5758184194564819,
+            "z": 0.3942401707172394
+          }
+        ],
+        "missing_landmarks": [],
+        "nonfinite_coordinates": [],
+        "vector_a": [
+          -0.014732539653778076,
+          -0.1338777244091034,
+          0.04738838970661163
+        ],
+        "vector_b": [
+          -0.009080588817596436,
+          0.09240800142288208,
+          0.19090978801250458
+        ],
+        "visibility_min": 0.27022212743759155,
+        "z_mean": 0.2827631086111069
+      },
+      "left_visibility_min": 0.27022212743759155,
+      "near_far_comparison": {
+        "near_far_inference": "Unknown; no camera calibration or documented camera-side metadata is available in the existing debug records.",
+        "z_geometry_evidence": "left hip-triplet mean z=0.282763, right hip-triplet mean z=-0.249102. MediaPipe z is available for comparison, but this audit does not infer camera near/far side from z alone."
+      },
+      "origin_evidence": [
+        "left hip triplet visibility below 0.5",
+        "camera perspective cannot be determined from available single-view debug records",
+        "hip angle uses documented unsigned shoulder-hip-knee vector geometry"
+      ],
+      "rank": 4,
+      "right_confidence_min": 0.9975082874298096,
+      "right_hip_triplet": {
+        "confidence_min": 0.9975082874298096,
+        "landmark_names": [
+          "right_shoulder",
+          "right_hip",
+          "right_knee"
+        ],
+        "landmarks": [
+          {
+            "confidence": 0.9975082874298096,
+            "name": "right_shoulder",
+            "visibility": 0.9980489015579224,
+            "x": 0.4685269594192505,
+            "y": 0.3391904830932617,
+            "z": -0.4214659631252289
+          },
+          {
+            "confidence": 0.9996620416641235,
+            "name": "right_hip",
+            "visibility": 0.9994611144065857,
+            "x": 0.4517962634563446,
+            "y": 0.48375430703163147,
+            "z": -0.20290008187294006
+          },
+          {
+            "confidence": 0.999413251876831,
+            "name": "right_knee",
+            "visibility": 0.9359467625617981,
+            "x": 0.4543192684650421,
+            "y": 0.5831627249717712,
+            "z": -0.12293978035449982
+          }
+        ],
+        "missing_landmarks": [],
+        "nonfinite_coordinates": [],
+        "vector_a": [
+          0.016730695962905884,
+          -0.14456382393836975,
+          -0.21856588125228882
+        ],
+        "vector_b": [
+          0.0025230050086975098,
+          0.09940841794013977,
+          0.07996030151844025
+        ],
+        "visibility_min": 0.9359467625617981,
+        "z_mean": -0.24910194178422293
+      },
+      "right_visibility_min": 0.9359467625617981,
+      "timestamp": 1.573379753615426
+    },
+    {
+      "absolute_difference": 63.39753639118137,
+      "confidence_rank": 8,
+      "evidence_notes": [
+        "left hip triplet includes visibility below 0.5"
+      ],
+      "frame_index": 52,
+      "hip_flexion_left": 76.3622184018527,
+      "hip_flexion_right": 12.964682010671332,
+      "left_confidence_min": 0.9974817633628845,
+      "left_hip_triplet": {
+        "confidence_min": 0.9974817633628845,
+        "landmark_names": [
+          "left_shoulder",
+          "left_hip",
+          "left_knee"
+        ],
+        "landmarks": [
+          {
+            "confidence": 0.9974817633628845,
+            "name": "left_shoulder",
+            "visibility": 0.9933899641036987,
+            "x": 0.47517409920692444,
+            "y": 0.3367078900337219,
+            "z": 0.29518017172813416
+          },
+          {
+            "confidence": 0.9991773962974548,
+            "name": "left_hip",
+            "visibility": 0.9987818598747253,
+            "x": 0.48448243737220764,
+            "y": 0.47832196950912476,
+            "z": 0.20560409128665924
+          },
+          {
+            "confidence": 0.9983980059623718,
+            "name": "left_knee",
+            "visibility": 0.4158259332180023,
+            "x": 0.4745822250843048,
+            "y": 0.5804529786109924,
+            "z": 0.3034156262874603
+          }
+        ],
+        "missing_landmarks": [],
+        "nonfinite_coordinates": [],
+        "vector_a": [
+          -0.009308338165283203,
+          -0.14161407947540283,
+          0.08957608044147491
+        ],
+        "vector_b": [
+          -0.009900212287902832,
+          0.10213100910186768,
+          0.09781153500080109
+        ],
+        "visibility_min": 0.4158259332180023,
+        "z_mean": 0.2680666297674179
+      },
+      "left_visibility_min": 0.4158259332180023,
+      "near_far_comparison": {
+        "near_far_inference": "Unknown; no camera calibration or documented camera-side metadata is available in the existing debug records.",
+        "z_geometry_evidence": "left hip-triplet mean z=0.268067, right hip-triplet mean z=-0.236636. MediaPipe z is available for comparison, but this audit does not infer camera near/far side from z alone."
+      },
+      "origin_evidence": [
+        "left hip triplet visibility below 0.5",
+        "camera perspective cannot be determined from available single-view debug records",
+        "hip angle uses documented unsigned shoulder-hip-knee vector geometry"
+      ],
+      "rank": 5,
+      "right_confidence_min": 0.9981284737586975,
+      "right_hip_triplet": {
+        "confidence_min": 0.9981284737586975,
+        "landmark_names": [
+          "right_shoulder",
+          "right_hip",
+          "right_knee"
+        ],
+        "landmarks": [
+          {
+            "confidence": 0.9981284737586975,
+            "name": "right_shoulder",
+            "visibility": 0.9985735416412354,
+            "x": 0.4709561765193939,
+            "y": 0.32817867398262024,
+            "z": -0.3800193667411804
+          },
+          {
+            "confidence": 0.9992679953575134,
+            "name": "right_hip",
+            "visibility": 0.9994258880615234,
+            "x": 0.461203008890152,
+            "y": 0.4773945212364197,
+            "z": -0.20530880987644196
+          },
+          {
+            "confidence": 0.9985417127609253,
+            "name": "right_knee",
+            "visibility": 0.9703407287597656,
+            "x": 0.45360004901885986,
+            "y": 0.5863240361213684,
+            "z": -0.12457840889692307
+          }
+        ],
+        "missing_landmarks": [],
+        "nonfinite_coordinates": [],
+        "vector_a": [
+          0.009753167629241943,
+          -0.14921584725379944,
+          -0.17471055686473846
+        ],
+        "vector_b": [
+          -0.007602959871292114,
+          0.10892951488494873,
+          0.08073040097951889
+        ],
+        "visibility_min": 0.9703407287597656,
+        "z_mean": -0.23663552850484848
+      },
+      "right_visibility_min": 0.9703407287597656,
+      "timestamp": 1.7407605784681306
+    },
+    {
+      "absolute_difference": 57.52235938140382,
+      "confidence_rank": 5,
+      "evidence_notes": [
+        "left hip triplet includes visibility below 0.5"
+      ],
+      "frame_index": 48,
+      "hip_flexion_left": 73.72856989617617,
+      "hip_flexion_right": 16.206210514772348,
+      "left_confidence_min": 0.9968922734260559,
+      "left_hip_triplet": {
+        "confidence_min": 0.9968922734260559,
+        "landmark_names": [
+          "left_shoulder",
+          "left_hip",
+          "left_knee"
+        ],
+        "landmarks": [
+          {
+            "confidence": 0.9968922734260559,
+            "name": "left_shoulder",
+            "visibility": 0.9935742020606995,
+            "x": 0.48566123843193054,
+            "y": 0.34619736671447754,
+            "z": 0.2469048947095871
+          },
+          {
+            "confidence": 0.9996238946914673,
+            "name": "left_hip",
+            "visibility": 0.998921275138855,
+            "x": 0.48367759585380554,
+            "y": 0.48243680596351624,
+            "z": 0.20462630689144135
+          },
+          {
+            "confidence": 0.9991119503974915,
+            "name": "left_knee",
+            "visibility": 0.3348354399204254,
+            "x": 0.4688223600387573,
+            "y": 0.5761968493461609,
+            "z": 0.34625673294067383
+          }
+        ],
+        "missing_landmarks": [],
+        "nonfinite_coordinates": [],
+        "vector_a": [
+          0.001983642578125,
+          -0.1362394392490387,
+          0.04227858781814575
+        ],
+        "vector_b": [
+          -0.014855235815048218,
+          0.09376004338264465,
+          0.14163042604923248
+        ],
+        "visibility_min": 0.3348354399204254,
+        "z_mean": 0.26592931151390076
+      },
+      "left_visibility_min": 0.3348354399204254,
+      "near_far_comparison": {
+        "near_far_inference": "Unknown; no camera calibration or documented camera-side metadata is available in the existing debug records.",
+        "z_geometry_evidence": "left hip-triplet mean z=0.265929, right hip-triplet mean z=-0.253489. MediaPipe z is available for comparison, but this audit does not infer camera near/far side from z alone."
+      },
+      "origin_evidence": [
+        "left hip triplet visibility below 0.5",
+        "camera perspective cannot be determined from available single-view debug records",
+        "hip angle uses documented unsigned shoulder-hip-knee vector geometry"
+      ],
+      "rank": 6,
+      "right_confidence_min": 0.9972273707389832,
+      "right_hip_triplet": {
+        "confidence_min": 0.9972273707389832,
+        "landmark_names": [
+          "right_shoulder",
+          "right_hip",
+          "right_knee"
+        ],
+        "landmarks": [
+          {
+            "confidence": 0.9972273707389832,
+            "name": "right_shoulder",
+            "visibility": 0.9977108240127563,
+            "x": 0.45742684602737427,
+            "y": 0.33892303705215454,
+            "z": -0.45016559958457947
+          },
+          {
+            "confidence": 0.9996405839920044,
+            "name": "right_hip",
+            "visibility": 0.9994171857833862,
+            "x": 0.4496719241142273,
+            "y": 0.4825970232486725,
+            "z": -0.20425564050674438
+          },
+          {
+            "confidence": 0.9989932179450989,
+            "name": "right_knee",
+            "visibility": 0.9383403658866882,
+            "x": 0.45220935344696045,
+            "y": 0.5853564143180847,
+            "z": -0.10604452341794968
+          }
+        ],
+        "missing_landmarks": [],
+        "nonfinite_coordinates": [],
+        "vector_a": [
+          0.007754921913146973,
+          -0.14367398619651794,
+          -0.24590995907783508
+        ],
+        "vector_b": [
+          0.0025374293327331543,
+          0.10275939106941223,
+          0.09821111708879471
+        ],
+        "visibility_min": 0.9383403658866882,
+        "z_mean": -0.25348858783642453
+      },
+      "right_visibility_min": 0.9383403658866882,
+      "timestamp": 1.6068559185859668
+    },
+    {
+      "absolute_difference": 54.74063644098887,
+      "confidence_rank": 4,
+      "evidence_notes": [
+        "left hip triplet includes visibility below 0.5"
+      ],
+      "frame_index": 42,
+      "hip_flexion_left": 77.42637658043999,
+      "hip_flexion_right": 22.68574013945112,
+      "left_confidence_min": 0.9989308714866638,
+      "left_hip_triplet": {
+        "confidence_min": 0.9989308714866638,
+        "landmark_names": [
+          "left_shoulder",
+          "left_hip",
+          "left_knee"
+        ],
+        "landmarks": [
+          {
+            "confidence": 0.9989308714866638,
+            "name": "left_shoulder",
+            "visibility": 0.9981338381767273,
+            "x": 0.4774957299232483,
+            "y": 0.35094475746154785,
+            "z": 0.23437538743019104
+          },
+          {
+            "confidence": 0.9998447895050049,
+            "name": "left_hip",
+            "visibility": 0.9991126656532288,
+            "x": 0.4777247905731201,
+            "y": 0.48772963881492615,
+            "z": 0.20701108872890472
+          },
+          {
+            "confidence": 0.9994640946388245,
+            "name": "left_knee",
+            "visibility": 0.2842114269733429,
+            "x": 0.46964654326438904,
+            "y": 0.5753331184387207,
+            "z": 0.40470853447914124
+          }
+        ],
+        "missing_landmarks": [],
+        "nonfinite_coordinates": [],
+        "vector_a": [
+          -0.00022906064987182617,
+          -0.1367848813533783,
+          0.027364298701286316
+        ],
+        "vector_b": [
+          -0.008078247308731079,
+          0.08760347962379456,
+          0.1976974457502365
+        ],
+        "visibility_min": 0.2842114269733429,
+        "z_mean": 0.28203167021274567
+      },
+      "left_visibility_min": 0.2842114269733429,
+      "near_far_comparison": {
+        "near_far_inference": "Unknown; no camera calibration or documented camera-side metadata is available in the existing debug records.",
+        "z_geometry_evidence": "left hip-triplet mean z=0.282032, right hip-triplet mean z=-0.260499. MediaPipe z is available for comparison, but this audit does not infer camera near/far side from z alone."
+      },
+      "origin_evidence": [
+        "left hip triplet visibility below 0.5",
+        "camera perspective cannot be determined from available single-view debug records",
+        "hip angle uses documented unsigned shoulder-hip-knee vector geometry"
+      ],
+      "rank": 7,
+      "right_confidence_min": 0.9990037083625793,
+      "right_hip_triplet": {
+        "confidence_min": 0.9990037083625793,
+        "landmark_names": [
+          "right_shoulder",
+          "right_hip",
+          "right_knee"
+        ],
+        "landmarks": [
+          {
+            "confidence": 0.9990037083625793,
+            "name": "right_shoulder",
+            "visibility": 0.9990752935409546,
+            "x": 0.45477643609046936,
+            "y": 0.35095036029815674,
+            "z": -0.4386882781982422
+          },
+          {
+            "confidence": 0.9998666048049927,
+            "name": "right_hip",
+            "visibility": 0.9995040893554688,
+            "x": 0.4472474157810211,
+            "y": 0.4901236891746521,
+            "z": -0.20635424554347992
+          },
+          {
+            "confidence": 0.9995742440223694,
+            "name": "right_knee",
+            "visibility": 0.9252403974533081,
+            "x": 0.4521098732948303,
+            "y": 0.583771824836731,
+            "z": -0.13645529747009277
+          }
+        ],
+        "missing_landmarks": [],
+        "nonfinite_coordinates": [],
+        "vector_a": [
+          0.007529020309448242,
+          -0.13917332887649536,
+          -0.23233403265476227
+        ],
+        "vector_b": [
+          0.004862457513809204,
+          0.09364813566207886,
+          0.06989894807338715
+        ],
+        "visibility_min": 0.9252403974533081,
+        "z_mean": -0.2604992737372716
+      },
+      "right_visibility_min": 0.9252403974533081,
+      "timestamp": 1.405998928762721
+    },
+    {
+      "absolute_difference": 54.401551245161684,
+      "confidence_rank": 2,
+      "evidence_notes": [
+        "left hip triplet includes visibility below 0.5"
+      ],
+      "frame_index": 45,
+      "hip_flexion_left": 73.45137013955552,
+      "hip_flexion_right": 19.049818894393837,
+      "left_confidence_min": 0.9984962940216064,
+      "left_hip_triplet": {
+        "confidence_min": 0.9984962940216064,
+        "landmark_names": [
+          "left_shoulder",
+          "left_hip",
+          "left_knee"
+        ],
+        "landmarks": [
+          {
+            "confidence": 0.9984962940216064,
+            "name": "left_shoulder",
+            "visibility": 0.9962834715843201,
+            "x": 0.47877323627471924,
+            "y": 0.351703405380249,
+            "z": 0.21793195605278015
+          },
+          {
+            "confidence": 0.9997509121894836,
+            "name": "left_hip",
+            "visibility": 0.9986416697502136,
+            "x": 0.48104578256607056,
+            "y": 0.4853622317314148,
+            "z": 0.18974757194519043
+          },
+          {
+            "confidence": 0.9993720650672913,
+            "name": "left_knee",
+            "visibility": 0.2423328012228012,
+            "x": 0.4707261621952057,
+            "y": 0.5747041702270508,
+            "z": 0.3540268540382385
+          }
+        ],
+        "missing_landmarks": [],
+        "nonfinite_coordinates": [],
+        "vector_a": [
+          -0.0022725462913513184,
+          -0.13365882635116577,
+          0.02818438410758972
+        ],
+        "vector_b": [
+          -0.010319620370864868,
+          0.08934193849563599,
+          0.1642792820930481
+        ],
+        "visibility_min": 0.2423328012228012,
+        "z_mean": 0.253902127345403
+      },
+      "left_visibility_min": 0.2423328012228012,
+      "near_far_comparison": {
+        "near_far_inference": "Unknown; no camera calibration or documented camera-side metadata is available in the existing debug records.",
+        "z_geometry_evidence": "left hip-triplet mean z=0.253902, right hip-triplet mean z=-0.236806. MediaPipe z is available for comparison, but this audit does not infer camera near/far side from z alone."
+      },
+      "origin_evidence": [
+        "left hip triplet visibility below 0.5",
+        "camera perspective cannot be determined from available single-view debug records",
+        "hip angle uses documented unsigned shoulder-hip-knee vector geometry"
+      ],
+      "rank": 8,
+      "right_confidence_min": 0.9982559084892273,
+      "right_hip_triplet": {
+        "confidence_min": 0.9982559084892273,
+        "landmark_names": [
+          "right_shoulder",
+          "right_hip",
+          "right_knee"
+        ],
+        "landmarks": [
+          {
+            "confidence": 0.9982559084892273,
+            "name": "right_shoulder",
+            "visibility": 0.9986876845359802,
+            "x": 0.4541776776313782,
+            "y": 0.3455444276332855,
+            "z": -0.4090534746646881
+          },
+          {
+            "confidence": 0.9997722506523132,
+            "name": "right_hip",
+            "visibility": 0.9993952512741089,
+            "x": 0.44953468441963196,
+            "y": 0.48643437027931213,
+            "z": -0.189303457736969
+          },
+          {
+            "confidence": 0.9993570446968079,
+            "name": "right_knee",
+            "visibility": 0.912513792514801,
+            "x": 0.4546966254711151,
+            "y": 0.5832374095916748,
+            "z": -0.11206107586622238
+          }
+        ],
+        "missing_landmarks": [],
+        "nonfinite_coordinates": [],
+        "vector_a": [
+          0.004642993211746216,
+          -0.1408899426460266,
+          -0.21975001692771912
+        ],
+        "vector_b": [
+          0.005161941051483154,
+          0.09680303931236267,
+          0.07724238187074661
+        ],
+        "visibility_min": 0.912513792514801,
+        "z_mean": -0.23680600275595984
+      },
+      "right_visibility_min": 0.912513792514801,
+      "timestamp": 1.5064274236743438
+    },
+    {
+      "absolute_difference": 53.679022683708865,
+      "confidence_rank": 6,
+      "evidence_notes": [
+        "left hip triplet includes visibility below 0.5"
+      ],
+      "frame_index": 49,
+      "hip_flexion_left": 73.93033468404295,
+      "hip_flexion_right": 20.251312000334085,
+      "left_confidence_min": 0.9970383644104004,
+      "left_hip_triplet": {
+        "confidence_min": 0.9970383644104004,
+        "landmark_names": [
+          "left_shoulder",
+          "left_hip",
+          "left_knee"
+        ],
+        "landmarks": [
+          {
+            "confidence": 0.9970383644104004,
+            "name": "left_shoulder",
+            "visibility": 0.9938628673553467,
+            "x": 0.48147034645080566,
+            "y": 0.3426169157028198,
+            "z": 0.25870978832244873
+          },
+          {
+            "confidence": 0.9995563626289368,
+            "name": "left_hip",
+            "visibility": 0.999045193195343,
+            "x": 0.47631144523620605,
+            "y": 0.482245534658432,
+            "z": 0.19959890842437744
+          },
+          {
+            "confidence": 0.99904865026474,
+            "name": "left_knee",
+            "visibility": 0.38904207944869995,
+            "x": 0.4658983647823334,
+            "y": 0.5795295238494873,
+            "z": 0.3200559914112091
+          }
+        ],
+        "missing_landmarks": [],
+        "nonfinite_coordinates": [],
+        "vector_a": [
+          0.005158901214599609,
+          -0.13962861895561218,
+          0.05911087989807129
+        ],
+        "vector_b": [
+          -0.01041308045387268,
+          0.0972839891910553,
+          0.12045708298683167
+        ],
+        "visibility_min": 0.38904207944869995,
+        "z_mean": 0.2594548960526784
+      },
+      "left_visibility_min": 0.38904207944869995,
+      "near_far_comparison": {
+        "near_far_inference": "Unknown; no camera calibration or documented camera-side metadata is available in the existing debug records.",
+        "z_geometry_evidence": "left hip-triplet mean z=0.259455, right hip-triplet mean z=-0.248372. MediaPipe z is available for comparison, but this audit does not infer camera near/far side from z alone."
+      },
+      "origin_evidence": [
+        "left hip triplet visibility below 0.5",
+        "camera perspective cannot be determined from available single-view debug records",
+        "hip angle uses documented unsigned shoulder-hip-knee vector geometry"
+      ],
+      "rank": 9,
+      "right_confidence_min": 0.9972566962242126,
+      "right_hip_triplet": {
+        "confidence_min": 0.9972566962242126,
+        "landmark_names": [
+          "right_shoulder",
+          "right_hip",
+          "right_knee"
+        ],
+        "landmarks": [
+          {
+            "confidence": 0.9972566962242126,
+            "name": "right_shoulder",
+            "visibility": 0.9979287385940552,
+            "x": 0.46045446395874023,
+            "y": 0.33782511949539185,
+            "z": -0.42755624651908875
+          },
+          {
+            "confidence": 0.9995582699775696,
+            "name": "right_hip",
+            "visibility": 0.9994514584541321,
+            "x": 0.4525390863418579,
+            "y": 0.4822225272655487,
+            "z": -0.19928988814353943
+          },
+          {
+            "confidence": 0.9987749457359314,
+            "name": "right_knee",
+            "visibility": 0.9440830945968628,
+            "x": 0.4543059766292572,
+            "y": 0.5875136256217957,
+            "z": -0.11827108263969421
+          }
+        ],
+        "missing_landmarks": [],
+        "nonfinite_coordinates": [],
+        "vector_a": [
+          0.007915377616882324,
+          -0.14439740777015686,
+          -0.22826635837554932
+        ],
+        "vector_b": [
+          0.001766890287399292,
+          0.10529109835624695,
+          0.08101880550384521
+        ],
+        "visibility_min": 0.9440830945968628,
+        "z_mean": -0.2483724057674408
+      },
+      "right_visibility_min": 0.9440830945968628,
+      "timestamp": 1.6403320835565078
+    },
+    {
+      "absolute_difference": 52.03172873857016,
+      "confidence_rank": 10,
+      "evidence_notes": [
+        "left hip triplet includes visibility below 0.5"
+      ],
+      "frame_index": 53,
+      "hip_flexion_left": 71.07919173054576,
+      "hip_flexion_right": 19.0474629919756,
+      "left_confidence_min": 0.9984959363937378,
+      "left_hip_triplet": {
+        "confidence_min": 0.9984959363937378,
+        "landmark_names": [
+          "left_shoulder",
+          "left_hip",
+          "left_knee"
+        ],
+        "landmarks": [
+          {
+            "confidence": 0.9984959363937378,
+            "name": "left_shoulder",
+            "visibility": 0.9958913326263428,
+            "x": 0.47659045457839966,
+            "y": 0.33800792694091797,
+            "z": 0.30162763595581055
+          },
+          {
+            "confidence": 0.9993257522583008,
+            "name": "left_hip",
+            "visibility": 0.9991629123687744,
+            "x": 0.4837892949581146,
+            "y": 0.4774138331413269,
+            "z": 0.20953845977783203
+          },
+          {
+            "confidence": 0.9988879561424255,
+            "name": "left_knee",
+            "visibility": 0.4660663604736328,
+            "x": 0.4746740758419037,
+            "y": 0.5790685415267944,
+            "z": 0.2871944308280945
+          }
+        ],
+        "missing_landmarks": [],
+        "nonfinite_coordinates": [],
+        "vector_a": [
+          -0.007198840379714966,
+          -0.13940590620040894,
+          0.09208917617797852
+        ],
+        "vector_b": [
+          -0.009115219116210938,
+          0.10165470838546753,
+          0.07765597105026245
+        ],
+        "visibility_min": 0.4660663604736328,
+        "z_mean": 0.26612017552057904
+      },
+      "left_visibility_min": 0.4660663604736328,
+      "near_far_comparison": {
+        "near_far_inference": "Unknown; no camera calibration or documented camera-side metadata is available in the existing debug records.",
+        "z_geometry_evidence": "left hip-triplet mean z=0.26612, right hip-triplet mean z=-0.244897. MediaPipe z is available for comparison, but this audit does not infer camera near/far side from z alone."
+      },
+      "origin_evidence": [
+        "left hip triplet visibility below 0.5",
+        "camera perspective cannot be determined from available single-view debug records",
+        "hip angle uses documented unsigned shoulder-hip-knee vector geometry"
+      ],
+      "rank": 10,
+      "right_confidence_min": 0.9990808963775635,
+      "right_hip_triplet": {
+        "confidence_min": 0.9990808963775635,
+        "landmark_names": [
+          "right_shoulder",
+          "right_hip",
+          "right_knee"
+        ],
+        "landmarks": [
+          {
+            "confidence": 0.9990887641906738,
+            "name": "right_shoulder",
+            "visibility": 0.9992050528526306,
+            "x": 0.4735380709171295,
+            "y": 0.3268424868583679,
+            "z": -0.3782423138618469
+          },
+          {
+            "confidence": 0.999427855014801,
+            "name": "right_hip",
+            "visibility": 0.9996170997619629,
+            "x": 0.46520107984542847,
+            "y": 0.475454717874527,
+            "z": -0.20927897095680237
+          },
+          {
+            "confidence": 0.9990808963775635,
+            "name": "right_knee",
+            "visibility": 0.9775276780128479,
+            "x": 0.45698869228363037,
+            "y": 0.5845083594322205,
+            "z": -0.14717011153697968
+          }
+        ],
+        "missing_landmarks": [],
+        "nonfinite_coordinates": [],
+        "vector_a": [
+          0.00833699107170105,
+          -0.14861223101615906,
+          -0.16896334290504456
+        ],
+        "vector_b": [
+          -0.008212387561798096,
+          0.10905364155769348,
+          0.06210885941982269
+        ],
+        "visibility_min": 0.9775276780128479,
+        "z_mean": -0.244897132118543
+      },
+      "right_visibility_min": 0.9775276780128479,
+      "timestamp": 1.7742367434386717
+    }
+  ],
+  "hip_discrepancy_summary": {
+    "finite_hip_pair_count": 139,
+    "largest_differences": [
+      {
+        "absolute_difference": 71.22207156788271,
+        "evidence_notes": [
+          "left hip triplet includes visibility below 0.5"
+        ],
+        "frame_index": 50,
+        "hip_flexion_left": 81.58863922706891,
+        "hip_flexion_right": 10.366567659186208,
+        "left_confidence_min": 0.997502863407135,
+        "left_visibility_min": 0.39046135544776917,
+        "rank": 1,
+        "right_confidence_min": 0.9979812502861023,
+        "right_visibility_min": 0.9595491290092468,
+        "timestamp": 1.6738082485270487
+      },
+      {
+        "absolute_difference": 71.06297003886291,
+        "evidence_notes": [
+          "left hip triplet includes visibility below 0.5"
+        ],
+        "frame_index": 51,
+        "hip_flexion_left": 79.99738079397399,
+        "hip_flexion_right": 8.934410755111077,
+        "left_confidence_min": 0.9972624778747559,
+        "left_visibility_min": 0.43288350105285645,
+        "rank": 2,
+        "right_confidence_min": 0.9978063702583313,
+        "right_visibility_min": 0.9702543020248413,
+        "timestamp": 1.7072844134975897
+      },
+      {
+        "absolute_difference": 66.00937229587132,
+        "evidence_notes": [
+          "left hip triplet includes visibility below 0.5"
+        ],
+        "frame_index": 46,
+        "hip_flexion_left": 80.77312198800111,
+        "hip_flexion_right": 14.763749692129792,
+        "left_confidence_min": 0.9969953298568726,
+        "left_visibility_min": 0.23448696732521057,
+        "rank": 3,
+        "right_confidence_min": 0.9971953630447388,
+        "right_visibility_min": 0.9028341770172119,
+        "timestamp": 1.5399035886448849
+      },
+      {
+        "absolute_difference": 65.6245974112812,
+        "evidence_notes": [
+          "left hip triplet includes visibility below 0.5"
+        ],
+        "frame_index": 47,
+        "hip_flexion_left": 83.95757700713048,
+        "hip_flexion_right": 18.332979595849288,
+        "left_confidence_min": 0.9973317384719849,
+        "left_visibility_min": 0.27022212743759155,
+        "rank": 4,
+        "right_confidence_min": 0.9975082874298096,
+        "right_visibility_min": 0.9359467625617981,
+        "timestamp": 1.573379753615426
+      },
+      {
+        "absolute_difference": 63.39753639118137,
+        "evidence_notes": [
+          "left hip triplet includes visibility below 0.5"
+        ],
+        "frame_index": 52,
+        "hip_flexion_left": 76.3622184018527,
+        "hip_flexion_right": 12.964682010671332,
+        "left_confidence_min": 0.9974817633628845,
+        "left_visibility_min": 0.4158259332180023,
+        "rank": 5,
+        "right_confidence_min": 0.9981284737586975,
+        "right_visibility_min": 0.9703407287597656,
+        "timestamp": 1.7407605784681306
+      },
+      {
+        "absolute_difference": 57.52235938140382,
+        "evidence_notes": [
+          "left hip triplet includes visibility below 0.5"
+        ],
+        "frame_index": 48,
+        "hip_flexion_left": 73.72856989617617,
+        "hip_flexion_right": 16.206210514772348,
+        "left_confidence_min": 0.9968922734260559,
+        "left_visibility_min": 0.3348354399204254,
+        "rank": 6,
+        "right_confidence_min": 0.9972273707389832,
+        "right_visibility_min": 0.9383403658866882,
+        "timestamp": 1.6068559185859668
+      },
+      {
+        "absolute_difference": 54.74063644098887,
+        "evidence_notes": [
+          "left hip triplet includes visibility below 0.5"
+        ],
+        "frame_index": 42,
+        "hip_flexion_left": 77.42637658043999,
+        "hip_flexion_right": 22.68574013945112,
+        "left_confidence_min": 0.9989308714866638,
+        "left_visibility_min": 0.2842114269733429,
+        "rank": 7,
+        "right_confidence_min": 0.9990037083625793,
+        "right_visibility_min": 0.9252403974533081,
+        "timestamp": 1.405998928762721
+      },
+      {
+        "absolute_difference": 54.401551245161684,
+        "evidence_notes": [
+          "left hip triplet includes visibility below 0.5"
+        ],
+        "frame_index": 45,
+        "hip_flexion_left": 73.45137013955552,
+        "hip_flexion_right": 19.049818894393837,
+        "left_confidence_min": 0.9984962940216064,
+        "left_visibility_min": 0.2423328012228012,
+        "rank": 8,
+        "right_confidence_min": 0.9982559084892273,
+        "right_visibility_min": 0.912513792514801,
+        "timestamp": 1.5064274236743438
+      },
+      {
+        "absolute_difference": 53.679022683708865,
+        "evidence_notes": [
+          "left hip triplet includes visibility below 0.5"
+        ],
+        "frame_index": 49,
+        "hip_flexion_left": 73.93033468404295,
+        "hip_flexion_right": 20.251312000334085,
+        "left_confidence_min": 0.9970383644104004,
+        "left_visibility_min": 0.38904207944869995,
+        "rank": 9,
+        "right_confidence_min": 0.9972566962242126,
+        "right_visibility_min": 0.9440830945968628,
+        "timestamp": 1.6403320835565078
+      },
+      {
+        "absolute_difference": 52.03172873857016,
+        "evidence_notes": [
+          "left hip triplet includes visibility below 0.5"
+        ],
+        "frame_index": 53,
+        "hip_flexion_left": 71.07919173054576,
+        "hip_flexion_right": 19.0474629919756,
+        "left_confidence_min": 0.9984959363937378,
+        "left_visibility_min": 0.4660663604736328,
+        "rank": 10,
+        "right_confidence_min": 0.9990808963775635,
+        "right_visibility_min": 0.9775276780128479,
+        "timestamp": 1.7742367434386717
+      }
+    ],
+    "rank_policy": "Ranked by existing computed abs(hip_flexion_left - hip_flexion_right); no clinical threshold is applied."
+  },
+  "measurement_definitions": [
+    {
+      "convention": "Unsigned internal 3D vector angle from MediaPipe landmark coordinates.",
+      "expected_range_degrees": "0 to 180 when vectors are finite and nonzero; NaN otherwise.",
+      "formula": "degrees(arccos(clip(dot(vector_a, vector_b) / (||vector_a|| * ||vector_b||), -1, 1)))",
+      "interpretation_boundary": "MediaPipe-derived geometric approximation; not laboratory inverse kinematics or a clinical score.",
+      "landmarks": "right_shoulder -> right_hip -> right_knee",
+      "signal": "hip_flexion_right",
+      "vector_a": "right_shoulder - right_hip",
+      "vector_b": "right_knee - right_hip",
+      "vertex": "right_hip"
+    },
+    {
+      "convention": "Unsigned internal 3D vector angle from MediaPipe landmark coordinates.",
+      "expected_range_degrees": "0 to 180 when vectors are finite and nonzero; NaN otherwise.",
+      "formula": "degrees(arccos(clip(dot(vector_a, vector_b) / (||vector_a|| * ||vector_b||), -1, 1)))",
+      "interpretation_boundary": "MediaPipe-derived geometric approximation; not laboratory inverse kinematics or a clinical score.",
+      "landmarks": "left_shoulder -> left_hip -> left_knee",
+      "signal": "hip_flexion_left",
+      "vector_a": "left_shoulder - left_hip",
+      "vector_b": "left_knee - left_hip",
+      "vertex": "left_hip"
+    },
+    {
+      "convention": "Unsigned internal 3D vector angle from MediaPipe landmark coordinates.",
+      "expected_range_degrees": "0 to 180 when vectors are finite and nonzero; NaN otherwise.",
+      "formula": "degrees(arccos(clip(dot(vector_a, vector_b) / (||vector_a|| * ||vector_b||), -1, 1)))",
+      "interpretation_boundary": "MediaPipe-derived geometric approximation; not laboratory inverse kinematics or a clinical score.",
+      "landmarks": "right_hip -> right_knee -> right_ankle",
+      "signal": "knee_flexion_right",
+      "vector_a": "right_hip - right_knee",
+      "vector_b": "right_ankle - right_knee",
+      "vertex": "right_knee"
+    },
+    {
+      "convention": "Unsigned internal 3D vector angle from MediaPipe landmark coordinates.",
+      "expected_range_degrees": "0 to 180 when vectors are finite and nonzero; NaN otherwise.",
+      "formula": "degrees(arccos(clip(dot(vector_a, vector_b) / (||vector_a|| * ||vector_b||), -1, 1)))",
+      "interpretation_boundary": "MediaPipe-derived geometric approximation; not laboratory inverse kinematics or a clinical score.",
+      "landmarks": "left_hip -> left_knee -> left_ankle",
+      "signal": "knee_flexion_left",
+      "vector_a": "left_hip - left_knee",
+      "vector_b": "left_ankle - left_knee",
+      "vertex": "left_knee"
+    },
+    {
+      "convention": "Unsigned internal 3D vector angle from MediaPipe landmark coordinates.",
+      "expected_range_degrees": "0 to 180 when vectors are finite and nonzero; NaN otherwise.",
+      "formula": "degrees(arccos(clip(dot(vector_a, vector_b) / (||vector_a|| * ||vector_b||), -1, 1)))",
+      "interpretation_boundary": "MediaPipe-derived geometric approximation; not laboratory inverse kinematics or a clinical score.",
+      "landmarks": "right_knee -> right_ankle -> right_foot_index",
+      "signal": "ankle_angle_right",
+      "vector_a": "right_knee - right_ankle",
+      "vector_b": "right_foot_index - right_ankle",
+      "vertex": "right_ankle"
+    },
+    {
+      "convention": "Unsigned internal 3D vector angle from MediaPipe landmark coordinates.",
+      "expected_range_degrees": "0 to 180 when vectors are finite and nonzero; NaN otherwise.",
+      "formula": "degrees(arccos(clip(dot(vector_a, vector_b) / (||vector_a|| * ||vector_b||), -1, 1)))",
+      "interpretation_boundary": "MediaPipe-derived geometric approximation; not laboratory inverse kinematics or a clinical score.",
+      "landmarks": "left_knee -> left_ankle -> left_foot_index",
+      "signal": "ankle_angle_left",
+      "vector_a": "left_knee - left_ankle",
+      "vector_b": "left_foot_index - left_ankle",
+      "vertex": "left_ankle"
+    }
+  ],
+  "origin_assessment": {
+    "candidate_origins": [
+      {
+        "evidence": [
+          "frame 50: left hip triplet visibility below 0.5; camera perspective cannot be determined from available single-view debug records; hip angle uses documented unsigned shoulder-hip-knee vector geometry",
+          "frame 51: left hip triplet visibility below 0.5; camera perspective cannot be determined from available single-view debug records; hip angle uses documented unsigned shoulder-hip-knee vector geometry",
+          "frame 46: left hip triplet visibility below 0.5; camera perspective cannot be determined from available single-view debug records; hip angle uses documented unsigned shoulder-hip-knee vector geometry",
+          "frame 47: left hip triplet visibility below 0.5; camera perspective cannot be determined from available single-view debug records; hip angle uses documented unsigned shoulder-hip-knee vector geometry",
+          "frame 52: left hip triplet visibility below 0.5; camera perspective cannot be determined from available single-view debug records; hip angle uses documented unsigned shoulder-hip-knee vector geometry",
+          "frame 48: left hip triplet visibility below 0.5; camera perspective cannot be determined from available single-view debug records; hip angle uses documented unsigned shoulder-hip-knee vector geometry",
+          "frame 42: left hip triplet visibility below 0.5; camera perspective cannot be determined from available single-view debug records; hip angle uses documented unsigned shoulder-hip-knee vector geometry",
+          "frame 45: left hip triplet visibility below 0.5; camera perspective cannot be determined from available single-view debug records; hip angle uses documented unsigned shoulder-hip-knee vector geometry",
+          "frame 49: left hip triplet visibility below 0.5; camera perspective cannot be determined from available single-view debug records; hip angle uses documented unsigned shoulder-hip-knee vector geometry",
+          "frame 53: left hip triplet visibility below 0.5; camera perspective cannot be determined from available single-view debug records; hip angle uses documented unsigned shoulder-hip-knee vector geometry"
+        ],
+        "origin": "landmark estimation",
+        "status": "evidence present"
+      },
+      {
+        "evidence": [
+          "No ranked finite hip-pair frame shows missing or nonfinite hip-triplet landmarks in the available records."
+        ],
+        "origin": "occlusion",
+        "status": "insufficient evidence"
+      },
+      {
+        "evidence": [
+          "No camera calibration, view label, synchronized multi-view data, or external ground-truth video annotation is present in the frame database."
+        ],
+        "origin": "camera perspective",
+        "status": "insufficient evidence"
+      },
+      {
+        "evidence": [
+          "Hip flexion is represented as an unsigned internal shoulder-hip-knee vector angle from MediaPipe landmarks; this is a documented geometric definition, not laboratory inverse kinematics."
+        ],
+        "origin": "angle-definition limitations",
+        "status": "documented limitation, not proven frame-specific cause"
+      }
+    ],
+    "evidence_standard": "Classification is based only on existing measurements, landmark coordinates, visibility, confidence, and documented angle definitions; no thresholds beyond MediaPipe-style visibility/confidence quality flags are used for clinical interpretation.",
+    "overall_origin": "landmark estimation",
+    "summary": "Ranked discrepancy frames contain low visibility or confidence on landmarks used directly in the hip-angle triplets."
+  },
+  "prompt_25_scope": {
+    "automatic_correction_applied": false,
+    "evidence_only": true,
+    "notes": "This investigation reads existing measurements, landmarks, confidence, visibility, and vector geometry for developer review only.",
+    "purpose": "Investigate likely origins of observed left/right hip measurement discrepancies using existing Prompt 23/24 diagnostics.",
+    "scientific_pipeline_modified": false
+  },
+  "recommendations": [
+    "Use Measurement Debug Mode to visually inspect ranked frames before considering any formula change.",
+    "If recurrent discrepancies coincide with low shoulder, hip, or knee visibility, document the affected frames as measurement-quality concerns rather than changing biomechanics automatically.",
+    "Do not alter the hip angle definition without paired validation data or an explicitly approved future scientific prompt."
+  ],
+  "scope": {
+    "measurement_values_recomputed": false,
+    "notes": "Angles, deltas, symmetry values, landmarks, confidence, and visibility are read from existing frame records.",
+    "purpose": "Investigate observed left/right hip measurement differences using existing diagnostic outputs.",
+    "scientific_pipeline_modified": false
+  }
+}

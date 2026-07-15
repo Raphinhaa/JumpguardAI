@@ -1,0 +1,99 @@
+{
+  "automatic_clinical_interpretation_generated": false,
+  "automatic_reference_comparison_generated": false,
+  "automatic_reports_generated": false,
+  "browser_video_warning": null,
+  "derived_measurement_columns": [
+    "delta_from_previous_frame",
+    "absolute_difference",
+    "percent_difference",
+    "symmetry_index"
+  ],
+  "developer_hip_validation_generated": true,
+  "developer_measurement_debug_generated": true,
+  "error": null,
+  "event_detection_generated": false,
+  "execution_timestamp": "2026-07-14T17:49:59.697834+00:00",
+  "frame_count": 140,
+  "log": [
+    {
+      "elapsed_seconds": 0.014039125293493271,
+      "message": "Loaded videoplayback.mp4",
+      "stage": "video_loaded"
+    },
+    {
+      "elapsed_seconds": 2.929133042227477,
+      "message": "Exported MediaPipe landmarks",
+      "stage": "pose_estimated"
+    },
+    {
+      "elapsed_seconds": 3.7632705830037594,
+      "message": "Exported existing annotated video",
+      "stage": "video_annotated"
+    },
+    {
+      "elapsed_seconds": 3.763274291995913,
+      "message": "Exported browser-compatible annotated MP4",
+      "stage": "video_mp4_exported"
+    },
+    {
+      "elapsed_seconds": 4.4996828329749405,
+      "message": "Exported per-frame measurements",
+      "stage": "measurements_exported"
+    },
+    {
+      "elapsed_seconds": 4.566589250229299,
+      "message": "Exported developer-only measurement debug artifacts",
+      "stage": "measurement_debug_exported"
+    },
+    {
+      "elapsed_seconds": 4.571818083059043,
+      "message": "Exported developer-only hip measurement validation audit",
+      "stage": "hip_measurement_validation_exported"
+    },
+    {
+      "elapsed_seconds": 4.610106166917831,
+      "message": "Exported synchronized viewer",
+      "stage": "interactive_viewer_exported"
+    }
+  ],
+  "measurement_columns": [
+    "hip_flexion_right",
+    "hip_flexion_left",
+    "knee_flexion_right",
+    "knee_flexion_left",
+    "ankle_angle_right",
+    "ankle_angle_left"
+  ],
+  "output_locations": {
+    "annotated_video": "exports/testing_environment/runs/videoplayback_20260714T174959Z/video/videoplayback_annotated.mp4",
+    "annotated_video_debug_avi": "exports/testing_environment/runs/videoplayback_20260714T174959Z/video/videoplayback_annotated.avi",
+    "annotated_video_mp4": "exports/testing_environment/runs/videoplayback_20260714T174959Z/video/videoplayback_annotated.mp4",
+    "hip_measurement_validation_json": "exports/testing_environment/runs/videoplayback_20260714T174959Z/measurement_debug/hip_measurement_validation_report.json",
+    "hip_measurement_validation_report": "exports/testing_environment/runs/videoplayback_20260714T174959Z/measurement_debug/hip_measurement_validation_report.md",
+    "interactive_viewer_html": "exports/testing_environment/runs/videoplayback_20260714T174959Z/interactive_viewer.html",
+    "landmarks_csv": "exports/testing_environment/runs/videoplayback_20260714T174959Z/landmarks/landmarks.csv",
+    "landmarks_json": "exports/testing_environment/runs/videoplayback_20260714T174959Z/landmarks/landmarks.json",
+    "measurement_debug_raw_csv": "exports/testing_environment/runs/videoplayback_20260714T174959Z/measurement_debug/measurement_debug_raw.csv",
+    "measurement_debug_raw_json": "exports/testing_environment/runs/videoplayback_20260714T174959Z/measurement_debug/measurement_debug_raw.json",
+    "measurement_debugger_html": "exports/testing_environment/runs/videoplayback_20260714T174959Z/measurement_debug/measurement_debugger.html",
+    "metadata": "exports/testing_environment/runs/videoplayback_20260714T174959Z/metadata.json",
+    "per_frame_measurements_csv": "exports/testing_environment/runs/videoplayback_20260714T174959Z/measurements/per_frame_measurements.csv",
+    "per_frame_measurements_json": "exports/testing_environment/runs/videoplayback_20260714T174959Z/measurements/per_frame_measurements.json",
+    "time_series_json": "exports/testing_environment/runs/videoplayback_20260714T174959Z/measurements/time_series.json"
+  },
+  "processed_frame_count": 140,
+  "processing_duration_seconds": 4.610127457883209,
+  "selected_frame_policy": "Clinician-controlled frame selection only; no event inference.",
+  "status": "success",
+  "video": {
+    "codec": "h264",
+    "duration_seconds": 4.686663095875737,
+    "filename": "videoplayback.mp4",
+    "fps": 29.872,
+    "frame_count": 140,
+    "height": 640,
+    "path": "exports/testing_environment/uploads/videoplayback_20260714T174959Z/videoplayback.mp4",
+    "width": 360
+  }
+}

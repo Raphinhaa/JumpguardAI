@@ -342,6 +342,14 @@ def test_interactive_viewer_contains_professional_workstation_controls_and_no_re
     assert "Annotated MP4" in html
     assert "Per-frame CSV" in html
     assert "Measurement Debugger" in html
+    assert "Measurement Definitions" in html
+    assert "Left Knee Flexion" in html
+    assert "Frame-to-Frame Change" in html
+    assert "Left/Right Symmetry" in html
+    assert "Knee Flexion Over Time" in html
+    assert "graphTooltip" in html
+    assert "0 reference" in html
+    assert "°" in html
     assert '<source src="/artifact?path=video/jump.mp4" type="video/mp4">' in html
     assert '<video id="video" controls preload="metadata" playsinline muted>' in html
     assert "Annotated Video" in html
@@ -350,10 +358,10 @@ def test_interactive_viewer_contains_professional_workstation_controls_and_no_re
     assert "Space play/pause" in html
     assert "ArrowLeft" in html
     assert "ArrowRight" in html
-    assert "Frame Information" in html
+    assert "Selected Frame" in html
     assert "Joint Angles" in html
-    assert "Delta Values" in html
-    assert "Symmetry Indices" in html
+    assert "Frame-to-Frame Change" in html
+    assert "Left/Right Symmetry" in html
     assert "deltaGraph" in html
     assert "symmetryGraph" in html
     assert "current-frame cursor" in html

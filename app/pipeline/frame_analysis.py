@@ -355,13 +355,18 @@ def render_interactive_viewer_html(
     table{{border-collapse:collapse;width:100%;font-size:14px;}}
     th,td{{border-bottom:1px solid #e6edf5;padding:8px;text-align:left;vertical-align:top;}}
     th{{font-size:12px;text-transform:uppercase;color:#486581;letter-spacing:.04em;background:#f8fbfe;}}
-    canvas{{width:100%;height:170px;border:1px solid var(--line);border-radius:6px;background:#fff;display:block;margin:12px 0;}}
+    canvas{{width:100%;height:210px;border:1px solid var(--line);border-radius:6px;background:#fff;display:block;margin:12px 0;}}
     .muted{{color:var(--muted);}}
     .measurement-section{{border:1px solid #e6edf5;border-radius:8px;padding:12px;margin:12px 0;background:#fbfdff;}}
     .measurement-section h3{{font-size:15px;margin:0 0 10px;color:#243b53;}}
     .metric-grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;}}
     .metric-card{{border:1px solid #e6edf5;border-radius:8px;padding:10px;background:white;}}
     .metric-card strong{{display:block;margin-bottom:4px;color:#334e68;font-size:12px;text-transform:uppercase;letter-spacing:.04em;}}
+    .measurement-card-grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;}}
+    .clinical-card{{border:1px solid #dce6f1;border-radius:8px;background:white;padding:12px;min-height:88px;}}
+    .clinical-card span{{display:block;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.04em;font-weight:800;margin-bottom:6px;}}
+    .clinical-card strong{{display:block;color:#1f3449;font-size:22px;line-height:1.1;}}
+    .clinical-card small{{display:block;color:#627d98;margin-top:4px;font-size:12px;}}
     .summary-grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;}}
     .summary-card{{border:1px solid #e6edf5;border-radius:8px;background:#fff;padding:12px;min-height:76px;}}
     .summary-card span{{display:block;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.04em;font-weight:800;margin-bottom:5px;}}
@@ -371,8 +376,20 @@ def render_interactive_viewer_html(
     .export-link span{{display:block;color:var(--muted);font-size:12px;font-weight:650;margin-top:2px;}}
     .export-link:hover{{border-color:#9fc4ed;background:var(--accent-soft);}}
     .graph-heading{{display:flex;justify-content:space-between;gap:12px;align-items:flex-end;}}
+    .graph-stack{{position:relative;}}
+    .graph-tooltip{{position:fixed;z-index:20;display:none;pointer-events:none;max-width:280px;background:#102a43;color:white;border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:9px 10px;font-size:12px;box-shadow:0 8px 24px rgba(16,42,67,.22);}}
+    .graph-tooltip strong{{display:block;font-size:13px;margin-bottom:4px;}}
     .shortcut{{font-size:13px;color:var(--muted);}}
     .visually-muted{{font-size:13px;color:#627d98;}}
+    .dialog-backdrop{{background:rgba(16,42,67,.42);}}
+    dialog{{border:1px solid #cdd9e5;border-radius:8px;max-width:760px;width:calc(100% - 36px);padding:0;box-shadow:0 24px 80px rgba(16,42,67,.28);}}
+    dialog::backdrop{{background:rgba(16,42,67,.42);}}
+    .dialog-header{{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:16px 18px;border-bottom:1px solid var(--line);background:#fbfdff;}}
+    .dialog-header h2{{margin:0;font-size:20px;}}
+    .dialog-body{{padding:18px;}}
+    .definition-list{{display:grid;gap:12px;margin:0;padding:0;list-style:none;}}
+    .definition-list li{{border:1px solid #e2eaf3;border-radius:8px;padding:12px;background:white;}}
+    .definition-list strong{{display:block;color:#1f3449;margin-bottom:4px;}}
     @media (max-width: 1100px){{.workstation{{grid-template-columns:1fr;}}.brand-row{{flex-direction:column;}}}}
   </style>
 </head>
@@ -418,7 +435,7 @@ def render_interactive_viewer_html(
         </div>
       </div>
       <aside class="panel">
-        <h2>Live Measurement Panel</h2>
+        <div class="graph-heading"><h2>Live Measurement Panel</h2><button id="definitionsButton" class="secondary" type="button">Measurement Definitions</button></div>
         <p class="muted">Values correspond exactly to the selected processed frame. No interpolation or averaging is applied.</p>
         <div id="frameInfo" class="measurement-section"></div>
         <div id="measurements" class="measurement-section"></div>
@@ -435,11 +452,14 @@ def render_interactive_viewer_html(
     <section class="panel">
       <div class="graph-heading"><h2>Interactive Time-Series</h2><span class="shortcut">Each graph includes a red current-frame cursor</span></div>
       <p class="muted">Click any graph to pause playback and select the nearest processed frame shown on that graph. Trunk graph is shown only if a validated trunk signal exists.</p>
-      <canvas id="kneeGraph" width="1100" height="220"></canvas>
-      <canvas id="hipGraph" width="1100" height="220"></canvas>
-      <canvas id="ankleGraph" width="1100" height="220"></canvas>
-      <canvas id="deltaGraph" width="1100" height="220"></canvas>
-      <canvas id="symmetryGraph" width="1100" height="220"></canvas>
+      <div class="graph-stack">
+        <canvas id="kneeGraph" width="1100" height="260" aria-label="Knee flexion time-series graph"></canvas>
+        <canvas id="hipGraph" width="1100" height="260" aria-label="Hip flexion time-series graph"></canvas>
+        <canvas id="ankleGraph" width="1100" height="260" aria-label="Ankle angle time-series graph"></canvas>
+        <canvas id="deltaGraph" width="1100" height="260" aria-label="Frame-to-frame change time-series graph"></canvas>
+        <canvas id="symmetryGraph" width="1100" height="260" aria-label="Symmetry index time-series graph"></canvas>
+        <div id="graphTooltip" class="graph-tooltip" role="status" aria-live="polite"></div>
+      </div>
       <div id="trunkUnavailable" class="muted">Trunk graph unavailable: no validated trunk angle signal is currently produced.</div>
     </section>
     <section class="panel">
@@ -452,6 +472,25 @@ def render_interactive_viewer_html(
     </section>
     </div>
   </main>
+  <dialog id="definitionsDialog" aria-labelledby="definitionsTitle">
+    <div class="dialog-header">
+      <h2 id="definitionsTitle">Measurement Definitions</h2>
+      <button id="closeDefinitions" class="secondary" type="button">Close</button>
+    </div>
+    <div class="dialog-body">
+      <p class="muted">Definitions describe the displayed metrics only. They do not alter calculations, exported values, or scientific methods.</p>
+      <ul class="definition-list">
+        <li><strong>Hip Flexion Angle</strong>Angle formed by the shoulder, hip, and knee landmarks for the selected side, reported in degrees (°).</li>
+        <li><strong>Knee Flexion Angle</strong>Internal angle formed by the hip, knee, and ankle landmarks for the selected side, reported in degrees (°).</li>
+        <li><strong>Ankle Angle</strong>Angle formed by the knee, ankle, and foot-index landmarks for the selected side, reported in degrees (°).</li>
+        <li><strong>Frame-to-Frame Change</strong>Difference between the selected frame and the previous processed frame for the same measurement, reported in degrees per processed frame.</li>
+        <li><strong>Absolute Difference</strong>Absolute left/right difference for the same joint measurement at the selected frame.</li>
+        <li><strong>Percent Difference</strong>Left/right difference normalized by the average of both sides for the selected frame.</li>
+        <li><strong>Symmetry Index</strong>Signed left/right symmetry value computed by the existing JumpGuard formula for the selected frame.</li>
+        <li><strong>Pose Confidence</strong>MediaPipe landmark confidence summary for the selected processed frame.</li>
+      </ul>
+    </div>
+  </dialog>
   <script id="analysis-data" type="application/json">{json.dumps(_json_ready(payload), sort_keys=True)}</script>
   <script>
     const data = JSON.parse(document.getElementById('analysis-data').textContent);
@@ -468,6 +507,9 @@ def render_interactive_viewer_html(
     const jumpTime = document.getElementById('jumpTime');
     const playbackSpeed = document.getElementById('playbackSpeed');
     const fullscreen = document.getElementById('fullscreen');
+    const definitionsDialog = document.getElementById('definitionsDialog');
+    const definitionsButton = document.getElementById('definitionsButton');
+    const closeDefinitions = document.getElementById('closeDefinitions');
     let selected = 0;
     let isTimelineDragging = false;
     let resumeAfterTimelineDrag = false;
@@ -477,9 +519,40 @@ def render_interactive_viewer_html(
       ['Knee', 'knee_flexion_left', 'knee_flexion_right', 'knee_flexion'],
       ['Ankle', 'ankle_angle_left', 'ankle_angle_right', 'ankle_angle']
     ];
+    const labels = {{
+      hip_flexion_left: 'Left Hip Flexion',
+      hip_flexion_right: 'Right Hip Flexion',
+      knee_flexion_left: 'Left Knee Flexion',
+      knee_flexion_right: 'Right Knee Flexion',
+      ankle_angle_left: 'Left Ankle Angle',
+      ankle_angle_right: 'Right Ankle Angle',
+      hip_flexion: 'Hip Flexion',
+      knee_flexion: 'Knee Flexion',
+      ankle_angle: 'Ankle Angle',
+      absolute_difference: 'Absolute Difference',
+      percent_difference: 'Percent Difference',
+      symmetry_index: 'Symmetry Index'
+    }};
+    const graphTooltip = document.getElementById('graphTooltip');
 
     function fmt(value, suffix='') {{
       return value === null || value === undefined || Number.isNaN(value) ? 'NaN' : Number(value).toFixed(2) + suffix;
+    }}
+    function labelFor(key) {{
+      if (!key) return 'Measurement';
+      if (labels[key]) return labels[key];
+      if (key.includes(':')) {{
+        const [joint, metric] = key.split(':');
+        return (labels[joint] || titleCase(joint)) + ' ' + (labels[metric] || titleCase(metric));
+      }}
+      return titleCase(key);
+    }}
+    function titleCase(key) {{
+      return String(key).replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
+    }}
+    function fmtDegrees(value) {{ return fmt(value, '°'); }}
+    function metricCard(label, value, helper='') {{
+      return '<div class="clinical-card"><span>' + label + '</span><strong>' + value + '</strong>' + (helper ? '<small>' + helper + '</small>' : '') + '</div>';
     }}
     function selectFrame(index, seek=true) {{
       if (!frames.length) return;
@@ -491,26 +564,31 @@ def render_interactive_viewer_html(
       jumpTime.value = Number.isFinite(frame.timestamp) ? Number(frame.timestamp).toFixed(2) : '0';
       if (seek && Number.isFinite(frame.timestamp)) video.currentTime = frame.timestamp;
       const entries = Object.entries(frame.measurements || {{}});
-      frameInfo.innerHTML = '<h3>Frame Information</h3><div class="metric-grid">' +
-        '<div class="metric-card"><strong>Frame</strong>' + frame.frame_index + '</div>' +
-        '<div class="metric-card"><strong>Timestamp</strong>' + fmt(frame.timestamp, ' s') + '</div>' +
-        '<div class="metric-card"><strong>Mean Confidence</strong>' + fmt(frame.landmark_confidence?.mean) + '</div>' +
+      frameInfo.innerHTML = '<h3>Selected Frame</h3><div class="measurement-card-grid">' +
+        metricCard('Frame Number', frame.frame_index, 'Processed frame index') +
+        metricCard('Timestamp', fmt(frame.timestamp, ' s'), 'Video time') +
+        metricCard('Mean Pose Confidence', fmt(frame.landmark_confidence?.mean), 'MediaPipe landmark summary') +
         '</div>';
-      measurements.innerHTML = '<h3>Joint Angles</h3><table><thead><tr><th>Measurement</th><th>Degrees</th></tr></thead><tbody>' +
-        entries.map(([name, value]) => `<tr><td>${{name}}</td><td>${{fmt(value)}}</td></tr>`).join('') +
-        '</tbody></table>';
+      measurements.innerHTML = '<h3>Joint Angles</h3><div class="measurement-card-grid">' +
+        (entries.length ? entries.map(([name, value]) => metricCard(labelFor(name), fmtDegrees(value), 'Current frame')).join('') : '<p class="muted">No joint-angle measurements are available for this frame.</p>') +
+        '</div>';
       const deltas = frame.derived_measurements?.delta_from_previous_frame || {{}};
       const symmetry = frame.derived_measurements?.symmetry || {{}};
-      deltaValues.innerHTML = '<h3>Delta Values</h3><table><thead><tr><th>Signal</th><th>Delta</th></tr></thead><tbody>' +
-        Object.entries(deltas).map(([name, value]) => `<tr><td>${{name}}</td><td>${{fmt(value)}} deg</td></tr>`).join('') +
-        '</tbody></table>';
-      symmetryValues.innerHTML = '<h3>Symmetry Indices</h3><table><thead><tr><th>Joint</th><th>Abs Diff</th><th>% Diff</th><th>Sym Index</th></tr></thead><tbody>' +
-        Object.entries(symmetry).map(([name, values]) => `<tr><td>${{name}}</td><td>${{fmt(values.absolute_difference)}} deg</td><td>${{fmt(values.percent_difference)}}%</td><td>${{fmt(values.symmetry_index)}}%</td></tr>`).join('') +
-        '</tbody></table><div class="metric-card"><strong>Trunk</strong>' + (frame.derived_measurements?.trunk?.reason || 'Unavailable') + '</div>';
+      deltaValues.innerHTML = '<h3>Frame-to-Frame Change</h3><div class="measurement-card-grid">' +
+        (Object.entries(deltas).length ? Object.entries(deltas).map(([name, value]) => metricCard(labelFor(name), fmtDegrees(value), 'Change from previous processed frame')).join('') : '<p class="muted">No frame-to-frame change values are available for this frame.</p>') +
+        '</div>';
+      symmetryValues.innerHTML = '<h3>Left/Right Symmetry</h3><div class="measurement-card-grid">' +
+        (Object.entries(symmetry).length ? Object.entries(symmetry).map(([name, values]) =>
+          metricCard(labelFor(name) + ' Absolute Difference', fmtDegrees(values.absolute_difference), 'Left/right difference') +
+          metricCard(labelFor(name) + ' Percent Difference', fmt(values.percent_difference, '%'), 'Normalized left/right difference') +
+          metricCard(labelFor(name) + ' Symmetry Index', fmt(values.symmetry_index, '%'), 'Existing signed symmetry formula')
+        ).join('') : '<p class="muted">No symmetry values are available for this frame.</p>') +
+        '</div><div class="clinical-card"><span>Trunk Measurement</span><strong>Unavailable</strong><small>' + (frame.derived_measurements?.trunk?.reason || 'No validated trunk signal is produced.') + '</small></div>';
       confidencePanel.innerHTML = '<h3>Landmark Confidence</h3>' +
-        '<div class="metric-grid"><div class="metric-card"><strong>Mean confidence</strong>' + fmt(frame.landmark_confidence?.mean) + '</div>' +
-        '<div class="metric-card"><strong>Minimum confidence</strong>' + fmt(frame.landmark_confidence?.minimum) + '</div>' +
-        '<div class="metric-card"><strong>Visible landmarks</strong>' + (frame.landmark_confidence?.visible_landmark_count ?? 'NaN') + '</div></div>';
+        '<div class="measurement-card-grid">' +
+        metricCard('Mean Confidence', fmt(frame.landmark_confidence?.mean), 'Selected frame') +
+        metricCard('Minimum Confidence', fmt(frame.landmark_confidence?.minimum), 'Lowest landmark confidence') +
+        metricCard('Visible Landmarks', frame.landmark_confidence?.visible_landmark_count ?? 'NaN', 'Landmarks reported visible') + '</div>';
       drawGraphs();
       drawComparisonBars();
     }}
@@ -536,47 +614,98 @@ def render_interactive_viewer_html(
       const ctx = canvas.getContext('2d');
       const w = canvas.width, h = canvas.height;
       ctx.clearRect(0, 0, w, h);
-      ctx.fillStyle = '#17202a'; ctx.font = '18px Arial'; ctx.fillText(title, 18, 26);
+      ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = '#17202a'; ctx.font = '600 19px Arial'; ctx.fillText(title, 22, 30);
       const values = [];
       keys.forEach(k => frames.forEach(f => {{ const v = valueFor(f, k, source); if (Number.isFinite(v)) values.push(v); }}));
-      const min = values.length ? Math.min(...values) : 0;
-      const max = values.length ? Math.max(...values) : 1;
-      const pad = 42;
-      ctx.strokeStyle = '#d9e2ec'; ctx.beginPath(); ctx.moveTo(pad, h-pad); ctx.lineTo(w-pad, h-pad); ctx.lineTo(w-pad, pad); ctx.stroke();
+      let min = values.length ? Math.min(...values) : 0;
+      let max = values.length ? Math.max(...values) : 1;
+      if (source === 'delta' || source === 'symmetry') {{ min = Math.min(min, 0); max = Math.max(max, 0); }}
+      const span = max - min || 1;
+      const yMargin = span * 0.08;
+      min -= yMargin; max += yMargin;
+      const padLeft = 68, padRight = 28, padTop = 48, padBottom = 48;
+      const plotW = w - padLeft - padRight;
+      const plotH = h - padTop - padBottom;
+      ctx.strokeStyle = '#e6edf5'; ctx.lineWidth = 1;
+      for (let i = 0; i <= 4; i += 1) {{
+        const y = padTop + (i / 4) * plotH;
+        ctx.beginPath(); ctx.moveTo(padLeft, y); ctx.lineTo(w - padRight, y); ctx.stroke();
+        const label = max - (i / 4) * (max - min);
+        ctx.fillStyle = '#627d98'; ctx.font = '12px Arial'; ctx.fillText(fmt(label), 12, y + 4);
+      }}
+      ctx.strokeStyle = '#b8c7d6'; ctx.lineWidth = 1.2;
+      ctx.beginPath(); ctx.moveTo(padLeft, h-padBottom); ctx.lineTo(w-padRight, h-padBottom); ctx.lineTo(w-padRight, padTop); ctx.stroke();
+      if ((source === 'delta' || source === 'symmetry') && min < 0 && max > 0) {{
+        const zeroY = h - padBottom - ((0 - min) / (max - min || 1)) * plotH;
+        ctx.strokeStyle = '#9fb3c8'; ctx.setLineDash([5, 5]); ctx.lineWidth = 1.4;
+        ctx.beginPath(); ctx.moveTo(padLeft, zeroY); ctx.lineTo(w - padRight, zeroY); ctx.stroke();
+        ctx.setLineDash([]); ctx.fillStyle = '#627d98'; ctx.font = '12px Arial'; ctx.fillText('0 reference', w - padRight - 82, zeroY - 6);
+      }}
+      const graphPoints = [];
       keys.forEach((key, keyIndex) => {{
-        ctx.strokeStyle = colors[keyIndex]; ctx.lineWidth = 2; ctx.beginPath();
+        ctx.strokeStyle = colors[keyIndex]; ctx.lineWidth = source === 'delta' ? 3.4 : 2.6; ctx.beginPath();
+        let started = false;
         frames.forEach((frame, i) => {{
           const v = valueFor(frame, key, source);
           if (!Number.isFinite(v)) return;
-          const x = pad + (frames.length <= 1 ? 0 : i / (frames.length - 1)) * (w - 2*pad);
-          const y = h - pad - ((v - min) / (max - min || 1)) * (h - 2*pad);
-          if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+          const x = padLeft + (frames.length <= 1 ? 0 : i / (frames.length - 1)) * plotW;
+          const y = h - padBottom - ((v - min) / (max - min || 1)) * plotH;
+          graphPoints.push({{x, y, frameIndex: i, key, value: v}});
+          if (!started) {{ ctx.moveTo(x, y); started = true; }} else ctx.lineTo(x, y);
         }});
         ctx.stroke();
-        ctx.fillStyle = colors[keyIndex]; ctx.fillText(key.replace(':', ' '), pad + keyIndex * 250, h - 12);
+        ctx.fillStyle = colors[keyIndex]; ctx.font = '13px Arial'; ctx.fillText(labelFor(key), padLeft + keyIndex * 230, h - 16);
       }});
-      const markerX = pad + (frames.length <= 1 ? 0 : selected / (frames.length - 1)) * (w - 2*pad);
-      ctx.strokeStyle = '#d64545'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(markerX, pad); ctx.lineTo(markerX, h-pad); ctx.stroke();
+      const markerX = padLeft + (frames.length <= 1 ? 0 : selected / (frames.length - 1)) * plotW;
+      ctx.strokeStyle = '#d64545'; ctx.lineWidth = 2.4; ctx.beginPath(); ctx.moveTo(markerX, padTop); ctx.lineTo(markerX, h-padBottom); ctx.stroke();
+      ctx.fillStyle = '#d64545'; ctx.beginPath(); ctx.arc(markerX, padTop + 8, 4, 0, Math.PI * 2); ctx.fill();
+      canvas._graphState = {{points: graphPoints, source, title}};
       canvas.onclick = event => {{
         video.pause();
         const rect = canvas.getBoundingClientRect();
         const ratio = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width));
         selectFrame(Math.round(ratio * (frames.length - 1)));
       }};
+      canvas.onmousemove = event => showGraphTooltip(event, canvas);
+      canvas.onmouseleave = () => {{ graphTooltip.style.display = 'none'; }};
+    }}
+    function showGraphTooltip(event, canvas) {{
+      const state = canvas._graphState;
+      if (!state || !state.points.length) return;
+      const rect = canvas.getBoundingClientRect();
+      const scaleX = canvas.width / rect.width;
+      const scaleY = canvas.height / rect.height;
+      const x = (event.clientX - rect.left) * scaleX;
+      const y = (event.clientY - rect.top) * scaleY;
+      let nearest = null, best = Infinity;
+      state.points.forEach(point => {{
+        const distance = Math.hypot(point.x - x, point.y - y);
+        if (distance < best) {{ best = distance; nearest = point; }}
+      }});
+      if (!nearest || best > 36) {{ graphTooltip.style.display = 'none'; return; }}
+      const frame = frames[nearest.frameIndex] || {{}};
+      const unit = state.source === 'symmetry' ? '%' : '°';
+      graphTooltip.innerHTML = '<strong>' + labelFor(nearest.key) + '</strong>' +
+        'Frame ' + (frame.frame_index ?? 'NaN') + ' · ' + fmt(frame.timestamp, ' s') + '<br>' +
+        'Value: ' + fmt(nearest.value, unit);
+      graphTooltip.style.left = (event.clientX + 14) + 'px';
+      graphTooltip.style.top = (event.clientY + 14) + 'px';
+      graphTooltip.style.display = 'block';
     }}
     function drawGraphs() {{
-      drawGraph('kneeGraph', 'Knee Angles', ['knee_flexion_left','knee_flexion_right'], ['#1f77b4','#ff7f0e']);
-      drawGraph('hipGraph', 'Hip Angles', ['hip_flexion_left','hip_flexion_right'], ['#2ca02c','#9467bd']);
-      drawGraph('ankleGraph', 'Ankle Angles', ['ankle_angle_left','ankle_angle_right'], ['#8c564b','#17becf']);
-      drawGraph('deltaGraph', 'Frame-to-Frame Delta Values', ['knee_flexion_left','knee_flexion_right','hip_flexion_left','hip_flexion_right'], ['#1f77b4','#ff7f0e','#2ca02c','#9467bd'], 'delta');
-      drawGraph('symmetryGraph', 'Frame-Level Symmetry Index', ['hip_flexion:symmetry_index','knee_flexion:symmetry_index','ankle_angle:symmetry_index'], ['#2ca02c','#1f77b4','#8c564b'], 'symmetry');
+      drawGraph('kneeGraph', 'Knee Flexion Over Time', ['knee_flexion_left','knee_flexion_right'], ['#1f6fb2','#e07a2f']);
+      drawGraph('hipGraph', 'Hip Flexion Over Time', ['hip_flexion_left','hip_flexion_right'], ['#2f855a','#6b46c1']);
+      drawGraph('ankleGraph', 'Ankle Angle Over Time', ['ankle_angle_left','ankle_angle_right'], ['#7b4d3a','#0f8ca6']);
+      drawGraph('deltaGraph', 'Frame-to-Frame Change', ['knee_flexion_left','knee_flexion_right','hip_flexion_left','hip_flexion_right'], ['#1f6fb2','#e07a2f','#2f855a','#6b46c1'], 'delta');
+      drawGraph('symmetryGraph', 'Left/Right Symmetry Index', ['hip_flexion:symmetry_index','knee_flexion:symmetry_index','ankle_angle:symmetry_index'], ['#2f855a','#1f6fb2','#7b4d3a'], 'symmetry');
     }}
     function drawBar(canvasId, title, left, right) {{
       const canvas = document.getElementById(canvasId);
       const ctx = canvas.getContext('2d');
       const w = canvas.width, h = canvas.height;
       ctx.clearRect(0,0,w,h);
-      ctx.fillStyle = '#17202a'; ctx.font = '18px Arial'; ctx.fillText(title, 16, 28);
+      ctx.fillStyle = '#17202a'; ctx.font = '600 18px Arial'; ctx.fillText(title, 16, 28);
       const values = [left, right].filter(Number.isFinite);
       const max = values.length ? Math.max(...values, 1) : 1;
       [['Left', left, '#1f77b4'], ['Right', right, '#ff7f0e']].forEach((item, i) => {{
@@ -587,15 +716,15 @@ def render_interactive_viewer_html(
         ctx.fillRect(x, h - 42 - barHeight, 70, barHeight);
         ctx.fillStyle = '#17202a'; ctx.font = '14px Arial';
         ctx.fillText(label, x + 12, h - 18);
-        ctx.fillText(fmt(value), x + 4, h - 50 - barHeight);
+        ctx.fillText(fmtDegrees(value), x + 4, h - 50 - barHeight);
       }});
     }}
     function drawComparisonBars() {{
       if (!frames.length) return;
       const frame = frames[selected];
-      drawBar('hipBars', 'Hip Left/Right', frame.measurements?.hip_flexion_left, frame.measurements?.hip_flexion_right);
-      drawBar('kneeBars', 'Knee Left/Right', frame.measurements?.knee_flexion_left, frame.measurements?.knee_flexion_right);
-      drawBar('ankleBars', 'Ankle Left/Right', frame.measurements?.ankle_angle_left, frame.measurements?.ankle_angle_right);
+      drawBar('hipBars', 'Hip Flexion: Left vs Right', frame.measurements?.hip_flexion_left, frame.measurements?.hip_flexion_right);
+      drawBar('kneeBars', 'Knee Flexion: Left vs Right', frame.measurements?.knee_flexion_left, frame.measurements?.knee_flexion_right);
+      drawBar('ankleBars', 'Ankle Angle: Left vs Right', frame.measurements?.ankle_angle_left, frame.measurements?.ankle_angle_right);
     }}
     document.getElementById('play').onclick = () => video.play();
     document.getElementById('pause').onclick = () => video.pause();
@@ -607,6 +736,11 @@ def render_interactive_viewer_html(
       const target = document.querySelector('.video-wrap');
       if (target.requestFullscreen) target.requestFullscreen();
     }};
+    definitionsButton.onclick = () => {{
+      if (definitionsDialog.showModal) definitionsDialog.showModal();
+      else definitionsDialog.setAttribute('open', 'open');
+    }};
+    closeDefinitions.onclick = () => definitionsDialog.close ? definitionsDialog.close() : definitionsDialog.removeAttribute('open');
     slider.onpointerdown = () => {{ isTimelineDragging = true; resumeAfterTimelineDrag = !video.paused; video.pause(); }};
     slider.oninput = () => {{ selectFrame(Number(slider.value)); }};
     slider.onpointerup = () => {{ isTimelineDragging = false; if (resumeAfterTimelineDrag) video.play(); }};
